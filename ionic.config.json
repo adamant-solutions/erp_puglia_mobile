@@ -1,0 +1,7 @@
+{
+  "name": "erp-puglia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
