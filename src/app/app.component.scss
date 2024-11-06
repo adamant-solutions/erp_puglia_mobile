@@ -31,6 +31,7 @@ ion-menu.md ion-list#inbox-list ion-list-header {
   font-weight: 600;
 
   min-height: 20px;
+  padding-bottom: 20px;
 }
 
 ion-menu.md ion-list#labels-list ion-list-header {
@@ -115,5 +116,15 @@ ion-note {
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
+ --color: var(--ion-color-primary);
+}
+ion-item.selected:before{
+  content: '';
+      background-color: #0075bf;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0.4rem;
+      height: 3rem;
+      transform: translateY(-50%); 
 }
