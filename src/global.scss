@@ -35,3 +35,21 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+
+    ion-footer {
+      padding: 1rem;
+      background-color: #003a54;
+      color: #ffffff;
+      font-size: 1.4rem;
+    }
+  
+    .footer-top {
+      padding-bottom: 0.5rem;
+  
+    }
+  
+    .footer-bottom {
+      padding-top: 0.5rem;
+      border-top: 1px solid #ffffff;
+    }
