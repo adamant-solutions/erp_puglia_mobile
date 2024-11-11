@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title  color="secondary">{{pageTitle | titlecase}}</ion-title>
+    <ion-title color="secondary">{{pageTitle | titlecase}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +21,7 @@
 <ion-footer>
   <div class="footer-top">
     <a href="https://www.regione.puglia.it/" title="Regione Puglia" target="_blank" class="footer-logo">
-      <img src="./assets/images/logoregionepuglia.png" alt="logo regione Puglia" class="img-fluid">
+      <ion-img src="./assets/images/logoregionepuglia.png" alt="logo regione Puglia" class="img-fluid"></ion-img>
     </a>
   </div>
   <div class="footer-bottom">
