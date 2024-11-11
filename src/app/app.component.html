@@ -2,9 +2,27 @@
   <ion-split-pane contentId="main-content">
     <!-- Side Menu: Navigation Links -->
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header class="menu-header">ERP - DI REGIONE PUGLIA</ion-list-header>
+      <ion-content class="menu-content">
+
+        <ion-list id="profile-list">
+          <ion-list-header class="menu-header">
+            <ion-button>
+              <a href="https://www.regione.puglia.it/" title="Regione Puglia" target="_blank">
+                <ion-img src="./assets/svg/logo-regione-puglia.svg" alt="logo regione Puglia"></ion-img>
+              </a>
+            </ion-button>
+            <ion-label style="padding-inline-start: 16px;" >ERP - DI REGIONE PUGLIA</ion-label>
+            
+           </ion-list-header>
+          <ion-button fill="clear" style="text-transform: capitalize;">
+            <ion-icon name="person-circle-outline" size="large" aria-label="Profile"></ion-icon>
+            <ion-text>Nome Cognome</ion-text>
+        
+          </ion-button>
+
+        </ion-list>
+
+        <ion-list id="menu-list">
           <!-- Menu Items -->
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -13,7 +31,16 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+
       </ion-content>
+
+      <ion-item style="padding-bottom: 16px;" lines="none">
+        <ion-button size="default" aria-label="Esci" style="text-transform: capitalize;">
+          <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+          Esci
+        </ion-button>
+      </ion-item>
+
     </ion-menu>
      <!-- Main Content Section -->
      <ion-content id="main-content" class="content-area" fullscreen>
