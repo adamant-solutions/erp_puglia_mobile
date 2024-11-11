@@ -19,6 +19,14 @@ const routes: Routes = [
     path: 'contabilita',
     loadChildren: () => import('./features/contabilita/contabilita.module').then( m => m.ContabilitaModule)
   },
+  {
+    path: 'anagrafica',
+    loadChildren: () => import('./features/anagrafica/anagrafica.module').then( m => m.AnagraficaModule)
+  },
+  {
+    path: 'contratti-locazione',
+    loadChildren: () => import('./features/contratti-locazione/contratti-locazione.module').then( m => m.ContrattiLocazioneModule)
+  },
 ];
 
 @NgModule({
