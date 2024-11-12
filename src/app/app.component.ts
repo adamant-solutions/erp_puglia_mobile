@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   public appPages = [
-    { title: 'Patrimonio', url: 'patrimonio' }, //Heritage
+    { title: 'Patrimonio', url: 'patrimonio' }, //Heritage/Assets
     { title: 'Contabilità', url: 'contabilita' }, //Accounting
-    { title: 'Anagrafica', url: 'anagrafica' },  //Personal data
+    { title: 'Anagrafica', url: 'anagrafica' },  //Personal data / Registry
     { title: 'Contratti locazione', url: 'contratti-locazione' }, //Rental contracts
     { title: 'Manutenzione', url: 'manutenzione' }, //Maintenance
     { title: 'Ripartizione spese', url: 'ripartizione-spese' }, //Cost distribution
