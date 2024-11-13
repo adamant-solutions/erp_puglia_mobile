@@ -21,7 +21,7 @@
       <ion-item *ngFor="let p of results" role="article">
         <ion-icon name="business-outline"></ion-icon>
         <ion-label class="list-item-name">{{ p }}</ion-label>
-        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+        <ion-icon name="chevron-forward-outline" color="primary" [routerLink]="['/patrimonio/patrimonio-details']"></ion-icon>
 
       </ion-item>
     </ion-list>
