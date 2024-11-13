@@ -120,7 +120,7 @@ ion-item.selected {
 }
 ion-item.selected:before{
   content: '';
-      background-color: #0075bf;
+      background-color: var(--ion-color-primary);
       position: absolute;
       left: 0;
       top: 50%;
