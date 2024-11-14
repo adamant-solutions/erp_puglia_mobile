@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContrattiLocazioneRoutingModule } from './contratti-locazione-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { ContrattiLocazionePage } from './pages/contratti-locazione/contratti-locazione.page';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ContrattiLocazionePage } from './pages/contratti-locazione/contratti-lo
   imports: [
     CommonModule,
     IonicModule,
-    ContrattiLocazioneRoutingModule
+    ContrattiLocazioneRoutingModule,
+    FooterComponent
   ]
 })
 export class ContrattiLocazioneModule { }

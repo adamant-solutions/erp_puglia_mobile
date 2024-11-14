@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContabilitaRoutingModule } from './contabilita-routing.module';
 import { ContabilitaPage } from './pages/contabilita/contabilita.page';
 import { IonicModule } from '@ionic/angular';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { IonicModule } from '@ionic/angular';
   imports: [
     CommonModule,
     IonicModule,
-    ContabilitaRoutingModule
+    ContabilitaRoutingModule,
+    FooterComponent
   ]
 })
 export class ContabilitaModule { }

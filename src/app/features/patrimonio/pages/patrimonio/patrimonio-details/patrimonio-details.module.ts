@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PatrimonioDetailsPageRoutingModule } from './patrimonio-details-routing.module';
 
 import { PatrimonioDetailsPage } from './patrimonio-details.page';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PatrimonioDetailsPageRoutingModule
+    PatrimonioDetailsPageRoutingModule,
+    FooterComponent
   ],
   declarations: [PatrimonioDetailsPage]
 })

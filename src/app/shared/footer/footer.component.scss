@@ -1,0 +1,33 @@
+ion-footer {
+    padding: 1rem;
+    background-color: var(--ion-color-secondary);
+    color: #fff;
+    font-size: 1.4rem;
+  }
+
+  .footer-top {
+    width: 100%;   
+  /*   height: 100px;  */       
+    display: flex;        
+    justify-content: center; 
+    align-items: center;   
+    padding-bottom: 0.5rem;
+    flex-direction: column;
+  }
+  
+  .footer-logo {
+    width: 100%;         
+    display: flex;         
+    justify-content: left; 
+  }
+
+  .footer-bottom {
+    padding-top: 0.5rem;
+    border-top: 1px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.0125em;
+  }
+    

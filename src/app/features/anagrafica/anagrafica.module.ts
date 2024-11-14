@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AnagraficaRoutingModule } from './anagrafica-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { AnagraficaPage } from './pages/anagrafica/anagrafica.page';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { AnagraficaPage } from './pages/anagrafica/anagrafica.page';
   imports: [
     CommonModule,
     IonicModule,
-    AnagraficaRoutingModule
+    AnagraficaRoutingModule,
+    FooterComponent
   ]
 })
 export class AnagraficaModule { }

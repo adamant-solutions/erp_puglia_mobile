@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PatrimonioRoutingModule } from './patrimonio-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { PatrimonioPage } from './pages/patrimonio/patrimonio.page';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { PatrimonioPage } from './pages/patrimonio/patrimonio.page';
   imports: [
     CommonModule,
     IonicModule,
-    PatrimonioRoutingModule
+    PatrimonioRoutingModule,
+    FooterComponent
   ]
 })
 export class PatrimonioModule { }
