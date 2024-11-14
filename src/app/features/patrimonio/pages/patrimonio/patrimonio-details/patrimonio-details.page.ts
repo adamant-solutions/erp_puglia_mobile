@@ -9,7 +9,7 @@ import { Patrimonio } from 'src/app/core/models/patrimonio.model';
 })
 export class PatrimonioDetailsPage implements OnInit {
 
-  breadCrumbs = [{ name: 'Patrimonio', url: '/' }, { name: 'Patrimonio Details', url: [] }]
+  breadCrumbs = [{ name: 'Patrimonio', url: '/' }, { name: 'Patrimonio Dettagli', url: [] }]
   modelMock: Patrimonio = 
     {
       id: 1,
