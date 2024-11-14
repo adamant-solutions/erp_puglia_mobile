@@ -9,8 +9,9 @@ const routes: Routes = [
     component: PatrimonioPage,
     resolve: {  patrimonioResolver },
     runGuardsAndResolvers : 'pathParamsOrQueryParamsChange'
-  },  {
-    path: 'patrimonio-details',
+  },
+  {
+    path: ':id/patrimonio-details',
     loadChildren: () => import('./pages/patrimonio/patrimonio-details/patrimonio-details.module').then( m => m.PatrimonioDetailsPageModule)
   }
 

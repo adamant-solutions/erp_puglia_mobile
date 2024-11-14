@@ -11,7 +11,7 @@ export class PatrimonioService {
   constructor(private http: HttpClient) { }
 
   getPatrimonioData(): Observable<Patrimonio[]> {
-    const url = 'https://api.example.com/data';
+    const url = ''; //'https://api.example.com/data';
     return this.http.get<Patrimonio[]>(url)
         .pipe(
             catchError(error => {

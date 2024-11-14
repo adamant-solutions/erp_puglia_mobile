@@ -1,6 +1,6 @@
 
 export interface Patrimonio {
-    id?: string;
+    id?: number;
     edilizia: Edilizia;
     riferimentoDetails: Riferimento,
     //....
