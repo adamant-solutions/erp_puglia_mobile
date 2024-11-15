@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: AnagraficaPage
+  },
+  {
+    path: 'anagrafica-details/:id',
+    loadChildren: () => import('./pages/anagrafica/anagrafica-details/anagrafica-details.module').then( m => m.AnagraficaDetailsPageModule)
   }
 ];
 
