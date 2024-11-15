@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'contratti-locazione',
     loadChildren: () => import('./features/contratti-locazione/contratti-locazione.module').then( m => m.ContrattiLocazioneModule)
   },
+  {
+    path: 'profilo',
+    loadChildren: () => import('./features/profile/profile.module').then( m => m.ProfileModule)
+  },
 ];
 
 @NgModule({

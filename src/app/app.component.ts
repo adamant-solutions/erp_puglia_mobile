@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,5 +19,10 @@ export class AppComponent {
     { title: 'Ciclo passivo', url: 'ciclo-pasivo' } // Passive cycle
   ];
   
-  constructor() {}
+  constructor(public menuController: MenuController,private router: Router) {}
+
+  goProfile(){
+    this.router.navigate(['/profilo']);
+    this.menuController.close()
+  }
 }

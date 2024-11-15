@@ -4,10 +4,11 @@ export interface User {
     nome: string;
     cognome: string;
     codice_fiscale: string;
+    email: string;
     role?: Role;
     //...
 }
-enum Role {
+export enum Role {
    citizen = 'Cittadino',
    operator = 'Operatori',
    maintainers = 'Manutentori',
