@@ -1,26 +1,26 @@
 .profile-avatar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 16px;
-    padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .profile-bottom {
-        background-color: #0075bf;
-        color: #ffffff;
-        padding: 0.3rem 0.3rem;
-        
+  background-color: #0075bf;
+  color: #ffffff;
+  padding: 0.3rem 0.3rem;
+
 }
 
-ion-icon.profile-icons{
-    color: var(--ion-color-primary);
-    margin-inline-end: 5px;
-  }
-  
-.custom-buttons{
-        display: flex;
-        align-items: stretch;
-        flex-direction: column;
+ion-icon.profile-icons {
+  color: var(--ion-color-primary);
+  margin-inline-end: 5px;
+}
+
+.custom-buttons {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
 }

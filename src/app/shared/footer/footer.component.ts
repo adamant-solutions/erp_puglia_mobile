@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {IonicModule} from '@ionic/angular';
 
 @Component({
   selector: 'app-footer',
@@ -8,10 +8,12 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./footer.component.scss'],
   standalone: true,
 })
-export class FooterComponent  implements OnInit {
+export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
 }

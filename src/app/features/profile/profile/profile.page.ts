@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { User,Role } from 'src/app/core/models/user.model';
+import {Component, OnInit} from '@angular/core';
+import {Role, User} from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +16,8 @@ export class ProfilePage implements OnInit {
     role: Role.citizen
   };
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

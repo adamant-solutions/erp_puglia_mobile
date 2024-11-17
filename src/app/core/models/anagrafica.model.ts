@@ -1,4 +1,3 @@
-
 export interface LuogoNascita {
   comune: string;
   provincia: string;
@@ -12,7 +11,7 @@ export interface Cittadino {
   cognome: string;
   data_nascita: string;
   luogo_nascita: LuogoNascita;
-  sesso: string; 
+  sesso: string;
   cittadinanza: string;
 }
 
@@ -34,7 +33,7 @@ export interface Contatti {
 }
 
 export interface DocumentoIdentita {
-  tipo_documento: string; 
+  tipo_documento: string;
   numero_documento: string;
   data_emissione: string;
   data_scadenza: string;
@@ -42,7 +41,7 @@ export interface DocumentoIdentita {
 }
 
 export interface AltriDettagli {
-  stato_civile: string; 
+  stato_civile: string;
   data_ultimo_aggiornamento: string;
 }
 

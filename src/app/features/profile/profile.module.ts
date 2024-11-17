@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ProfileRoutingModule } from './profile-routing.module';
-import { IonicModule } from '@ionic/angular';
-import { ProfilePage } from './profile/profile.page';
-import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import {ProfileRoutingModule} from './profile-routing.module';
+import {IonicModule} from '@ionic/angular';
+import {ProfilePage} from './profile/profile.page';
+import {FooterComponent} from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -16,4 +16,5 @@ import { FooterComponent } from 'src/app/shared/footer/footer.component';
     FooterComponent
   ]
 })
-export class ProfileModule { }
+export class ProfileModule {
+}

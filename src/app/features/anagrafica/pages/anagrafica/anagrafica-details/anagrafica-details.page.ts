@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Anagrafica } from 'src/app/core/models/anagrafica.model';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {Anagrafica} from 'src/app/core/models/anagrafica.model';
 
 @Component({
   selector: 'app-anagrafica-details',
@@ -50,19 +50,20 @@ export class AnagraficaDetailsPage implements OnInit {
       stato_civile: "coniugato",
       data_ultimo_aggiornamento: "2024-11-09"
     }
-  }; 
- 
-  breadCrumbs = [{ name: 'Anagrafica', url: '/anagrafica' }, { name: 'Anagrafica Dettagli', url: [] }]  
+  };
+
+  breadCrumbs = [{name: 'Anagrafica', url: '/anagrafica'}, {name: 'Anagrafica Dettagli', url: []}]
   userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit() {
     this.initializeForm();
-    /* console.log(this.userForm.value);  */ 
+    /* console.log(this.userForm.value);  */
   }
-  
-  initializeForm(){
+
+  initializeForm() {
     this.userForm = this.fb.group({
       cittadino: this.fb.group({
         id: [this.userData.cittadino.id],
@@ -91,19 +92,19 @@ export class AnagraficaDetailsPage implements OnInit {
         email: [this.userData.contatti.email],
         pec: [this.userData.contatti.pec],
       }),
-      documenti_identita: this.fb.array( 
+      documenti_identita: this.fb.array(
         this.userData.documenti_identita.map(doc => this.fb.group({
-        tipo_documento: [doc.tipo_documento],
-        numero_documento: [doc.numero_documento],
-        data_emissione: [doc.data_emissione],
-        data_scadenza: [doc.data_scadenza],
-        ente_emittente: [doc.ente_emittente]
-      }))),
+          tipo_documento: [doc.tipo_documento],
+          numero_documento: [doc.numero_documento],
+          data_emissione: [doc.data_emissione],
+          data_scadenza: [doc.data_scadenza],
+          ente_emittente: [doc.ente_emittente]
+        }))),
       altri_dettagli: this.fb.group({
         stato_civile: [this.userData.altri_dettagli.stato_civile],
         data_ultimo_aggiornamento: [this.userData.altri_dettagli.data_ultimo_aggiornamento],
       }),
-      
+
     })
     this.userForm.disable();
 

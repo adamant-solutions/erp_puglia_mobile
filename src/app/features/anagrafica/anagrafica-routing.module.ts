@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AnagraficaPage } from './pages/anagrafica/anagrafica.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AnagraficaPage} from './pages/anagrafica/anagrafica.page';
 
 const routes: Routes = [
   {
@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'anagrafica-details/:id',
-    loadChildren: () => import('./pages/anagrafica/anagrafica-details/anagrafica-details.module').then( m => m.AnagraficaDetailsPageModule)
+    loadChildren: () => import('./pages/anagrafica/anagrafica-details/anagrafica-details.module').then(m => m.AnagraficaDetailsPageModule)
   }
 ];
 
@@ -17,4 +17,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AnagraficaRoutingModule { }
+export class AnagraficaRoutingModule {
+}

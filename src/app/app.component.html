@@ -11,26 +11,29 @@
                 <ion-img src="./assets/svg/logo-regione-puglia.svg" alt="logo regione Puglia"></ion-img>
               </a>
             </ion-button>
-            <ion-label style="padding-inline-start: 16px; padding-top: 5px;" color="secondary">ERP - DI REGIONE PUGLIA</ion-label>
-            
-           </ion-list-header>
+            <ion-label style="padding-inline-start: 16px; padding-top: 5px;" color="secondary">ERP - DI REGIONE PUGLIA
+            </ion-label>
 
-           <ion-item>
+          </ion-list-header>
+
+          <ion-item>
             <ion-button fill="clear" style="text-transform: capitalize;" (click)="goProfile()">
-            <ion-icon name="person-circle-outline" size="large" aria-label="Profile" color="primary"></ion-icon>
-            <ion-text style="font-size: 1.25em;">Mario Rossi</ion-text>
-          </ion-button>
-           </ion-item>
-    
+              <ion-icon name="person-circle-outline" size="large" aria-label="Profile" color="primary"></ion-icon>
+              <ion-text style="font-size: 1.25em;">Mario Rossi</ion-text>
+            </ion-button>
+          </ion-item>
+
 
         </ion-list>
 
         <ion-list id="menu-list">
           <!-- Menu Items -->
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+                      routerLinkActive="selected">
               <ion-label color="primary" style="
-                text-transform: uppercase; font-weight: bold;">{{ p.title }}</ion-label>
+                text-transform: uppercase; font-weight: bold;">{{ p.title }}
+              </ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
@@ -45,8 +48,8 @@
       </ion-item>
 
     </ion-menu>
-     <!-- Main Content Section -->
-     <ion-content id="main-content" class="content-area" fullscreen>
+    <!-- Main Content Section -->
+    <ion-content id="main-content" class="content-area" fullscreen>
       <div class="main-content">
         <ion-router-outlet></ion-router-outlet>
       </div>

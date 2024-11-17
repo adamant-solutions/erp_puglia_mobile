@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-contabilita',
@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContabilitaPage implements OnInit {
   pageTitle: string = "contabilità";
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

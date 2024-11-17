@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContabilitaPage } from './contabilita.page';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ContabilitaPage} from './contabilita.page';
 
 describe('ContabilitaPage', () => {
   let component: ContabilitaPage;

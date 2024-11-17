@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Patrimonio } from 'src/app/core/models/patrimonio.model';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Patrimonio} from 'src/app/core/models/patrimonio.model';
 
 @Component({
   selector: 'app-patrimonio-details',
@@ -9,16 +9,16 @@ import { Patrimonio } from 'src/app/core/models/patrimonio.model';
 })
 export class PatrimonioDetailsPage implements OnInit {
 
-  breadCrumbs = [{ name: 'Patrimonio', url: '/' }, { name: 'Patrimonio Dettagli', url: [] }]
-  modelMock: Patrimonio = 
+  breadCrumbs = [{name: 'Patrimonio', url: '/'}, {name: 'Patrimonio Dettagli', url: []}]
+  modelMock: Patrimonio =
     {
       id: 1,
       edilizia: {
         metri_quadri: 120,
-        quartiere: 'Centro Storico', 
+        quartiere: 'Centro Storico',
         zona: 'Centro',
-        classe_energetica: 'A+', 
-        year_of_construction: 1995, 
+        classe_energetica: 'A+',
+        year_of_construction: 1995,
         province: 'Puglia'
       },
       riferimentoDetails: {
@@ -26,13 +26,14 @@ export class PatrimonioDetailsPage implements OnInit {
         stato_di_disponibilita: 'Disponibile',
         tipoSfittanza: 'Affitto',
         tipologia_di_contratto: 'Contratto a lungo termine',
-        tipo_di_registrazione: 'Registrato', 
+        tipo_di_registrazione: 'Registrato',
         causale_di_cessazione: 'Cessazione per scadenza contratto'
       }
     }
-  
 
-  constructor(private activeRoute: ActivatedRoute) { }
+
+  constructor(private activeRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
   }

@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContrattiLocazionePage } from './contratti-locazione.page';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ContrattiLocazionePage} from './contratti-locazione.page';
 
 describe('ContrattiLocazionePage', () => {
   let component: ContrattiLocazionePage;

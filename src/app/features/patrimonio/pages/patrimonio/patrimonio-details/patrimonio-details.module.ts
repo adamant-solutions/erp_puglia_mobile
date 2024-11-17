@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { PatrimonioDetailsPageRoutingModule } from './patrimonio-details-routing.module';
+import {PatrimonioDetailsPageRoutingModule} from './patrimonio-details-routing.module';
 
-import { PatrimonioDetailsPage } from './patrimonio-details.page';
-import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import {PatrimonioDetailsPage} from './patrimonio-details.page';
+import {FooterComponent} from 'src/app/shared/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -19,4 +19,5 @@ import { FooterComponent } from 'src/app/shared/footer/footer.component';
   ],
   declarations: [PatrimonioDetailsPage]
 })
-export class PatrimonioDetailsPageModule {}
+export class PatrimonioDetailsPageModule {
+}

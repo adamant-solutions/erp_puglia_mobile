@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PatrimonioPage } from './patrimonio.page';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {PatrimonioPage} from './patrimonio.page';
 
 describe('PatrimonioPage', () => {
   let component: PatrimonioPage;

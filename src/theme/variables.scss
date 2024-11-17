@@ -1,16 +1,16 @@
 // variables.scss
 
 // Primary color
-$primary: #0075BF; 
+$primary: #0075BF;
 
 // Warning color
-$warning: #FABA00; 
+$warning: #FABA00;
 
 // Danger color
-$danger: #D9364F; 
+$danger: #D9364F;
 
 // Success color
-$success: #008758; 
+$success: #008758;
 
 // Our Custom Theme Variables (Based on Design Puglia Kit)
 :root {
@@ -18,16 +18,16 @@ $success: #008758;
   --ion-color-warning: #FABA00;
   --ion-color-danger: #D9364F;
   --ion-color-success: #008758;
-  
+
   //
   --ion-color-secondary: #003A54; // secondary color
-  --ion-color-tertiary: #4F4F4F;  // tertiary color
-  --ion-color-light: #f4f4f4;     // Light color
-  --ion-color-medium: #8e8e8e;    // Medium color
-  --ion-color-dark: #212121;      // Dark color
-  --ion-color-step-50: #f4f7fa;   // Light background
-  --ion-color-step-100: #e5e9ef;  // Medium background
-  --ion-color-step-200: #f1f1f1;  // Lightest background
+  --ion-color-tertiary: #4F4F4F; // tertiary color
+  --ion-color-light: #f4f4f4; // Light color
+  --ion-color-medium: #8e8e8e; // Medium color
+  --ion-color-dark: #212121; // Dark color
+  --ion-color-step-50: #f4f7fa; // Light background
+  --ion-color-step-100: #e5e9ef; // Medium background
+  --ion-color-step-200: #f1f1f1; // Lightest background
 
 
 }

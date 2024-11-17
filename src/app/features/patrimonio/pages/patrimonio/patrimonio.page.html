@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title color="secondary">{{pageTitle | titlecase}}</ion-title>
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button color="secondary"></ion-menu-button>
     </ion-buttons>
@@ -28,10 +28,10 @@
 
     <!-- scroll content -->
 
-    <ion-infinite-scroll  threshold="100px" (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    
+
 
   </div>
 </ion-content>

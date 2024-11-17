@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ContrattiLocazioneRoutingModule } from './contratti-locazione-routing.module';
-import { IonicModule } from '@ionic/angular';
-import { ContrattiLocazionePage } from './pages/contratti-locazione/contratti-locazione.page';
-import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import {ContrattiLocazioneRoutingModule} from './contratti-locazione-routing.module';
+import {IonicModule} from '@ionic/angular';
+import {ContrattiLocazionePage} from './pages/contratti-locazione/contratti-locazione.page';
+import {FooterComponent} from 'src/app/shared/footer/footer.component';
 
 
 @NgModule({
@@ -16,4 +16,5 @@ import { FooterComponent } from 'src/app/shared/footer/footer.component';
     FooterComponent
   ]
 })
-export class ContrattiLocazioneModule { }
+export class ContrattiLocazioneModule {
+}

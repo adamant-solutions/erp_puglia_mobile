@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-/* 
+/*
 └── shared/                       # Shared modules/components/pipes (used across modules)
-    ├── components/               # Shared components 
+    ├── components/               # Shared components
     ├── directives/               # Shared directives
     ├── pipes/                    # Shared pipes
     ├── services/                 # Shared services
@@ -15,4 +15,5 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

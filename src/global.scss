@@ -36,24 +36,25 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-    ion-header {
-    border-bottom: 2px solid var(--ion-color-secondary);
-    }
+ion-header {
+  border-bottom: 2px solid var(--ion-color-secondary);
+}
 
 /*     ion-img {
       width: auto;
       height: 100%;
-      max-width: 100%;    
-      object-fit: contain; 
+      max-width: 100%;
+      object-fit: contain;
     }
      */
 
-     ion-searchbar.custom-search-bar{
-      --background: #f2f2f2;
-      --icon-color: var(--ion-color-primary);
-      --clear-button-color: var(--ion-color-primary);
-      --border-radius: 10px;
-    }
-    .list-item-name{
-      margin-inline-start: 10px;
-    }
+ion-searchbar.custom-search-bar {
+  --background: #f2f2f2;
+  --icon-color: var(--ion-color-primary);
+  --clear-button-color: var(--ion-color-primary);
+  --border-radius: 10px;
+}
+
+.list-item-name {
+  margin-inline-start: 10px;
+}

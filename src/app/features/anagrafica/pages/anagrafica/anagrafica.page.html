@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title color="secondary">{{pageTitle | titlecase}}</ion-title>
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button color="secondary"></ion-menu-button>
     </ion-buttons>
@@ -21,16 +21,17 @@
       <ion-item *ngFor="let a of results" role="article">
         <ion-icon name="document-outline"></ion-icon>
         <ion-label class="list-item-name">{{ a.cittadino.codice_fiscale }}</ion-label>
-        <ion-icon name="chevron-forward-outline" color="primary" [routerLink]="['anagrafica-details',a.cittadino.id]"></ion-icon>
+        <ion-icon name="chevron-forward-outline" color="primary"
+                  [routerLink]="['anagrafica-details',a.cittadino.id]"></ion-icon>
 
       </ion-item>
     </ion-list>
 
     <!-- scroll content -->
-    <ion-infinite-scroll  threshold="100px" (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-  
+
   </div>
 
 </ion-content>

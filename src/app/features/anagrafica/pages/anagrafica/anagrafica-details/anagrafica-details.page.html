@@ -13,7 +13,7 @@
 
     <ion-breadcrumbs>
       <div *ngFor="let b of breadCrumbs">
-        <ion-breadcrumb [routerLink]="[b.url]">{{b.name}}</ion-breadcrumb>
+        <ion-breadcrumb [routerLink]="[b.url]">{{ b.name }}</ion-breadcrumb>
       </div>
     </ion-breadcrumbs>
 
@@ -26,82 +26,82 @@
             <ion-item-group formGroupName="cittadino">
               <ion-item>
                 <ion-input label="Codice Fiscale" labelPlacement="floating" placeholder="Codice Fiscale"
-                  formControlName="codice_fiscale"></ion-input>
+                           formControlName="codice_fiscale"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Nome" labelPlacement="floating" placeholder="Nome" formControlName="nome"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Cognome" labelPlacement="floating" placeholder="Cognome"
-                  formControlName="cognome"></ion-input>
+                           formControlName="cognome"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Data Nascita" labelPlacement="floating" placeholder="Data di Nascita"
-                  formControlName="data_nascita"></ion-input>
+                           formControlName="data_nascita"></ion-input>
               </ion-item>
 
               <div formGroupName="luogo_nascita">
                 <ion-item>
                   <ion-input label="Comune" labelPlacement="floating" placeholder="Comune"
-                    formControlName="comune"></ion-input>
+                             formControlName="comune"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
-                    formControlName="provincia"></ion-input>
+                             formControlName="provincia"></ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-input label="Stato" labelPlacement="floating" placeholder="Stato"
-                    formControlName="stato"></ion-input>
+                             formControlName="stato"></ion-input>
                 </ion-item>
               </div>
 
               <ion-item>
                 <ion-input label="Sesso" labelPlacement="floating" placeholder="Sesso"
-                  formControlName="sesso"></ion-input>
+                           formControlName="sesso"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Cittadinanza" labelPlacement="floating" placeholder="Cittadinanza"
-                  formControlName="cittadinanza"></ion-input>
+                           formControlName="cittadinanza"></ion-input>
               </ion-item>
             </ion-item-group>
 
             <ion-item-group formGroupName="residenza">
               <ion-item>
                 <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
-                  placeholder="Indirizzo"></ion-input>
+                           placeholder="Indirizzo"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
-                  placeholder="Civico"></ion-input>
+                           placeholder="Civico"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="CAP" labelPlacement="floating" formControlName="cap" placeholder="cap"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comune_residenza"
-                  placeholder="Indirizzo"></ion-input>
+                           placeholder="Indirizzo"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Provinica Residenza" labelPlacement="floating" formControlName="provincia_residenza"
-                  placeholder="Provinica Residenza"></ion-input>
+                           placeholder="Provinica Residenza"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="stato_residenza"
-                  placeholder="Stato Residenza"></ion-input>
+                           placeholder="Stato Residenza"></ion-input>
               </ion-item>
             </ion-item-group>
 
             <ion-item-group formGroupName="contatti">
               <ion-item>
                 <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
-                  placeholder="Telefono"></ion-input>
+                           placeholder="Telefono"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-input label="Email" labelPlacement="floating" formControlName="email"
-                  placeholder="Email"></ion-input>
+                           placeholder="Email"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input label="Pec" labelPlacement="floating" formControlName="pec" placeholder="Pec"></ion-input>
@@ -115,28 +115,28 @@
 
                 <ion-item>
                   <ion-input label="Tipo Documento" labelPlacement="floating" formControlName="tipo_documento"
-                    placeholder="Tipo Documento"></ion-input>
+                             placeholder="Tipo Documento"></ion-input>
                 </ion-item>
 
 
                 <ion-item>
                   <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
-                    placeholder="Numero Documento"></ion-input>
+                             placeholder="Numero Documento"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-input label="Data Emissione" labelPlacement="floating" formControlName="data_emissione"
-                    placeholder="Data Emissione"></ion-input>
+                             placeholder="Data Emissione"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-input label="Data Scadenza" labelPlacement="floating" formControlName="data_scadenza"
-                    placeholder="Data Scadenza"></ion-input>
+                             placeholder="Data Scadenza"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
-                    placeholder="Ente emittente"></ion-input>
+                             placeholder="Ente emittente"></ion-input>
                 </ion-item>
               </div>
 
@@ -145,12 +145,12 @@
             <ion-item-group formGroupName="altri_dettagli">
               <ion-item>
                 <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"
-                  placeholder="Stato Civile"></ion-input>
+                           placeholder="Stato Civile"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
-                  formControlName="data_ultimo_aggiornamento" placeholder="Ultimo Aggiornamento"></ion-input>
+                           formControlName="data_ultimo_aggiornamento" placeholder="Ultimo Aggiornamento"></ion-input>
               </ion-item>
 
             </ion-item-group>
