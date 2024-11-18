@@ -28,6 +28,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/contratti-locazione/contratti-locazione.module').then(m => m.ContrattiLocazioneModule)
   },
   {
+    path: 'manutenzione',
+    loadChildren: () => import('./features/manutenzione/manutenzione.module').then(m => m.ManutenzioneModule)
+  },
+  {
     path: 'profilo',
     loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
   },
