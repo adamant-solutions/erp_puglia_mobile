@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RipartizioneSpesePage } from './ripartizione-spese/ripartizione-spese.page';
+import { RipartizioneSpesePage } from './pages/ripartizione-spese/ripartizione-spese.page';
 
 const routes: Routes = [
   {

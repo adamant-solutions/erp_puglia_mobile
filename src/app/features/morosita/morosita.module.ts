@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RipartizioneSpeseRoutingModule } from './ripartizione-spese-routing.module';
-import { RipartizioneSpesePage } from './pages/ripartizione-spese/ripartizione-spese.page';
+import { MorositaRoutingModule } from './morosita-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import { MorositaPage } from './morosita/morosita.page';
 
 
 @NgModule({
-  declarations: [RipartizioneSpesePage],
+  declarations: [MorositaPage],
   imports: [
     CommonModule,
-    RipartizioneSpeseRoutingModule,
+    MorositaRoutingModule,
     IonicModule,
     FooterComponent
   ]
 })
-export class RipartizioneSpeseModule { }
+export class MorositaModule { }
