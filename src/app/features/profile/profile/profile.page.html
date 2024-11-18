@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button color="secondary" defaultHref="/profilo"></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title color="secondary">Profilo</ion-title>
+    <ion-title>Profilo</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,10 +15,12 @@
       <ion-avatar>
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
       </ion-avatar>
-      <ion-label style="margin-top: 5px;">{{ userLoggedIn.nome + ' ' + userLoggedIn.cognome }}</ion-label>
+      <ion-label style="margin-top: 5px; font-size: 22px;">{{ userLoggedIn.nome + ' ' + userLoggedIn.cognome }}</ion-label>
     </div>
-    <div class="profile-bottom">Informazioni personali</div>
-    <ion-card class="ion-padding">
+    <ion-card class="ion-padding"> 
+      <ion-card-header style="margin-inline-start: 24px;">
+        <ion-card-title color="tertiary">Informazioni personali</ion-card-title>
+      </ion-card-header>
       <ion-card-content class="ion-no-padding">
         <ion-list>
           <ion-item>
@@ -45,16 +47,14 @@
 
       </ion-card-content>
 
+      <div class="ion-padding" class="azioni-buttons">
+        <ion-button fill="outline" shape="round" style="margin-right: 10px;">Azione 1</ion-button>
+        <ion-button fill="outline" size="default" aria-label="Esci" style="text-transform: capitalize;" shape="round">
+          <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+          Esci
+        </ion-button>
+      </div>
     </ion-card>
-
-
-    <div class="ion-padding custom-buttons">
-      <ion-button>Azione 1</ion-button>
-      <ion-button size="default" aria-label="Esci" style="text-transform: capitalize;">
-        <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
-        Esci
-      </ion-button>
-    </div>
   </div>
 
 

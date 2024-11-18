@@ -1,3 +1,7 @@
+ion-header {
+  border-bottom: 0;
+}
+
 .profile-avatar {
   display: flex;
   flex-direction: column;
@@ -7,20 +11,18 @@
   padding-bottom: 16px;
 }
 
-.profile-bottom {
-  background-color: #0075bf;
-  color: #ffffff;
-  padding: 0.3rem 0.3rem;
-
+ion-card-title{
+  font-size: 22px;
+  font-weight: 600;
 }
 
 ion-icon.profile-icons {
   color: var(--ion-color-primary);
   margin-inline-end: 5px;
 }
-
-.custom-buttons {
+.azioni-buttons{
+  margin-top: 20px;
   display: flex;
-  align-items: stretch;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
