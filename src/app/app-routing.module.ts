@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/manutenzione/manutenzione.module').then(m => m.ManutenzioneModule)
   },
   {
+    path: 'ripartizione-spese',
+    loadChildren: () => import('./features/ripartizione-spese/ripartizione-spese.module').then(m => m.RipartizioneSpeseModule)
+  },
+  {
     path: 'profilo',
     loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
   },
