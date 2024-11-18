@@ -24,6 +24,9 @@
         <form [formGroup]="userForm"><!-- (ngSubmit)="onSubmit()" -->
           <ion-list>
             <ion-item-group formGroupName="cittadino">
+              <ion-item-divider>
+                <ion-label> Cittadino </ion-label>
+              </ion-item-divider>
               <ion-item>
                 <ion-input label="Codice Fiscale" labelPlacement="floating" placeholder="Codice Fiscale"
                            formControlName="codice_fiscale"></ion-input>
@@ -67,6 +70,9 @@
             </ion-item-group>
 
             <ion-item-group formGroupName="residenza">
+              <ion-item-divider>
+                <ion-label> Residenza </ion-label>
+              </ion-item-divider>
               <ion-item>
                 <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
                            placeholder="Indirizzo"></ion-input>
@@ -94,6 +100,9 @@
             </ion-item-group>
 
             <ion-item-group formGroupName="contatti">
+              <ion-item-divider>
+                <ion-label> Contatti </ion-label>
+              </ion-item-divider>
               <ion-item>
                 <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
                            placeholder="Telefono"></ion-input>
@@ -110,7 +119,9 @@
             </ion-item-group>
 
             <ion-item-group formArrayName="documenti_identita">
-
+              <ion-item-divider>
+                <ion-label> Documenti Identita </ion-label>
+              </ion-item-divider>
               <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
 
                 <ion-item>
@@ -143,6 +154,10 @@
             </ion-item-group>
 
             <ion-item-group formGroupName="altri_dettagli">
+
+              <ion-item-divider>
+                <ion-label> Altri Dettagli </ion-label>
+              </ion-item-divider>
               <ion-item>
                 <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"
                            placeholder="Stato Civile"></ion-input>

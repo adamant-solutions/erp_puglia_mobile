@@ -1,0 +1,12 @@
+ion-item-divider.md {
+    --background: var(--ion-color-step-100, var(--ion-background-color-step-100, #e6e6e6));
+    --color: var(--ion-color-step-850, var(--ion-text-color-step-150, #262626));   
+    border-radius: 0;
+    position: relative;
+    font-size: 1.0625rem;
+    font-weight: 600;
+  
+}
+.list-md{
+    padding-top: 0;
+}
