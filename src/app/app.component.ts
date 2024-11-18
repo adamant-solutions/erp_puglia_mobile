@@ -17,7 +17,7 @@ export class AppComponent {
     {title: 'Manutenzione', url: 'manutenzione'}, //Maintenance
     {title: 'Ripartizione spese', url: 'ripartizione-spese'}, //Cost distribution
     {title: 'Morosità', url: 'morosità'},  //Default
-    {title: 'Ciclo passivo', url: 'ciclo-pasivo'} // Passive cycle
+    {title: 'Ciclo passivo', url: 'ciclo-passivo'} // Passive cycle
   ];
 
   constructor(public menuController: MenuController, private router: Router) {

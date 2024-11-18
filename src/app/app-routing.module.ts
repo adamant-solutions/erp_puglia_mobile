@@ -40,6 +40,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/morosita/morosita.module').then(m => m.MorositaModule)
   },
   {
+    path: 'ciclo-passivo',
+    loadChildren: () => import('./features/ciclo-passivo/ciclo-passivo.module').then(m => m.CicloPassivoModule)
+  },
+  {
     path: 'profilo',
     loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
   },
