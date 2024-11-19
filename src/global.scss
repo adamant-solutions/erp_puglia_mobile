@@ -58,3 +58,26 @@ ion-searchbar.custom-search-bar {
 .list-item-name {
   margin-inline-start: 10px;
 }
+
+.custom-add-bar{
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin: 8px
+}
+.custom-add-bar ion-icon{
+    width: 1.3125rem;
+    height: 1.3125rem;
+}
+.custom-add-bar ion-text.md{
+  margin-left: 18px;
+}
+.custom-add-bar ion-text.ios{
+  margin-left: 3px;
+}
+
+.custom-add-bar ion-icon:last-child {
+  margin-left: auto; 
+}

@@ -10,7 +10,11 @@ const routes: Routes = [
   {
     path: 'anagrafica-details/:id',
     loadChildren: () => import('./pages/anagrafica/anagrafica-details/anagrafica-details.module').then(m => m.AnagraficaDetailsPageModule)
+  },  {
+    path: 'nuova-anagrafica',
+    loadChildren: () => import('./pages/anagrafica/nuova-anagrafica/nuova-anagrafica.module').then( m => m.NuovaAnagraficaPageModule)
   }
+
 ];
 
 @NgModule({
