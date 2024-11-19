@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Anagrafica} from 'src/app/core/models/anagrafica.model';
@@ -10,6 +11,9 @@ import {Anagrafica} from 'src/app/core/models/anagrafica.model';
 export class AnagraficaDetailsPage implements OnInit {
 
   userData: Anagrafica = {
+    id: '1',
+    data_creazione: '2024-11-19',
+    data_ultima_modifica: '2024-11-19',
     cittadino: {
       id: "12345678-1234-1234-1234-123456789012",
       codice_fiscale: "RSSMRA80A01H501Z",
@@ -21,7 +25,7 @@ export class AnagraficaDetailsPage implements OnInit {
         provincia: "RM",
         stato: "Italia"
       },
-      sesso: "M",
+      genere: "M",
       cittadinanza: "Italiana"
     },
     residenza: {
@@ -55,7 +59,7 @@ export class AnagraficaDetailsPage implements OnInit {
   breadCrumbs = [{name: 'Anagrafica', url: '/anagrafica'}, {name: 'Anagrafica Dettagli', url: []}]
   userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private datePipe: DatePipe) {
   }
 
   ngOnInit() {
@@ -64,19 +68,22 @@ export class AnagraficaDetailsPage implements OnInit {
   }
 
   initializeForm() {
+    const formattedDataNascita = this.datePipe.transform(this.userData.cittadino.data_nascita, 'dd/MM/yyyy');
+    const formattedDataUltimoAggiornamento = this.datePipe.transform(this.userData.altri_dettagli.data_ultimo_aggiornamento, 'dd/MM/yyyy');
+ 
     this.userForm = this.fb.group({
       cittadino: this.fb.group({
         id: [this.userData.cittadino.id],
         codice_fiscale: [this.userData.cittadino.codice_fiscale],
         nome: [this.userData.cittadino.nome],
         cognome: [this.userData.cittadino.cognome],
-        data_nascita: [this.userData.cittadino.data_nascita],
+        data_nascita: [formattedDataNascita],
         luogo_nascita: this.fb.group({
           comune: [this.userData.cittadino.luogo_nascita.comune],
           provincia: [this.userData.cittadino.luogo_nascita.provincia],
           stato: [this.userData.cittadino.luogo_nascita.stato],
         }),
-        sesso: [this.userData.cittadino.sesso],
+        genere: [this.userData.cittadino.genere],
         cittadinanza: [this.userData.cittadino.cittadinanza]
       }),
       residenza: this.fb.group({
@@ -96,13 +103,13 @@ export class AnagraficaDetailsPage implements OnInit {
         this.userData.documenti_identita.map(doc => this.fb.group({
           tipo_documento: [doc.tipo_documento],
           numero_documento: [doc.numero_documento],
-          data_emissione: [doc.data_emissione],
-          data_scadenza: [doc.data_scadenza],
+          data_emissione: [this.datePipe.transform(doc.data_emissione, 'dd/MM/yyyy')],
+          data_scadenza: [this.datePipe.transform(doc.data_scadenza, 'dd/MM/yyyy')],
           ente_emittente: [doc.ente_emittente]
         }))),
       altri_dettagli: this.fb.group({
         stato_civile: [this.userData.altri_dettagli.stato_civile],
-        data_ultimo_aggiornamento: [this.userData.altri_dettagli.data_ultimo_aggiornamento],
+        data_ultimo_aggiornamento: [formattedDataUltimoAggiornamento],
       }),
 
     })
@@ -113,4 +120,5 @@ export class AnagraficaDetailsPage implements OnInit {
   get documentiIdentitaForms() {
     return (this.userForm.get('documenti_identita') as FormArray).controls;
   }
+
 }

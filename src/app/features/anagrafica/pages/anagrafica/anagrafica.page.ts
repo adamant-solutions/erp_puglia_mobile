@@ -12,6 +12,9 @@ export class AnagraficaPage implements OnInit {
 
   anagraficaList: Anagrafica[] = [
     {
+      id: '1',
+      data_creazione: '2024-11-19',
+      data_ultima_modifica: '2024-11-19',
       cittadino: {
         id: "12345678-1234-1234-1234-123456789012",
         codice_fiscale: "RSSMRA80A01H501Z",
@@ -23,7 +26,7 @@ export class AnagraficaPage implements OnInit {
           provincia: "RM",
           stato: "Italia"
         },
-        sesso: "M",
+        genere: "M",
         cittadinanza: "Italiana"
       },
       residenza: {
