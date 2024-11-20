@@ -36,4 +36,26 @@ export class AnagraficaService {
             );
     }
   }
+
+  
+  getAnagraficaById(id: string){
+    if (this.platform.is('hybrid')) {
+      console.log("is hybrid")
+      return
+      /*    return this.nativeHttp.get(`${this.anagraficaUrl}?pagina=${pageIndex}`, {}, {})
+           .then(response => {
+             return response;
+           })
+           .catch(error => {
+             throw error;
+           }); */
+    
+    }
+    else {
+             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}/${id}`).pipe(
+              catchError(e => { throw (e) })
+            );
+    }
+  }
+  
 }

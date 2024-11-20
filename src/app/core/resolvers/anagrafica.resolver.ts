@@ -8,4 +8,8 @@ export const anagraficaResolver: ResolveFn<any> =
   return anagraficaService.getAnagraficaList(pagina)
 };
 
-
+export const anagraficaByIdResolver: ResolveFn<any> = 
+(route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
+  const ID  = route.params['id'];
+  return anagraficaService.getAnagraficaById(ID)
+};
