@@ -24,7 +24,11 @@
     <!-- list patrimonio section -->
     <ion-list role="feed">
       <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
-        <ion-label>Anagrafica</ion-label>
+        <ion-label *ngIf="results.length">Anagrafica</ion-label>
+        <ion-label *ngIf="!results.length" style="
+          display: flex;
+          align-items: center;
+      "><ion-icon name="warning" color="warning"></ion-icon>Nessun dato trovato</ion-label>
       </ion-list-header>
 
      <ion-item *ngFor="let a of results" role="article">

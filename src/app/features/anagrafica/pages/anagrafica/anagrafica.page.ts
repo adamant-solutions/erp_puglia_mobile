@@ -35,6 +35,7 @@ export class AnagraficaPage implements OnInit {
 
   handleInput(event: any) {
     const searchItem = event.detail.value;
+    this.results = this.anagraficaList.filter((d) => d.cittadino.codiceFiscale.toLocaleLowerCase().indexOf(searchItem.toLowerCase()) > -1);
   }
 
   onIonInfinite(ev: any) {
