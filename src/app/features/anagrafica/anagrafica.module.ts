@@ -8,8 +8,6 @@ import {FooterComponent} from 'src/app/shared/footer/footer.component';
 
 import { environment } from 'src/environments/environment';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
-import { HTTP } from '@awesome-cordova-plugins/http';
-
 
 @NgModule({
   declarations: [AnagraficaPage],

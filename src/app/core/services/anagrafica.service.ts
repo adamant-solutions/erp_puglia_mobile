@@ -9,7 +9,6 @@ import { Platform } from '@ionic/angular';
   providedIn: 'root'
 })
 export class AnagraficaService {
-
   constructor(
     //private nativeHttp: HTTP,
     private httpClient: HttpClient,
@@ -52,10 +51,16 @@ export class AnagraficaService {
     
     }
     else {
-             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}/${id}`).pipe(
+             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}/${id}`, {headers: {'Accept':'application/json'} }).pipe(
               catchError(e => { throw (e) })
             );
     }
+  }
+  
+  addAagrafica(data: Anagrafica){
+    return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, data).pipe(
+      catchError(e => { throw (e) })
+    );
   }
   
 }

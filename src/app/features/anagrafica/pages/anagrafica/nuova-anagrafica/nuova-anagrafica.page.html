@@ -10,6 +10,191 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
+
+    
+    <form [formGroup]="addForm"  (ngSubmit)="onSubmit()">
+      <ion-list>
+        <ion-item-group formGroupName="cittadino">
+          <ion-item-divider>
+            <ion-label> Cittadino </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            <ion-input label="Codice Fiscale" labelPlacement="floating"
+                       formControlName="codiceFiscale"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Nome" labelPlacement="floating" formControlName="nome"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cognome" labelPlacement="floating" 
+                       formControlName="cognome"></ion-input>
+          </ion-item>
+
+          <ion-item>
+                     <ion-input id="data_nascita" label="Data Nascita" labelPlacement="floating"
+                                      formControlName="dataDiNascita"></ion-input> 
+                                      <ion-icon name="calendar-outline"></ion-icon>
+          
+                     <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
+          							[breakpoints]="[0, 1]">
+          							<ng-template>
+          								
+          									<ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito"
+          										cancelText="Annulla"  #dataNascita presentation="date" size="cover" (ionChange)="onDataChange(dataNascita.value)"
+          										></ion-datetime>
+          								
+          							</ng-template>
+          						</ion-modal> 
+        
+            <!--    <ion-input label="Data Nascita" labelPlacement="floating"  formControlName="dataDiNascita" type="date" ></ion-input> -->
+          
+                    </ion-item>
+ 
+       <div formGroupName="luogo_nascita">
+            <ion-item>
+              <ion-input label="Comune" labelPlacement="floating"
+                         formControlName="comune"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input label="Provincia" labelPlacement="floating"
+                         formControlName="provincia"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Stato" labelPlacement="floating"
+                         formControlName="stato"></ion-input>
+            </ion-item>
+          </div>
+
+          <ion-item>
+            <ion-input label="Genere" labelPlacement="floating"
+                       formControlName="genere"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cittadinanza" labelPlacement="floating"
+                       formControlName="cittadinanza"></ion-input>
+          </ion-item>
+        </ion-item-group>
+
+        <ion-item-group formGroupName="residenza">
+          <ion-item-divider>
+            <ion-label> Residenza </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
+                      ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
+                      ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CAP" labelPlacement="floating" formControlName="cap"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comune_residenza"
+                       ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Provinica Residenza" labelPlacement="floating" formControlName="provincia_residenza"
+                      ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="stato_residenza"
+                      ></ion-input>
+          </ion-item>
+        </ion-item-group> 
+
+      <ion-item-group formGroupName="contatti">
+          <ion-item-divider>
+            <ion-label> Contatti </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
+                       ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email"
+                       ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Pec" labelPlacement="floating" formControlName="pec"></ion-input>
+          </ion-item>
+
+        </ion-item-group> 
+<!-- Documenti Identita -->
+       <ion-item-group formArrayName="documenti_identita">
+          <ion-item-divider>
+            <ion-label> Documenti Identita </ion-label>
+            <ion-button (click)="addDocumentiGroup()">Aggiungi Documenti Identita</ion-button>
+          </ion-item-divider>
+          <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
+
+            <ion-item>
+              <ion-input label="Tipo Documento" labelPlacement="floating" formControlName="tipo_documento"
+                         placeholder="Tipo Documento"></ion-input>
+            </ion-item>
+
+
+            <ion-item>
+              <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
+                         placeholder="Numero Documento"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input label="Data Emissione" labelPlacement="floating" formControlName="data_emissione"
+                         placeholder="Data Emissione"></ion-input>
+            </ion-item>
+ 
+            <ion-item>
+              <ion-input label="Data Scadenza" labelPlacement="floating" formControlName="data_scadenza"
+                         placeholder="Data Scadenza"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
+                         placeholder="Ente emittente"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+            <ion-button color="danger" (click)="removeDocumentiGroup(i)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+            </ion-item>
+           <!--  
+            <ion-button  >Elimina Documenti Identita</ion-button> -->
+          </div>
+          
+        
+        </ion-item-group> 
+
+        <ion-item-group formGroupName="altri_dettagli">
+
+          <ion-item-divider>
+            <ion-label> Altri Dettagli </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"
+                      ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
+                       formControlName="data_ultimo_aggiornamento"></ion-input>
+          </ion-item>
+
+        </ion-item-group>
+
+
+      </ion-list>
+
+      <div class="ion-padding">
+        <ion-button type="submit">Invia</ion-button>
+        <ion-button fill="outline">Annulla</ion-button>
+      </div>
+    </form>
+
   </div>
 </ion-content>
 
