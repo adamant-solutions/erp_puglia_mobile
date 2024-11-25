@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-nuova-anagrafica',
@@ -13,7 +14,7 @@ export class NuovaAnagraficaPage implements OnInit {
   addForm!: FormGroup;
   errorMsg: string = '';
 
-  constructor(private fb: FormBuilder,private anagraficaSvc: AnagraficaService,private datePipe: DatePipe) { }
+  constructor(private fb: FormBuilder,private anagraficaSvc: AnagraficaService,private datePipe: DatePipe,private msgService: MessagesService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -33,7 +34,7 @@ export class NuovaAnagraficaPage implements OnInit {
           provincia: [],
           stato: [],
         }), 
-        genere: ['',[Validators.required]],
+        genere: ['M',[Validators.required]],
         cittadinanza: ['',[Validators.required]]
       }),
       residenza: this.fb.group({
@@ -94,17 +95,28 @@ export class NuovaAnagraficaPage implements OnInit {
    else {
     this.anagraficaSvc.addAnagrafica(anagraficaData).subscribe({
       next: (response) => {
-        console.log("Response: ", response)
-        alert("was posted")
+      /*   console.log("Response: ", response) */
+        this.msgService.success('Dati salvati con successo!');
       },
       error: (err) => {
-        this.errorMsg = "Error!" + err.message;
-        console.log(this.errorMsg)
+        if (err.status === 500) {
+          this.errorMsg = "Errore interno del server!"
+        }
+        else if (err.status === 400){
+          this.errorMsg = err.message; 
+        }
+        else{
+          this.errorMsg = "Error!" + err.message;
+        }
+        this.msgService.error(this.errorMsg);         
       }
      })
    }
   }
 
+  cancelInputs(){
+    this.addForm.reset();
+  }
 
 
 }

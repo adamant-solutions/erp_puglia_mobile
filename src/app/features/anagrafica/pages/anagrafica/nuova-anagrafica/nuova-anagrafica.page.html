@@ -19,19 +19,19 @@
             <ion-label> Cittadino </ion-label>
           </ion-item-divider>
           <ion-item>
-            <ion-input label="Codice Fiscale" labelPlacement="floating"
+            <ion-input label="Codice Fiscale*" labelPlacement="floating"
                        formControlName="codiceFiscale"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label="Nome" labelPlacement="floating" formControlName="nome"></ion-input>
+            <ion-input label="Nome*" labelPlacement="floating" formControlName="nome"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label="Cognome" labelPlacement="floating" 
+            <ion-input label="Cognome*" labelPlacement="floating" 
                        formControlName="cognome"></ion-input>
           </ion-item>
 
           <ion-item>
-                     <ion-input id="data_nascita" label="Data Nascita" labelPlacement="floating"
+                     <ion-input id="data_nascita" label="Data Nascita*" labelPlacement="floating"
                                       formControlName="dataDiNascita"></ion-input> 
                                       <ion-icon name="calendar-outline"></ion-icon>
           
@@ -67,11 +67,14 @@
           </div>
 
           <ion-item>
-            <ion-input label="Genere" labelPlacement="floating"
-                       formControlName="genere"></ion-input>
+            <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
+              <ion-select-option value="M">M</ion-select-option>
+              <ion-select-option value="F">F</ion-select-option>
+              <ion-select-option value="N">Nonbinario</ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label="Cittadinanza" labelPlacement="floating"
+            <ion-input label="Cittadinanza*" labelPlacement="floating"
                        formControlName="cittadinanza"></ion-input>
           </ion-item>
         </ion-item-group>
@@ -191,7 +194,7 @@
 
       <div class="ion-padding">
         <ion-button type="submit">Invia</ion-button>
-        <ion-button fill="outline">Annulla</ion-button>
+        <ion-button fill="outline" (click)="cancelInputs()">Annulla</ion-button>
       </div>
     </form>
 

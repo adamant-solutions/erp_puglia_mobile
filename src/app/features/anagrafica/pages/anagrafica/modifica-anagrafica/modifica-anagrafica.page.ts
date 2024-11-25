@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Anagrafica } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-modifica-anagrafica',
@@ -19,7 +20,8 @@ export class ModificaAnagraficaPage implements OnInit {
   constructor(private fb: FormBuilder,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
-    private anagraficaSrv: AnagraficaService) {
+    private anagraficaSrv: AnagraficaService,
+    private msgService: MessagesService) {
   }
 
   ngOnInit() {
@@ -135,14 +137,20 @@ export class ModificaAnagraficaPage implements OnInit {
     else {
       this.anagraficaSrv.editAnagrafica(data).subscribe({
         next: (res) => {
+          this.msgService.success("Dati salvati con successo!");
           console.log(res)
         },
         error: (err) => {
-          if (err.status === '500') {
-            this.errorMsg = "Server error!"
+          if (err.status === 500) {
+            this.errorMsg = "Errore interno del server!"
           }
-          else if (err.status === '400')
-            this.errorMsg = err.message;
+          else if (err.status === 400){
+            this.errorMsg = err.message; 
+          }
+          else{
+            this.errorMsg = "Error!" + err.message;
+          }
+          this.msgService.error(this.errorMsg);         
         }
       })
     }
