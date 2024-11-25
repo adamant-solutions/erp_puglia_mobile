@@ -1,13 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AnagraficaPage} from './pages/anagrafica/anagrafica.page';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AnagraficaPage } from './pages/anagrafica/anagrafica.page';
 import { anagraficaResolver } from 'src/app/core/resolvers/anagrafica.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: AnagraficaPage,
-    resolve : { anagraficaResolver }
+    resolve: { anagraficaResolver }
   },
   {
     path: 'anagrafica-details/:id',
@@ -15,8 +15,13 @@ const routes: Routes = [
   },
   {
     path: 'nuova-anagrafica',
-    loadChildren: () => import('./pages/anagrafica/nuova-anagrafica/nuova-anagrafica.module').then( m => m.NuovaAnagraficaPageModule)
+    loadChildren: () => import('./pages/anagrafica/nuova-anagrafica/nuova-anagrafica.module').then(m => m.NuovaAnagraficaPageModule)
+  },
+  {
+    path: 'modifica-anagrafica/:id',
+    loadChildren: () => import('./pages/anagrafica/modifica-anagrafica/modifica-anagrafica.module').then(m => m.ModificaAnagraficaPageModule)
   }
+
 
 ];
 

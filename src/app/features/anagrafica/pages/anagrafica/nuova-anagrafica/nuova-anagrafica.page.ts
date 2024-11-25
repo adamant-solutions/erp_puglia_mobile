@@ -87,12 +87,12 @@ export class NuovaAnagraficaPage implements OnInit {
 
   onSubmit(){
     const anagraficaData = this.addForm.value;
-   //console.log(this.addForm.value) 
+   console.log(this.addForm.value) 
    if(!this.addForm.valid){
     return;
    }
    else {
-    this.anagraficaSvc.addAagrafica(anagraficaData).subscribe({
+    this.anagraficaSvc.addAnagrafica(anagraficaData).subscribe({
       next: (response) => {
         console.log("Response: ", response)
         alert("was posted")

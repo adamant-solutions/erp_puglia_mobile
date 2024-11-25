@@ -57,8 +57,14 @@ export class AnagraficaService {
     }
   }
   
-  addAagrafica(data: Anagrafica){
+  addAnagrafica(data: Anagrafica){
     return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, data).pipe(
+      catchError(e => { throw (e) })
+    );
+  }
+
+  editAnagrafica(data: any) { //any type temp
+    return this.httpClient.put<any>(`${this.anagraficaUrl}`, data).pipe(
       catchError(e => { throw (e) })
     );
   }
