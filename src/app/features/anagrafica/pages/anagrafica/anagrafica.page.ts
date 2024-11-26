@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {InfiniteScrollCustomEvent} from '@ionic/angular';
 import {Anagrafica} from 'src/app/core/models/anagrafica.model';
 
@@ -13,12 +13,20 @@ export class AnagraficaPage implements OnInit {
 
   anagraficaList: Anagrafica[] = [];
   results: Anagrafica [] = [];
+  currentPage = 1;
+  hasMorePages = true;
+  itemsPerPage = 10;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private router: Router){
   }
 
   ngOnInit() {
     this.getList();
+    this.route.paramMap.subscribe(params => {
+      const pageParam = params.get('pagina');
+      this.currentPage = pageParam ? Number(pageParam) : 1;
+    });
   }
 
   getList() {
@@ -26,6 +34,7 @@ export class AnagraficaPage implements OnInit {
       next: (data) => {
         this.anagraficaList = data['anagraficaResolver']
         this.results = [...this.anagraficaList]
+        this.hasMorePages = this.anagraficaList.length === this.itemsPerPage;
       },
       error: (err) => {
         console.log(err)
@@ -43,4 +52,22 @@ export class AnagraficaPage implements OnInit {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
+
+  
+  nextPage() {
+    if (this.hasMorePages) {
+      this.navigateToPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.navigateToPage(this.currentPage - 1);
+    }
+  }
+
+  private navigateToPage(page: number) {
+    this.router.navigate(['/anagrafica', { pagina: page }]);
+  }
+
 }

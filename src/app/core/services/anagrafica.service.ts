@@ -30,7 +30,7 @@ export class AnagraficaService {
     
     }
     else {
-             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}?page=${pageIndex}`).pipe(
+             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}?pagina=${pageIndex}`).pipe(
               catchError(e => { throw (e) })
             );
     }
@@ -68,5 +68,6 @@ export class AnagraficaService {
       catchError(e => { throw (e) })
     );
   }
+
   
 }

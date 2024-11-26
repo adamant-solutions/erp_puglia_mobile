@@ -40,12 +40,34 @@
       </ion-item> 
     </ion-list>
 
-    <!-- scroll content -->
+<!--    /*scroll content*/
     <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll> -->
+    <div class="custom-pagination">
+      <ion-buttons slot="start">
+        <ion-button 
+          (click)="previousPage()" 
+          [disabled]="currentPage === 1"
+        >
+        <ion-icon name="chevron-back-outline"></ion-icon>
+       <!--    Precedente -->
+        </ion-button>
+      </ion-buttons>
 
-  </div>
+      <ion-text class="current-page">{{ currentPage }}</ion-text>
+
+      <ion-buttons slot="end">
+        <ion-button 
+          (click)="nextPage()" 
+          [disabled]="!hasMorePages"
+        >
+      <!--   Successivo -->
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+</div>
 
 </ion-content>
 

@@ -85,3 +85,24 @@ ion-searchbar.custom-search-bar {
 .custom-toast {
    font-size: 16px;
 }
+
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  background-color: var(--ion-background-color);
+}
+
+.current-page {
+  background: var(--ion-color-primary);
+  border: 1px solid var(--ion-color-primary);
+  color: #ffffff;
+  padding: 0.7rem;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 2rem;
+}
