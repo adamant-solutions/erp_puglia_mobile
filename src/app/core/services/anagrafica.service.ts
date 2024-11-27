@@ -16,7 +16,7 @@ export class AnagraficaService {
     private platform: Platform
   ) { }
 
-  getAnagraficaList(pageIndex: number) {
+  getAnagraficaList(cf?: string,pageIndex?: number) {
     if (this.platform.is('hybrid')) {
       console.log("is hybrid")
       return
@@ -30,7 +30,7 @@ export class AnagraficaService {
     
     }
     else {
-             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}?pagina=${pageIndex}`).pipe(
+             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}?codiceFiscale=${cf}&pagina=${pageIndex}`).pipe(
               catchError(e => { throw (e) })
             );
     }
