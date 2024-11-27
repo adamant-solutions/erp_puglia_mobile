@@ -5,7 +5,8 @@ import { inject } from '@angular/core';
 export const anagraficaResolver: ResolveFn<any> = 
 (route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
   const page  = route.params['pagina'] || 1;
-  return anagraficaService.getAnagraficaList(page)
+  const codicefiscale  = route.params['codiceFiscale'] || '';
+  return anagraficaService.getAnagraficaList(codicefiscale,page)
 };
 
 export const anagraficaByIdResolver: ResolveFn<any> = 
