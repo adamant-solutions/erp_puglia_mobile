@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
 
@@ -14,7 +15,7 @@ export class NuovaAnagraficaPage implements OnInit {
   addForm!: FormGroup;
   errorMsg: string = '';
 
-  constructor(private fb: FormBuilder,private anagraficaSvc: AnagraficaService,private datePipe: DatePipe,private msgService: MessagesService) { }
+  constructor(private fb: FormBuilder,private anagraficaSvc: AnagraficaService,private datePipe: DatePipe,private msgService: MessagesService,private router: Router) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -41,9 +42,9 @@ export class NuovaAnagraficaPage implements OnInit {
         indirizzo: [],
         civico: [],
         cap: [],
-        comune_residenza: [],
-        provincia_residenza: [],
-        stato_residenza: [],
+        comuneResidenza: [],
+        provinciaResidenza: [],
+        statoResidenza: [],
       }),
       contatti: this.fb.group({
         telefono: [],
@@ -109,6 +110,9 @@ export class NuovaAnagraficaPage implements OnInit {
           this.errorMsg = "Error!" + err.message;
         }
         this.msgService.error(this.errorMsg);         
+      },
+      complete: ()=> {
+        this.router.navigate(['/anagrafica'])
       }
      })
    }

@@ -44,7 +44,7 @@
     <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll> -->
-    <div class="custom-pagination">
+    <div class="custom-pagination" *ngIf="results.length">
       <ion-buttons slot="start">
         <ion-button 
           (click)="previousPage()" 
