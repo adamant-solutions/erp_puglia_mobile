@@ -70,4 +70,9 @@ export class AnagraficaService {
   }
 
   
+  eliminaAnagrafica(id: string) {
+    return this.httpClient.delete<Anagrafica>(`${this.anagraficaUrl}/${id}`).pipe(
+      catchError(e => { throw (e) })
+    );
+  }
 }

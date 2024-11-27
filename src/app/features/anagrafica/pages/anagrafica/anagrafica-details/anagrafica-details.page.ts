@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Anagrafica } from 'src/app/core/models/anagrafica.model';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-anagrafica-details',
@@ -15,7 +18,11 @@ export class AnagraficaDetailsPage implements OnInit {
   breadCrumbs = [{ name: 'Anagrafica', url: '/anagrafica' }, { name: 'Anagrafica Dettagli', url: [] }]
   userForm!: FormGroup;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private anagraficaSrvc : AnagraficaService,
+              private msgService: MessagesService,
+              private alertService: AlertService) {
   }
 
   ngOnInit() {
@@ -31,4 +38,27 @@ export class AnagraficaDetailsPage implements OnInit {
 
   }
 
+  onDeleteClick() {
+    this.alertService.showConfirmation(
+      'Conferma Eliminazione', 
+      'Sei sicuro di voler eliminare questa anagrafica? Questa azione non può essere annullata.'
+    ).subscribe(confirmed => {
+      if (confirmed) {
+        this.elimina();
+      }
+    });
+  }
+
+  elimina(){
+    this.anagraficaSrvc.eliminaAnagrafica(this.userData.id).subscribe({
+      next: (res) => {
+        this.msgService.success("Eliminato con successo!")
+        this.router.navigate(['/anagrafica']);
+      },
+      error: (err) => {
+        this.msgService.error(err.message)
+      }
+    })
+ 
+  }
 }
