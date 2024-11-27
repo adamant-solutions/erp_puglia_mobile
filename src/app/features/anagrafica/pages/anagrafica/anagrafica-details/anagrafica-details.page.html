@@ -65,7 +65,7 @@
         <ion-item>
           <ion-label>
             <h4>Comune</h4>
-            <p>{{userData.cittadino.luogo_nascita.comune}}</p>
+            <p>{{userData.cittadino.luogo_nascita?.comune}}</p>
 
           </ion-label>
         </ion-item>
@@ -73,7 +73,7 @@
         <ion-item>
           <ion-label>
             <h4>Provincia</h4>
-            <p>{{userData.cittadino.luogo_nascita.provincia}}</p>
+            <p>{{userData.cittadino.luogo_nascita?.provincia}}</p>
 
           </ion-label>
         </ion-item>
@@ -81,7 +81,7 @@
         <ion-item>
           <ion-label>
             <h4>Stato</h4>
-            <p>{{userData.cittadino.luogo_nascita.stato}}</p>
+            <p>{{userData.cittadino.luogo_nascita?.stato}}</p>
 
           </ion-label>
         </ion-item>
@@ -102,12 +102,12 @@
         </ion-item>
       </ion-item-group>
 
-      <ion-item-group *ngIf="userData.cittadino.residenza">
+      <ion-item-group>
         <ion-item-divider>Residenza</ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Indirizzo</h4>
-            <p>{{userData.cittadino.residenza.indirizzo}}</p>
+            <p>{{userData.cittadino.residenza?.indirizzo || '-'}}</p>
 
           </ion-label>
         </ion-item>
@@ -115,7 +115,7 @@
         <ion-item>
           <ion-label>
             <h4>Civico</h4>
-            <p>{{userData.cittadino.residenza.civico}}</p>
+            <p>{{userData.cittadino.residenza?.civico || '-'}}</p>
 
           </ion-label>
         </ion-item>
@@ -123,39 +123,39 @@
         <ion-item>
           <ion-label>
             <h4>CAP</h4>
-            <p>{{userData.cittadino.residenza.cap}}</p>
+            <p>{{userData.cittadino.residenza?.cap || '-'}}</p>
 
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
             <h4>Comune Residenza</h4>
-            <p>{{userData.cittadino.residenza.comuneResidenza}}</p>
+            <p>{{userData.cittadino.residenza?.comuneResidenza || '-'}}</p>
 
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
             <h4>Provincia Residenza</h4>
-            <p>{{userData.cittadino.residenza.provinciaResidenza}}</p>
+            <p>{{userData.cittadino.residenza?.provinciaResidenza || '-'}}</p>
 
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
             <h4>Stato Residenza</h4>
-            <p>{{userData.cittadino.residenza.statoResidenza}}</p>
+            <p>{{userData.cittadino.residenza?.statoResidenza || '-'}}</p>
 
           </ion-label>
         </ion-item>
       </ion-item-group>
 
-      <ion-item-group *ngIf="userData.cittadino.contatti">
+      <ion-item-group>
         <ion-item-divider>Contatti</ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Telefono</h4>
-            <p>{{userData.cittadino.contatti.telefono}}</p>
+            <p>{{userData.cittadino.contatti?.telefono || '-'}}</p>
 
           </ion-label>
         </ion-item>
@@ -163,7 +163,7 @@
         <ion-item>
           <ion-label>
             <h4>Cellulare</h4>
-            <p>{{userData.cittadino.contatti.cellulare}}</p>
+            <p>{{userData.cittadino.contatti?.cellulare || '-'}}</p>
 
           </ion-label>
 
@@ -172,7 +172,7 @@
         <ion-item>
           <ion-label>
             <h4>Email</h4>
-            <p>{{userData.cittadino.contatti.email}}</p>
+            <p>{{userData.cittadino.contatti?.email || '-'}}</p>
 
           </ion-label>
 
@@ -180,7 +180,7 @@
         <ion-item>
           <ion-label>
             <h4>Pec</h4>
-            <p>{{userData.cittadino.contatti.pec}}</p>
+            <p>{{userData.cittadino.contatti?.pec || '-'}}</p>
 
           </ion-label>
 

@@ -28,6 +28,7 @@ export class ModificaAnagraficaPage implements OnInit {
     this.route.data.subscribe({
       next: (data) => {
         this.userData = data['anagraficaByIdResolver']
+      /*   console.log(this.userData) */
       },
       error: (err) => {
         console.log(err)
@@ -49,34 +50,42 @@ export class ModificaAnagraficaPage implements OnInit {
       createDate: [{ value: formattedDataCreato, disabled: true }],
       lastUpdateDate: [{ value: formattedDataModificato, disabled: true }],
       cittadino: this.fb.group({
-        id: [this.userData.cittadino.id, Validators.required],
-        codiceFiscale: [this.userData.cittadino.codiceFiscale,Validators.required],
-        nome: [this.userData.cittadino.nome, Validators.required],
-        cognome: [this.userData.cittadino.cognome, Validators.required],
+        id: [{ value: this.userData.cittadino.id, disabled: false }, Validators.required],
+        codiceFiscale: [{ value: this.userData.cittadino.codiceFiscale, disabled: false },Validators.required],
+        nome: [{ value: this.userData.cittadino.nome, disabled: false }, Validators.required],
+        cognome: [{ value: this.userData.cittadino.cognome, disabled: false }, Validators.required],
         dataDiNascita: [{ value: formattedDataNascita, disabled: true },Validators.required],
-        /*  luogo_nascita: this.fb.group({
-           comune: [this.userData.cittadino.luogo_nascita.comune],
-           provincia: [this.userData.cittadino.luogo_nascita.provincia],
-           stato: [this.userData.cittadino.luogo_nascita.stato],
-         }), */
-        genere: [this.userData.cittadino.genere, Validators.required],
-        cittadinanza: [this.userData.cittadino.cittadinanza, Validators.required],
+        luogo_nascita: this.fb.group({
+           comune: [{ value: this.userData.cittadino?.luogo_nascita?.comune, disabled: false }],
+           provincia: [{ value: this.userData.cittadino?.luogo_nascita?.provincia, disabled: false }],
+           stato: [{ value: this.userData.cittadino?.luogo_nascita?.stato, disabled: false }],
+         }),
+        genere: [{ value: this.userData.cittadino.genere, disabled: false }, Validators.required],
+        cittadinanza: [{ value: this.userData.cittadino.cittadinanza, disabled: false }, Validators.required],
         createDate: [{ value: formattedDataCreato, disabled: true }, Validators.required],
         lastUpdateDate: [{ value: formattedDataModificato, disabled: true }, Validators.required],
+        residenza: this.fb.group({
+          id: this.userData.cittadino?.residenza?.id,
+          indirizzo: [{ value: this.userData.cittadino?.residenza?.indirizzo , disabled: false }],
+          civico: [{ value: this.userData.cittadino?.residenza?.civico , disabled: false }],
+          cap: [{ value: this.userData.cittadino?.residenza?.cap, disabled: false }],
+          comuneResidenza: [{ value: this.userData.cittadino?.residenza?.comuneResidenza, disabled: false }],
+          provinciaResidenza: [{ value: this.userData.cittadino?.residenza?.provinciaResidenza, disabled: false }],
+          statoResidenza: [{ value: this.userData.cittadino?.residenza?.statoResidenza, disabled: false }],
+          createDate: [{ value: this.userData.cittadino?.residenza?.createDate, disabled: false }],
+          lastUpdateDate: [{ value: this.userData.cittadino?.residenza?.lastUpdateDate, disabled: false}],
+        }),
+        contatti: this.fb.group({
+          id: this.userData.cittadino?.contatti?.id,
+          telefono: [{ value: this.userData.cittadino?.contatti?.telefono, disabled: false }],
+          cellulare: [{ value: this.userData.cittadino?.contatti?.cellulare, disabled: false }],
+          email: [{ value: this.userData.cittadino?.contatti?.email, disabled: false }],
+          pec: [{ value: this.userData.cittadino?.contatti?.pec, disabled: false }],
+          createDate: [{ value: this.userData.cittadino?.contatti?.createDate, disabled: false }],
+          lastUpdateDate: [{ value: this.userData.cittadino?.contatti?.lastUpdateDate, disabled: false}],
+        }),
       }),
-      /*  residenza: this.fb.group({
-         indirizzo: [this.userData.residenza.indirizzo],
-         civico: [this.userData.residenza.civico],
-         cap: [this.userData.residenza.cap],
-         comune_residenza: [this.userData.residenza.comune_residenza],
-         provincia_residenza: [this.userData.residenza.provincia_residenza],
-         stato_residenza: [this.userData.residenza.stato_residenza],
-       }),
-       contatti: this.fb.group({
-         telefono: [this.userData.contatti.telefono],
-         email: [this.userData.contatti.email],
-         pec: [this.userData.contatti.pec],
-       }),
+      /* 
        documenti_identita: this.fb.array(
          this.userData.documenti_identita.map(doc => this.fb.group({
            tipo_documento: [doc.tipo_documento],
@@ -100,36 +109,25 @@ export class ModificaAnagraficaPage implements OnInit {
   }
 
   cancelModifiedInputs() {
-    this.userForm.controls['cittadino'].patchValue({
-      id: this.userData.cittadino.id,
-      codiceFiscale: this.userData.cittadino.codiceFiscale,
-      nome: this.userData.cittadino.nome,
-      cognome: this.userData.cittadino.cognome,
-      dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy'),
-      genere: this.userData.cittadino.genere,
-      cittadinanza: this.userData.cittadino.cittadinanza,
-    });
-
+  this.initializeForm()
   }
 
   onSubmit() {
     /* console.log("After: ", this.userForm.getRawValue()) */
-    const data = {
-      id: this.userData.id,
+    this.userForm.patchValue({
       createDate: this.userData.createDate,
       lastUpdateDate: this.userData.lastUpdateDate,
-      cittadino: {
-        id: this.userData.cittadino.id,
-        createDate: this.userData.cittadino.createDate,
-        lastUpdateDate: this.userData.cittadino.lastUpdateDate,
-        nome: this.userForm?.get('cittadino')?.get('nome')?.value,
-        cognome: this.userForm?.get('cittadino')?.get('cognome')?.value,
-        codiceFiscale: this.userForm?.get('cittadino')?.get('codiceFiscale')?.value,
-        genere: this.userForm?.get('cittadino')?.get('genere')?.value,
-        cittadinanza: this.userForm?.get('cittadino')?.get('cittadinanza')?.value,
-        dataDiNascita: this.userData.cittadino.dataDiNascita,
-      }
-    }
+    
+    })
+    this.userForm.controls['cittadino'].patchValue({
+      dataDiNascita: this.userData.cittadino.dataDiNascita,
+      createDate: this.userData.cittadino.createDate,
+      lastUpdateDate: this.userData.cittadino.lastUpdateDate,
+    })
+    
+    const data = this.userForm.getRawValue()
+
+     /* console.log(data); */
  
     if (!this.userForm.valid) {
       return;

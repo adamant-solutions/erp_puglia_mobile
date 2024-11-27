@@ -14,9 +14,9 @@ export interface Cittadino {
   genere: string
   cittadinanza: string
   dataDiNascita: string
-  residenza: Residenza
-  contatti: Contatti
-  luogo_nascita: LuogoNascita
+  residenza?: Residenza
+  contatti?: Contatti
+  luogo_nascita?: LuogoNascita
 }
 
 export interface Residenza {

@@ -62,74 +62,82 @@
                   formControlName="lastUpdateDate"></ion-input>
               </ion-item>
 
-              <!--       <div formGroupName="luogo_nascita">
-                              <ion-item>
-                                <ion-input label="Comune" labelPlacement="floating" placeholder="Comune"
-                                           formControlName="comune"></ion-input>
-                              </ion-item>
-              
-                              <ion-item>
-                                <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
-                                           formControlName="provincia"></ion-input>
-                              </ion-item>
-                              <ion-item>
-                                <ion-input label="Stato" labelPlacement="floating" placeholder="Stato"
-                                           formControlName="stato"></ion-input>
-                              </ion-item>
-                            </div> -->
+              <div formGroupName="luogo_nascita">
+                <ion-item>
+                  <ion-input label="Comune" labelPlacement="floating" placeholder="Comune"
+                    formControlName="comune"></ion-input>
+                </ion-item>
 
+                <ion-item>
+                  <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
+                    formControlName="provincia"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Stato" labelPlacement="floating" placeholder="Stato"
+                    formControlName="stato"></ion-input>
+                </ion-item>
+              </div>
+
+              <div formGroupName="residenza">
+                <ion-item-divider>
+                  <ion-label> Residenza </ion-label>
+                </ion-item-divider>
+                <ion-item>
+                  <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
+                    placeholder="Indirizzo"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
+                    placeholder="Civico"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="CAP" labelPlacement="floating" formControlName="cap" placeholder="cap"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comuneResidenza"
+                    placeholder="Indirizzo"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Provinica Residenza" labelPlacement="floating" formControlName="provinciaResidenza"
+                    placeholder="Provinica Residenza"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="statoResidenza"
+                    placeholder="Stato Residenza"></ion-input>
+                </ion-item>
+              </div>
+
+
+
+              <div formGroupName="contatti">
+                <ion-item-divider>
+                  <ion-label> Contatti </ion-label>
+                </ion-item-divider>
+                <ion-item>
+                  <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
+                    placeholder="Telefono"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"
+                    placeholder="Cellulare"></ion-input>
+                </ion-item>
+
+
+                <ion-item>
+                  <ion-input label="Email" labelPlacement="floating" formControlName="email"
+                    placeholder="Email"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input label="Pec" labelPlacement="floating" formControlName="pec" placeholder="Pec"></ion-input>
+                </ion-item>
+
+              </div>
             </ion-item-group>
 
-            <!--       <ion-item-group formGroupName="residenza">
-              <ion-item-divider>
-                <ion-label> Residenza </ion-label>
-              </ion-item-divider>
-              <ion-item>
-                <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
-                           placeholder="Indirizzo"></ion-input>
-              </ion-item>
 
-              <ion-item>
-                <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
-                           placeholder="Civico"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="CAP" labelPlacement="floating" formControlName="cap" placeholder="cap"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comune_residenza"
-                           placeholder="Indirizzo"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Provinica Residenza" labelPlacement="floating" formControlName="provincia_residenza"
-                           placeholder="Provinica Residenza"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="stato_residenza"
-                           placeholder="Stato Residenza"></ion-input>
-              </ion-item>
-            </ion-item-group> -->
-
-            <!--       <ion-item-group formGroupName="contatti">
-              <ion-item-divider>
-                <ion-label> Contatti </ion-label>
-              </ion-item-divider>
-              <ion-item>
-                <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
-                           placeholder="Telefono"></ion-input>
-              </ion-item>
-
-              <ion-item>
-                <ion-input label="Email" labelPlacement="floating" formControlName="email"
-                           placeholder="Email"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Pec" labelPlacement="floating" formControlName="pec" placeholder="Pec"></ion-input>
-              </ion-item>
-
-            </ion-item-group> 
-
-            <ion-item-group formArrayName="documenti_identita">
+            <!--           <ion-item-group formArrayName="documenti_identita">
               <ion-item-divider>
                 <ion-label> Documenti Identita </ion-label>
               </ion-item-divider>
