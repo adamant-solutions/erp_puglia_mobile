@@ -20,7 +20,8 @@ export class AppComponent {
     {title: 'Ciclo passivo', url: 'ciclo-passivo'} // Passive cycle
   ];
 
-  constructor(public menuController: MenuController, private router: Router) {
+  constructor(public menuController: MenuController,
+              private router: Router) {
   }
 
   goProfile() {
