@@ -20,7 +20,7 @@
 
     <!-- searchBar section -->
 
-    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"></ion-searchbar>
+    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca" [value]="searchCFParam"></ion-searchbar>
     <!-- list patrimonio section -->
     <ion-list role="feed">
       <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
@@ -68,6 +68,12 @@
       </ion-buttons>
     </div>
 </div>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary" (click)="openAdvancedSearch()">
+    <ion-icon name="search"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 </ion-content>
 

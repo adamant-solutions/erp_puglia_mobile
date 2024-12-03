@@ -95,13 +95,17 @@ ion-searchbar.custom-search-bar {
   background-color: var(--ion-background-color);
 }
 
+.custom-pagination ion-button {
+  color: var(--ion-color-primary);
+}
+
 .current-page {
   background: var(--ion-color-primary);
   border: 1px solid var(--ion-color-primary);
   color: #ffffff;
-  padding: 0.7rem;
-  width: 3rem;
-  height: 3rem;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
   text-align: center;
   font-weight: bold;
   border-radius: 2rem;

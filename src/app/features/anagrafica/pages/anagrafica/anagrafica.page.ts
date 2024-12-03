@@ -1,7 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {InfiniteScrollCustomEvent} from '@ionic/angular';
+import { ModalController} from '@ionic/angular';
 import {Anagrafica} from 'src/app/core/models/anagrafica.model';
+import { AnagraficaSearchParams } from 'src/app/core/resolvers/anagrafica.resolver';
+import { SearchModalComponent } from '../../components/search-modal/search-modal.component';
+import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
+
 
 @Component({
   selector: 'app-anagrafica',
@@ -17,16 +21,23 @@ export class AnagraficaPage implements OnInit {
   hasMorePages = true;
   itemsPerPage = 10;
   searchCFParam = '';
+  searchNomeParam = '';
+  searchCognomeParam = '';
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  constructor(private route: ActivatedRoute,
-              private router: Router){
+  constructor( private modalController: ModalController,
+               private anagrafSrc: AnagraficaService){
   }
 
   ngOnInit() {
-      this.route.queryParams.subscribe(params => {
-        this.currentPage = params['pagina'] ? Number(params['pagina']) : 1;
-        this.getList();
-      });
+    this.route.params.subscribe(params => {
+      this.currentPage = +params['pagina'] || 1;
+      this.searchCFParam = params['codiceFiscale'] || '';
+      this.searchNomeParam = params['nome'] || '';
+      this.searchCognomeParam = params['cognome'] || '';
+      this.getList();
+    });
   }
 
   getList() {
@@ -42,24 +53,64 @@ export class AnagraficaPage implements OnInit {
     });
   }
 
-  handleInput(event: any) {
-    const searchItem = event.detail.value.toLowerCase();
+   handleInput(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    this.searchCFParam = searchTerm;
+    const searchParams = { ...this.route.snapshot.params };
     
-   this.results = this.anagraficaList.filter((d) => d.cittadino.codiceFiscale.toLocaleLowerCase().indexOf(searchItem) > -1);
-
-   /*  console.log(searchTerm) */
+    this.router.navigate(['/anagrafica', {
+      ...searchParams,
+      pagina: 1,
+      codiceFiscale: searchTerm
+    }]);
+  /*   
+    console.log("Handle input: ", searchTerm)
+    console.log("search object" , searchParams ) */
   }
 
-  onIonInfinite(ev: any) {
-    setTimeout(() => {
-      (ev as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
+  search(searchParams: AnagraficaSearchParams) {
+    this.anagrafSrc.getAnagraficaList(searchParams)?.subscribe({
+      next: (results) => {
+        /* console.log("Brenda search :" , results) */
+          this.results = [...results];
+      },
+      error: (err) => {
+        this.results = [];
+      }
+    })
   }
+
+  async openAdvancedSearch() {
+    const modal = await this.modalController.create({
+      component: SearchModalComponent,
+      componentProps: {
+        codiceFiscale: this.searchCFParam,
+        nome: this.searchNomeParam,
+        cognome: this.searchCognomeParam
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        const currentParams = { ...this.route.snapshot.params };
+        this.router.navigate(['/anagrafica', {
+          ...currentParams,
+          pagina: 1,
+          codiceFiscale: result.data.codiceFiscale,
+          nome: result.data.nome,
+          cognome: result.data.cognome
+        }]);
+      }
+    });
+
+    return await modal.present();
+  }
+
 
   
   nextPage() {
     if (this.hasMorePages) {
-      this.navigateToPage(this.currentPage + 1);
+     this.navigateToPage(this.currentPage + 1);  
     }
   }
 
@@ -70,7 +121,10 @@ export class AnagraficaPage implements OnInit {
   }
 
   private navigateToPage(page: number) {
-    this.router.navigate(['/anagrafica', { pagina: page }]);
+    const currentParams = { ...this.route.snapshot.params };
+    this.router.navigate(['/anagrafica', {
+      ...currentParams,
+      pagina: page
+    }]);
   }
-
 }

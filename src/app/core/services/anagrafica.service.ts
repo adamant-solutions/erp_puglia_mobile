@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Anagrafica } from '../models/anagrafica.model';
 import { catchError } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { AnagraficaSearchParams } from '../resolvers/anagrafica.resolver';
 /* import { HTTP } from '@awesome-cordova-plugins/http/ngx'; */
 
 @Injectable({
@@ -16,7 +17,7 @@ export class AnagraficaService {
     private platform: Platform
   ) { }
 
-  getAnagraficaList(cf?: string,pageIndex?: number) {
+  getAnagraficaList(params: AnagraficaSearchParams) {
     if (this.platform.is('hybrid')) {
       console.log("is hybrid")
       return
@@ -27,12 +28,25 @@ export class AnagraficaService {
            .catch(error => {
              throw error;
            }); */
-    
+
     }
     else {
-             return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}?codiceFiscale=${cf}&pagina=${pageIndex}`).pipe(
-              catchError(e => { throw (e) })
-            );
+      let httpParams = new HttpParams()
+        .set('pagina', (params.pagina || 1).toString())
+
+      if (params.codiceFiscale) {
+        httpParams = httpParams.set('codiceFiscale', params.codiceFiscale);
+      }
+      if (params.nome) {
+        httpParams = httpParams.set('nome', params.nome);
+      }
+      if (params.cognome) {
+        httpParams = httpParams.set('cognome', params.cognome);
+      }
+
+      return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}`, { params: httpParams }).pipe(
+        catchError(e => { throw (e) })
+      );
     }
   }
 

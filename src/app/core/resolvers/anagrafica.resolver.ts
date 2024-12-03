@@ -2,11 +2,23 @@ import { ResolveFn } from '@angular/router';
 import { AnagraficaService } from '../services/anagrafica.service';
 import { inject } from '@angular/core';
 
+export interface AnagraficaSearchParams {
+  pagina?: number;
+  codiceFiscale?: string;
+  nome?: string;
+  cognome?: string;
+}
+
 export const anagraficaResolver: ResolveFn<any> = 
 (route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
-  const page  = route.params['pagina'] || 1;
-  const codicefiscale  = route.params['codiceFiscale'] || '';
-  return anagraficaService.getAnagraficaList(codicefiscale,page)
+
+  const searchParams: AnagraficaSearchParams = {
+    pagina: route.params['pagina'] ? +route.params['pagina'] : 1,
+    codiceFiscale: route.params['codiceFiscale'] || '',
+    nome: route.params['nome'] || '',
+    cognome: route.params['cognome'] || ''
+  };
+  return anagraficaService.getAnagraficaList(searchParams)
 };
 
 export const anagraficaByIdResolver: ResolveFn<any> = 
