@@ -17,8 +17,8 @@ export interface Cittadino {
   residenza?: Residenza
   contatti?: Contatti
   luogo_nascita?: LuogoNascita
-  documenti_identita: DocumentoIdentita[],
-  altri_dettagli: AltriDettagli;
+  documenti_identita?: DocumentoIdentita[],
+  altri_dettagli?: AltriDettagli;
 }
 
 export interface Residenza {

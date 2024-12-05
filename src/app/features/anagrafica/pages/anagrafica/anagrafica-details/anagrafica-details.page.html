@@ -190,56 +190,48 @@
 
       <ion-item-group>
         <ion-item-divider>Documenti Identita</ion-item-divider>
+        <div *ngIf="!userData.cittadino.documenti_identita!.length">
+          <ion-item>
+            Nessun documento
+          </ion-item>
 
-        <!--           <div *ngFor="let doc of userData.documenti_identita; let i = index"> -->
-
-        <ion-item>
-          <ion-label>
-            <h4>Tipo Documento</h4>
-            <!--    <p>{{userData.documenti_identita.tipo_documento}}</p> -->
-            <p>-</p>
-          </ion-label>
-
-        </ion-item>
-
-
-        <ion-item>
-          <ion-label>
-            <h4>Numero Documento</h4>
-            <!--    <p>{{userData.documenti_identita.numero_documento}}</p> -->
-            <p>-</p>
-          </ion-label>
-
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h4>Data Emissione</h4>
-            <!--    <p>{{userData.documenti_identita.data_emissione}}</p> -->
-            <p>-</p>
-          </ion-label>
-
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h4>Data Scadenza</h4>
-            <!--    <p>{{userData.documenti_identita.data_scadenza}}</p> -->
-            <p>-</p>
-          </ion-label>
-
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h4>Ente emittente</h4>
-            <!--    <p>{{userData.documenti_identita.ente_emittente}}</p> -->
-            <p>-</p>
-          </ion-label>
-
-        </ion-item>
-        <!--  </div> -->
-
+        </div>
+      <div *ngIf="userData.cittadino.documenti_identita!.length">
+        <div *ngFor="let doc of userData.cittadino.documenti_identita; let i = index" style="padding-top: 16px;">
+          <ion-text class="ion-padding" style="font-weight: 600;text-decoration: underline;">Documento {{i+1}}</ion-text>
+          <ion-item>
+            <ion-label>
+              <h4>Tipo Documento</h4>
+              <p>{{doc.tipo_documento}}</p>
+      
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h4>Numero Documento</h4>
+              <p>{{doc.numero_documento}}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h4>Data Emissione</h4>
+              <p>{{doc.data_emissione | date}}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h4>Data Scadenza</h4>
+              <p>{{doc.data_scadenza | date}}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h4>Ente emittente</h4>
+              <p>{{doc.ente_emittente}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>  
       </ion-item-group>
 
       <ion-item-group>
@@ -247,8 +239,8 @@
         <ion-item>
           <ion-label>
             <h4>Stato Civile</h4>
-            <!--    <p>{{userData.altri_dettagli.stato_civile}}</p> -->
-            <p>-</p>
+              <p>{{userData.cittadino.altri_dettagli?.stato_civile || '-'}}</p>
+           
           </ion-label>
 
         </ion-item>
@@ -256,8 +248,8 @@
         <ion-item>
           <ion-label>
             <h4>Ultimo Aggiornamento</h4>
-            <!--    <p>{{userData.altri_dettagli.data_ultimo_aggiornamento}}</p> -->
-            <p>-</p>
+               <p>{{userData.cittadino.altri_dettagli?.data_ultimo_aggiornamento || '-'}}</p> 
+           
           </ion-label>
 
         </ion-item>
