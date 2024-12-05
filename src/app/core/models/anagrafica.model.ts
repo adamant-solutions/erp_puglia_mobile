@@ -17,6 +17,8 @@ export interface Cittadino {
   residenza?: Residenza
   contatti?: Contatti
   luogo_nascita?: LuogoNascita
+  documenti_identita: DocumentoIdentita[],
+  altri_dettagli: AltriDettagli;
 }
 
 export interface Residenza {
@@ -41,8 +43,14 @@ export interface Contatti {
   pec: string
 }
 
+export enum TipoDocumento {
+  CARTA_DEL_IDENTITA = "Carta d'Identità",
+  PASSAPORTO = 'Passaporto',
+  PATENTE = 'Patente',
+}
+
 export interface DocumentoIdentita {
-  tipo_documento: string;
+  tipo_documento: TipoDocumento;
   numero_documento: string;
   data_emissione: string;
   data_scadenza: string;
@@ -60,6 +68,4 @@ export interface Anagrafica {
   createDate: string
   lastUpdateDate: string
   cittadino: Cittadino;
-  documenti_identita: DocumentoIdentita[];
-  altri_dettagli: AltriDettagli;
 }

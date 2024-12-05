@@ -20,7 +20,19 @@
           </ion-item-divider>
           <ion-item>
             <ion-input label="Codice Fiscale*" labelPlacement="floating"
-                       formControlName="codiceFiscale"></ion-input>
+                       formControlName="codiceFiscale"
+                       ></ion-input>
+             <!--           <ion-note  class="ion-padding-start"
+                      *ngIf="submitted && addForm.get('cittadino.codiceFiscale')?.invalid" 
+                      color="danger"
+                    >
+                      <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['required']">
+                        Codice Fiscale è obbligatorio
+                      </span>
+                      <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['pattern']">
+                        Codice Fiscale non è valido
+                      </span>
+                    </ion-note> -->
           </ion-item>
           <ion-item>
             <ion-input label="Nome*" labelPlacement="floating" formControlName="nome"></ion-input>
@@ -32,7 +44,7 @@
 
           <ion-item>
                      <ion-input id="data_nascita" label="Data Nascita*" labelPlacement="floating"
-                                      formControlName="dataDiNascita"></ion-input> 
+                                      formControlName="dataDiNascita"  [value]="formatDisplayDataNascita()"></ion-input> 
                                       <ion-icon name="calendar-outline"></ion-icon>
           
                      <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
@@ -40,7 +52,7 @@
           							<ng-template>
           								
           									<ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito"
-          										cancelText="Annulla"  #dataNascita presentation="date" size="cover" (ionChange)="onDataChange(dataNascita.value)"
+          										cancelText="Annulla"  #dataNascita presentation="date" size="cover" (ionChange)="onDataDiNascitaChange(dataNascita.value)"
           										></ion-datetime>
           								
           							</ng-template>
@@ -77,9 +89,8 @@
             <ion-input label="Cittadinanza*" labelPlacement="floating"
                        formControlName="cittadinanza"></ion-input>
           </ion-item>
-        </ion-item-group>
-
-        <ion-item-group formGroupName="residenza">
+       
+        <div formGroupName="residenza">
           <ion-item-divider>
             <ion-label> Residenza </ion-label>
           </ion-item-divider>
@@ -107,9 +118,9 @@
             <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="statoResidenza"
                       ></ion-input>
           </ion-item>
-        </ion-item-group> 
+        </div> 
 
-      <ion-item-group formGroupName="contatti">
+      <div formGroupName="contatti">
           <ion-item-divider>
             <ion-label> Contatti </ion-label>
           </ion-item-divider>
@@ -119,6 +130,11 @@
           </ion-item>
 
           <ion-item>
+            <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"></ion-input>
+          </ion-item>
+
+
+          <ion-item>
             <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email"
                        ></ion-input>
           </ion-item>
@@ -126,9 +142,10 @@
             <ion-input label="Pec" labelPlacement="floating" formControlName="pec"></ion-input>
           </ion-item>
 
-        </ion-item-group> 
+       
+        </div> 
 <!-- Documenti Identita -->
-       <ion-item-group formArrayName="documenti_identita">
+       <div formArrayName="documenti_identita">
           <ion-item-divider>
             <ion-label> Documenti Identita </ion-label>
             <ion-button (click)="addDocumentiGroup()">Aggiungi Documenti Identita</ion-button>
@@ -136,8 +153,16 @@
           <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
 
             <ion-item>
-              <ion-input label="Tipo Documento" labelPlacement="floating" formControlName="tipo_documento"
-                         placeholder="Tipo Documento"></ion-input>
+ 
+                <ion-select aria-label="Tipo Documento" placeholder="Seleziona tipo documento" formControlName="tipo_documento"   [class.ion-invalid]="submitted && doc.get('tipo_documento')?.invalid">
+                  <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo" [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                </ion-select>
+                <ion-note 
+                *ngIf="submitted && doc.get('tipo_documento')?.invalid" 
+                color="danger"
+              >
+                Tipo documento è obbligatorio
+              </ion-note>
             </ion-item>
 
 
@@ -147,13 +172,63 @@
             </ion-item>
 
             <ion-item>
-              <ion-input label="Data Emissione" labelPlacement="floating" formControlName="data_emissione"
-                         placeholder="Data Emissione"></ion-input>
+              <ion-input 
+            id="data_emissione_{{i}}" 
+            label="Data Emissione" 
+            labelPlacement="floating" 
+            [value]="formatDisplayDateEmissione(i)"
+          ></ion-input>
+          <ion-icon name="calendar-outline"></ion-icon>
+
+          <ion-modal 
+            [keepContentsMounted]="true" 
+            [trigger]="'data_emissione_' + i" 
+            [initialBreakpoint]="1"
+            [breakpoints]="[0, 1]"
+          >
+            <ng-template>
+              <ion-datetime 
+                locale="it-IT" 
+                [showDefaultButtons]="true" 
+                doneText="Finito"
+                cancelText="Annulla"  
+                presentation="date" 
+                size="cover" 
+                (ionChange)="onDataEmissioneChange($event.detail.value, i)"
+              ></ion-datetime>
+            </ng-template>
+          </ion-modal>
             </ion-item>
  
             <ion-item>
-              <ion-input label="Data Scadenza" labelPlacement="floating" formControlName="data_scadenza"
-                         placeholder="Data Scadenza"></ion-input>
+      
+              <ion-input 
+            id="data_scadenza_{{i}}" 
+            label="Data Scadenza" 
+            labelPlacement="floating" 
+            [value]="formatDisplayDateScadenza(i)"
+          ></ion-input>
+          <ion-icon name="calendar-outline"></ion-icon>
+
+          <ion-modal 
+            [keepContentsMounted]="true" 
+            [trigger]="'data_scadenza_' + i" 
+            [initialBreakpoint]="1"
+            [breakpoints]="[0, 1]"
+          >
+            <ng-template>
+              <ion-datetime 
+                locale="it-IT" 
+                [showDefaultButtons]="true" 
+                doneText="Finito"
+                cancelText="Annulla"  
+                presentation="date" 
+                size="cover" 
+                (ionChange)="onDataScadenzaChange($event.detail.value, i)"
+              ></ion-datetime>
+            </ng-template>
+          </ion-modal>
+          
             </ion-item>
 
             <ion-item>
@@ -170,9 +245,9 @@
           </div>
           
         
-        </ion-item-group> 
+        </div> 
 
-        <ion-item-group formGroupName="altri_dettagli">
+        <div formGroupName="altri_dettagli">
 
           <ion-item-divider>
             <ion-label> Altri Dettagli </ion-label>
@@ -186,7 +261,7 @@
             <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
                        formControlName="data_ultimo_aggiornamento"></ion-input>
           </ion-item>
-
+        </div>
         </ion-item-group>
 
 
