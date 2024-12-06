@@ -16,186 +16,333 @@
 
       <ion-card-content class="ion-no-padding">
 
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-          <ion-list>
-            <ion-item-group formGroupName="cittadino">
-              <ion-item-divider>
-                <ion-label> Cittadino </ion-label>
-              </ion-item-divider>
-              <ion-item>
-                <ion-input label="Codice Fiscale *" labelPlacement="floating" placeholder="Codice Fiscale"
-                  formControlName="codiceFiscale"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Nome *" labelPlacement="floating" placeholder="Nome"
-                  formControlName="nome"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Cognome *" labelPlacement="floating" placeholder="Cognome"
-                  formControlName="cognome"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Data Nascita" labelPlacement="floating" placeholder="Data di Nascita"
-                  formControlName="dataDiNascita"></ion-input>
-              </ion-item>
+        <form #anagraficaForm="ngForm" (ngSubmit)="onSubmit()">
+          <!--  [navigation]="false" [pagination]="{ type: 'fraction' }" [allowTouchMove]="false" -->
+          <swiper-container #swiper>
+            <swiper-slide>
+              <ng-container *ngIf="currentSlide === 0">
+                <ion-list>
+                  <ion-item-group>
+                    <ion-item-divider>
+                      <ion-label> Cittadino </ion-label>
+                    </ion-item-divider>
 
-              <ion-item>
-                <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
-                  <ion-select-option value="M">M</ion-select-option>
-                  <ion-select-option value="F">F</ion-select-option>
-                  <ion-select-option value="N">Nonbinario</ion-select-option>
-                </ion-select>
+                    <ion-item>
+                      <ion-input label="Codice Fiscale *" labelPlacement="floating" placeholder="Codice Fiscale"
+                        name="codiceFiscale" [(ngModel)]="formData.cittadino.codiceFiscale" required></ion-input>
+                    </ion-item>
 
-                <!--  <ion-input label="Genere *" labelPlacement="floating" placeholder="Genere"
-                  formControlName="genere"></ion-input> -->
-              </ion-item>
-              <ion-item>
-                <ion-input label="Cittadinanza *" labelPlacement="floating" placeholder="Cittadinanza"
-                  formControlName="cittadinanza"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
-                  formControlName="createDate"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
-                  formControlName="lastUpdateDate"></ion-input>
-              </ion-item>
+                    <ion-item>
+                      <ion-input label="Nome *" labelPlacement="floating" placeholder="Nome" name="nome"
+                        [(ngModel)]="formData.cittadino.nome" required></ion-input>
+                    </ion-item>
 
-              <div formGroupName="luogo_nascita">
-                <ion-item>
-                  <ion-input label="Comune" labelPlacement="floating" placeholder="Comune"
-                    formControlName="comune"></ion-input>
-                </ion-item>
+                    <ion-item>
+                      <ion-input label="Cognome *" labelPlacement="floating" placeholder="Cognome" name="cognome"
+                        [(ngModel)]="formData.cittadino.cognome" required></ion-input>
+                    </ion-item>
 
-                <ion-item>
-                  <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
-                    formControlName="provincia"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Stato" labelPlacement="floating" placeholder="Stato"
-                    formControlName="stato"></ion-input>
-                </ion-item>
-              </div>
+                    <ion-item>
+                      <ion-input label="Data Nascita" labelPlacement="floating" placeholder="Data di Nascita"
+                        name="dataDiNascita" [(ngModel)]="formData.cittadino.dataDiNascita"></ion-input>
+                    </ion-item>
 
-              <div formGroupName="residenza">
-                <ion-item-divider>
-                  <ion-label> Residenza </ion-label>
-                </ion-item-divider>
-                <ion-item>
-                  <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
-                    placeholder="Indirizzo"></ion-input>
-                </ion-item>
+                    <ion-item>
+                      <ion-select label="Genere" labelPlacement="floating" name="genere"
+                        [(ngModel)]="formData.cittadino.genere" required>
+                        <ion-select-option value="M">M</ion-select-option>
+                        <ion-select-option value="F">F</ion-select-option>
+                        <ion-select-option value="N">Nonbinario</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
+                        name="dataCreato" [(ngModel)]="formData.cittadino.createDate" disabled></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
+                        name="ultimamodifica" [(ngModel)]="formData.cittadino.lastUpdateDate" disabled></ion-input>
+                    </ion-item>
 
-                <ion-item>
-                  <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
-                    placeholder="Civico"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="CAP" labelPlacement="floating" formControlName="cap" placeholder="cap"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comuneResidenza"
-                    placeholder="Indirizzo"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Provinica Residenza" labelPlacement="floating" formControlName="provinciaResidenza"
-                    placeholder="Provinica Residenza"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="statoResidenza"
-                    placeholder="Stato Residenza"></ion-input>
-                </ion-item>
-              </div>
+                    <ion-item>
+                      <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
+                        [(ngModel)]="formData.cittadino.luogo_nascita.comune"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia" name="provincia"
+                        [(ngModel)]="formData.cittadino.luogo_nascita.provincia"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato"
+                        [(ngModel)]="formData.cittadino.luogo_nascita.stato"></ion-input>
+                    </ion-item>
+                  </ion-item-group>
+                </ion-list>
+              </ng-container>
+            </swiper-slide>
+
+            <swiper-slide>
+              <ng-container *ngIf="currentSlide === 1">
+                <ion-list>
+                  <ion-item-group>
+
+                    <ion-item-divider>
+                      <ion-label> Residenza </ion-label>
+                    </ion-item-divider>
+                    <ion-item>
+                      <ion-input label="Indirizzo" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.indirizzo" name="indirizzo"
+                        placeholder="Indirizzo"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-input label="Civico" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.civico"  name="civico"
+                        placeholder="Civico"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="CAP" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.cap"  name="cap"
+                        placeholder="cap"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Comune Residenza" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.comuneResidenza"  name="comune"
+                        placeholder="Indirizzo"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Provinica Residenza" labelPlacement="floating"
+                        [(ngModel)]="formData.cittadino.residenza.provinciaResidenza" placeholder="Provinica Residenza"  name="provincia"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Stato Residenza" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.statoResidenza"  name="stato"
+                        placeholder="Stato Residenza"></ion-input>
+                    </ion-item>
+                  </ion-item-group>
+                </ion-list>
+              </ng-container>
+            </swiper-slide>
+
+            <swiper-slide>
+              <ng-container *ngIf="currentSlide === 2">
+                <ion-list>
+                  <ion-item-group>
+                    <ion-item-divider>
+                      <ion-label> Contatti </ion-label>
+                    </ion-item-divider>
+                    <ion-item>
+                      <ion-input label="Telefono" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.telefono"  name="telefono"
+                        placeholder="Telefono"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Cellulare" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.cellulare" name="cellulare"
+                        placeholder="Cellulare"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Email" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.email" name="email"
+                        placeholder="Email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-input label="Pec" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.pec" name="pec"
+                        placeholder="Pec"></ion-input>
+                    </ion-item>
+                  </ion-item-group>
+                </ion-list>
+              </ng-container>
+            </swiper-slide>
+
+ 
+<swiper-slide>
+  <ng-container *ngIf="currentSlide === 3">
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>Documenti Identita</ion-label>
+          <ion-button (click)="addDocumentoIdentita()">Aggiungi Documento</ion-button>
+        </ion-item-divider>
+  
+        <div *ngFor="let doc of documenti; let i = index">
+          <ion-item>
+            <ion-select 
+              label="Tipo Documento" 
+              labelPlacement="floating" 
+              name="tipoDocumento_{{i}}"
+              placeholder="Seleziona tipo documento"
+              [(ngModel)]="doc.tipo_documento" 
+              required
+              #tipoDocumento="ngModel"
+            >
+              <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
+                [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input 
+              label="Numero Documento" 
+              labelPlacement="floating" 
+              name="numeroDocumento_{{i}}"
+              [(ngModel)]="doc.numero_documento" 
+              required
+              #numeroDocumento="ngModel"
+              placeholder="Numero Documento"
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input 
+              id="data_emissione_{{i}}" 
+              label="Data Emissione *" 
+              labelPlacement="floating" 
+              name="dataEmissione_{{i}}"
+              [(ngModel)]="doc.data_emissione"
+              readonly
+              required
+              #dataEmissione="ngModel"
+              
+            ></ion-input>
+            
+            <ion-icon 
+              name="calendar-outline" 
+              [id]="'data_emissione_' + i"
+              button 
+            ></ion-icon>
+          
+            <ion-modal 
+              [keepContentsMounted]="true" 
+              [trigger]="'data_emissione_' + i" 
+              [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]"
+              [cssClass]="'bottom-modal'"
+            >
+              <ng-template>
+                <ion-datetime 
+                  locale="it-IT"
+                  [showDefaultButtons]="true" 
+                  doneText="Conferma"
+                  cancelText="Annulla"  
+                  presentation="date" 
+                  size="cover"
+                  #dataEmissione     
+                  (ionChange)="onDataEmissioneChange($event.detail.value, i)"
+                >
+                <span slot="title">Seleziona Data Emissione</span></ion-datetime>
+               
+              </ng-template>
+            </ion-modal>
+          </ion-item>
+          
+      
+          <ion-item>
+            <ion-input 
+              id="data_scadenza_{{i}}" 
+              label="Data Scadenza" 
+              labelPlacement="floating" 
+              name="dataScadenza_{{i}}"
+              [(ngModel)]="doc.data_scadenza"
+              readonly
+              required
+              #dataScadenza="ngModel"
+            ></ion-input>
+            <ion-icon 
+              name="calendar-outline" 
+              [id]="'data_scadenza_' + i"
+              button 
+            ></ion-icon>
+          
+            <ion-modal 
+              [keepContentsMounted]="true" 
+              [trigger]="'data_scadenza_' + i" 
+              [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]"
+              [cssClass]="'bottom-modal'"
+            >
+              <ng-template>
+                <ion-datetime 
+                  locale="it-IT"
+                  [showDefaultButtons]="true" 
+                  doneText="Conferma"
+                  cancelText="Annulla"  
+                  presentation="date" 
+                  size="cover"
+                  #dataScandeza
+                  (ionChange)="onDataScadenzaChange($event.detail.value, i)"
+                >
+                <span slot="title">Seleziona Data Scadenza</span>
+              </ion-datetime>
+              </ng-template>
+            </ion-modal>
+
+       <!--      <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
+            [breakpoints]="[0, 1]">
+            
+          </ion-modal>  -->
 
 
+          </ion-item>
 
-              <div formGroupName="contatti">
-                <ion-item-divider>
-                  <ion-label> Contatti </ion-label>
-                </ion-item-divider>
-                <ion-item>
-                  <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
-                    placeholder="Telefono"></ion-input>
-                </ion-item>
+          <ion-item>
+            <ion-input 
+              label="Ente emittente" 
+              labelPlacement="floating"
+              name="enteEmittente_{{i}}"
+              [(ngModel)]="doc.ente_emittente" 
+              required
+              #enteEmittente="ngModel"
+              placeholder="Ente emittente"
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item lines="none">
+            <ion-button color="danger" (click)="removeDocumentoIdentita(i)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+      </ion-item-group>
 
-                <ion-item>
-                  <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"
-                    placeholder="Cellulare"></ion-input>
-                </ion-item>
-
-
-                <ion-item>
-                  <ion-input label="Email" labelPlacement="floating" formControlName="email"
-                    placeholder="Email"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-input label="Pec" labelPlacement="floating" formControlName="pec" placeholder="Pec"></ion-input>
-                </ion-item>
-
-              </div>
-            </ion-item-group>
-
-
-            <!--           <ion-item-group formArrayName="documenti_identita">
-              <ion-item-divider>
-                <ion-label> Documenti Identita </ion-label>
-              </ion-item-divider>
-              <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
-
-                <ion-item>
-                  <ion-input label="Tipo Documento" labelPlacement="floating" formControlName="tipo_documento"
-                             placeholder="Tipo Documento"></ion-input>
-                </ion-item>
-
-
-                <ion-item>
-                  <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
-                             placeholder="Numero Documento"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                  <ion-input label="Data Emissione" labelPlacement="floating" formControlName="data_emissione"
-                             placeholder="Data Emissione"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                  <ion-input label="Data Scadenza" labelPlacement="floating" formControlName="data_scadenza"
-                             placeholder="Data Scadenza"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                  <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
-                             placeholder="Ente emittente"></ion-input>
-                </ion-item>
-              </div>
-
-            </ion-item-group>
-
+  </ng-container>
+</swiper-slide>
+<!--
             <ion-item-group formGroupName="altri_dettagli">
 
               <ion-item-divider>
                 <ion-label> Altri Dettagli </ion-label>
               </ion-item-divider>
               <ion-item>
-                <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"
+                <ion-input label="Stato Civile" labelPlacement="floating" [(ngModel)]="formData.cittadino.altri_dettaglistato_civile"
                            placeholder="Stato Civile"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
-                           formControlName="data_ultimo_aggiornamento" placeholder="Ultimo Aggiornamento"></ion-input>
+                           [(ngModel)]="formData.cittadino.altri_dettaglidata_ultimo_aggiornamento" placeholder="Ultimo Aggiornamento"></ion-input>
               </ion-item>
 
             </ion-item-group>-->
 
+            <!-- 
+            </ion-list>
+ -->
+          </swiper-container>
 
-          </ion-list>
+          <div class="ion-padding navigation-buttons">
+            <ion-button class="custom-back-button" *ngIf="currentSlide !== 0" fill="outline" (click)="prevSlide()"><!--  [disabled]="currentSlide === 0" -->
+              Indietro
+            </ion-button>
 
-          <div class="ion-padding">
-            <ion-button type="submit">Invia</ion-button>
-            <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+            <ion-button  class="cancel-button" fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+
+            <ion-button  class="custom-next-button"  *ngIf="currentSlide !== slides.length - 1"  (click)="nextSlide()"><!--  [disabled]="currentSlide === slides.length - 1" -->
+             Avanti
+            </ion-button>
+
           </div>
+
+           <div class="ion-padding" style="
+            display: flex;
+            flex-direction: column;
+            padding-top: 0;
+        ">
+            <ion-button type="submit" class="submit-button"  *ngIf="currentSlide === slides.length - 1">Invia</ion-button>
+          
+          </div> 
         </form>
 
       </ion-card-content>

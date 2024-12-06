@@ -1,10 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Anagrafica } from 'src/app/core/models/anagrafica.model';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { SwiperContainer } from 'swiper/element';
+
 
 @Component({
   selector: 'app-modifica-anagrafica',
@@ -16,141 +19,318 @@ export class ModificaAnagraficaPage implements OnInit {
   userData!: Anagrafica;
   userForm!: FormGroup;
   errorMsg = '';
+  formData: any = {};
+  documenti: any//[] = [];
+  tipoDocuments = Object.values(TipoDocumento);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  constructor(private fb: FormBuilder,
+  @ViewChild('swiper') swiper!: any/* ElementRef<SwiperContainer> */;
+  @ViewChild('anagraficaForm') anagraficaForm!: NgForm;
+  currentSlide = 0;
+
+  slides = [
+    'cittadino',
+    'residenza',
+    'contatti',
+    'documenti_identita'
+  ];
+
+  constructor(
     private datePipe: DatePipe,
-    private route: ActivatedRoute,
     private anagraficaSrv: AnagraficaService,
-    private msgService: MessagesService) {
-  }
+    private msgService: MessagesService,
+    private alertController: AlertController) { }
+
 
   ngOnInit() {
     this.route.data.subscribe({
       next: (data) => {
         this.userData = data['anagraficaByIdResolver']
-      /*   console.log(this.userData) */
+        this.initializeForm();
+        /*   console.log(this.userData) */
       },
       error: (err) => {
         console.log(err)
       }
     });
-   // console.log(this.userData);
-    this.initializeForm();
-    /* console.log(this.userForm.value);  */
+
+
+    if (this.swiper) {
+      //parameters
+      Object.assign(this.swiper.nativeElement, {
+        navigation: false,
+        pagination: { type: 'fraction' },
+        allowTouchMove: false
+      });
+      this.swiper.nativeElement.initialize();
+    }
+    /*  console.log(this.swiper); */
+
   }
+
 
   initializeForm() {
-    const formattedDataNascita = this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy');
-    const formattedDataCreato = this.datePipe.transform(this.userData.createDate, 'dd/MM/yyyy');
-    const formattedDataModificato = this.datePipe.transform(this.userData.lastUpdateDate, 'dd/MM/yyyy');
-    /*  const formattedDataUltimoAggiornamento = this.datePipe.transform(this.userData.altri_dettagli.data_ultimo_aggiornamento, 'dd/MM/yyyy'); */
-
-    this.userForm = this.fb.group({
+    this.formData = {
       id: this.userData.id,
-      createDate: [{ value: formattedDataCreato, disabled: true }],
-      lastUpdateDate: [{ value: formattedDataModificato, disabled: true }],
-      cittadino: this.fb.group({
-        id: [{ value: this.userData.cittadino.id, disabled: false }, Validators.required],
-        codiceFiscale: [{ value: this.userData.cittadino.codiceFiscale, disabled: false },Validators.required],
-        nome: [{ value: this.userData.cittadino.nome, disabled: false }, Validators.required],
-        cognome: [{ value: this.userData.cittadino.cognome, disabled: false }, Validators.required],
-        dataDiNascita: [{ value: formattedDataNascita, disabled: true },Validators.required],
-        luogo_nascita: this.fb.group({
-           comune: [{ value: this.userData.cittadino?.luogo_nascita?.comune, disabled: false }],
-           provincia: [{ value: this.userData.cittadino?.luogo_nascita?.provincia, disabled: false }],
-           stato: [{ value: this.userData.cittadino?.luogo_nascita?.stato, disabled: false }],
-         }),
-        genere: [{ value: this.userData.cittadino.genere, disabled: false }, Validators.required],
-        cittadinanza: [{ value: this.userData.cittadino.cittadinanza, disabled: false }, Validators.required],
-        createDate: [{ value: formattedDataCreato, disabled: true }, Validators.required],
-        lastUpdateDate: [{ value: formattedDataModificato, disabled: true }, Validators.required],
-        residenza: this.fb.group({
-          id: this.userData.cittadino?.residenza?.id,
-          indirizzo: [{ value: this.userData.cittadino?.residenza?.indirizzo , disabled: false }],
-          civico: [{ value: this.userData.cittadino?.residenza?.civico , disabled: false }],
-          cap: [{ value: this.userData.cittadino?.residenza?.cap, disabled: false }],
-          comuneResidenza: [{ value: this.userData.cittadino?.residenza?.comuneResidenza, disabled: false }],
-          provinciaResidenza: [{ value: this.userData.cittadino?.residenza?.provinciaResidenza, disabled: false }],
-          statoResidenza: [{ value: this.userData.cittadino?.residenza?.statoResidenza, disabled: false }],
-          createDate: [{ value: this.userData.cittadino?.residenza?.createDate, disabled: false }],
-          lastUpdateDate: [{ value: this.userData.cittadino?.residenza?.lastUpdateDate, disabled: false}],
-        }),
-        contatti: this.fb.group({
-          id: this.userData.cittadino?.contatti?.id,
-          telefono: [{ value: this.userData.cittadino?.contatti?.telefono, disabled: false }],
-          cellulare: [{ value: this.userData.cittadino?.contatti?.cellulare, disabled: false }],
-          email: [{ value: this.userData.cittadino?.contatti?.email, disabled: false }],
-          pec: [{ value: this.userData.cittadino?.contatti?.pec, disabled: false }],
-          createDate: [{ value: this.userData.cittadino?.contatti?.createDate, disabled: false }],
-          lastUpdateDate: [{ value: this.userData.cittadino?.contatti?.lastUpdateDate, disabled: false}],
-        }),
-      }),
-      /* 
-       documenti_identita: this.fb.array(
-         this.userData.documenti_identita.map(doc => this.fb.group({
-           tipo_documento: [doc.tipo_documento],
-           numero_documento: [doc.numero_documento],
-           data_emissione: [this.datePipe.transform(doc.data_emissione, 'dd/MM/yyyy')],
-           data_scadenza: [this.datePipe.transform(doc.data_scadenza, 'dd/MM/yyyy')],
-           ente_emittente: [doc.ente_emittente]
-         }))),
-       altri_dettagli: this.fb.group({
-         stato_civile: [this.userData.altri_dettagli.stato_civile],
-         data_ultimo_aggiornamento: [formattedDataUltimoAggiornamento],
-       }), */
+      createDate: this.datePipe.transform(this.userData.createDate, 'dd/MM/yyyy'),
+      lastUpdateDate: this.datePipe.transform(this.userData.lastUpdateDate, 'dd/MM/yyyy'),
+      cittadino: {
+        id: this.userData.cittadino.id,
+        codiceFiscale: this.userData.cittadino.codiceFiscale,
+        nome: this.userData.cittadino.nome,
+        cognome: this.userData.cittadino.cognome,
+        dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy'),
+        luogo_nascita: {
+          comune: this.userData.cittadino?.luogo_nascita?.comune || '',
+          provincia: this.userData.cittadino?.luogo_nascita?.provincia || '',
+          stato: this.userData.cittadino?.luogo_nascita?.stato || ''
+        },
+        genere: this.userData.cittadino.genere,
+        cittadinanza: this.userData.cittadino.cittadinanza,
+        createDate: this.datePipe.transform(this.userData.cittadino.createDate, 'dd/MM/yyyy'),
+        lastUpdateDate: this.datePipe.transform(this.userData.cittadino.lastUpdateDate, 'dd/MM/yyyy'),
+        residenza: this.userData.cittadino?.residenza || {},
+        contatti: this.userData.cittadino?.contatti || {},
+        documenti_identita: this.userData.cittadino?.documenti_identita || []
+      }
+    };
 
-    })
-    //  this.userForm.disable();
-
+    this.documenti = this.formData.cittadino.documenti_identita.length > 0 
+    ? this.userData.cittadino?.documenti_identita?.map(doc => ({
+        ...doc,
+        data_emissione: this.formatDateForDisplay(doc.data_emissione),
+        data_scadenza: this.formatDateForDisplay(doc.data_scadenza)
+      }))
+    : [];
+  /* 
+    console.log(this.documenti) */
   }
 
-  get documentiIdentitaForms() {
-    return (this.userForm.get('documenti_identita') as FormArray).controls;
+   // Format date to DD-MM-YYYY
+   formatDateToDDMMYYYY(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    
+    return `${day}-${month}-${year}`;
+  }
+  
+
+   formatDateForDisplay(date: string | null): string {
+    if (!date) return '';
+    const dateObj = new Date(date);
+   // console.log(this.formatDateToDDMMYYYY(dateObj));
+    
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const year = dateObj.getFullYear();
+    //console.log(`${day}-${month}-${year}`)
+    return `${day}-${month}-${year}`;
+   
+  }
+           
+  onDataEmissioneChange(selectedDate: any, index: number) {
+    if (!selectedDate) return;
+    const dateObj = new Date(selectedDate);
+    this.documenti[index].data_emissione = this.formatDateForDisplay(dateObj.toISOString());
   }
 
-  cancelModifiedInputs() {
-  this.initializeForm()
+  onDataScadenzaChange(selectedDate: any, index: number) {
+    if (!selectedDate) return;
+    const dateObj = new Date(selectedDate);
+    this.documenti[index].data_scadenza = this.formatDateForDisplay(dateObj.toISOString());
   }
+
+
+    addDocumentoIdentita() {
+      this.documenti.push({
+        tipo_documento: null,
+        numero_documento: null,
+        data_emissione: null,
+        data_scadenza: null,
+        ente_emittente: null
+      });
+    }
+
+    removeDocumentoIdentita(index: number) {
+      this.documenti.splice(index, 1);
+    }
+
+    isDocumentTypeDisabled(currentIndex: number, documentType: string): boolean {
+      //debugger
+      return this.documenti.some((doc:any,index:any) => 
+        index !== currentIndex && 
+        doc.tipo_documento === documentType
+        
+      );
+    }
+    
+
+  nextSlide() {
+      if (this.currentSlide < this.slides.length - 1) {
+        this.currentSlide++;
+       /*   this.swiper.nativeElement.slideNext(); */
+      }
+  }
+
+    prevSlide() {
+      if (this.currentSlide > 0) {
+        this.currentSlide--;
+        /* this.swiper.nativeElement.swiper.slidePrev(); */
+      }
+    }
+
+
+    async cancelModifiedInputs() {
+      const alert = await this.alertController.create({
+        header: 'Annulla Modifiche',
+        message: 'Vuoi annullare le modifiche per questa sezione?',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            cssClass: 'secondary'
+          },
+          {
+            text: 'Sì',
+            handler: () => {
+              this.resetCurrentSlideData();
+            }
+          }
+        ]
+      });
+    
+      await alert.present();
+    }
+    
+    resetCurrentSlideData() {
+
+        const resetData = (originalObj: any, currentObj: any) => {
+          if (!originalObj) return {};
+          const resetedObj: any = {};
+          
+          Object.keys(originalObj).forEach(key => {
+            if (typeof originalObj[key] === 'object' && originalObj[key] !== null) {
+              resetedObj[key] = resetData(originalObj[key], currentObj[key]);
+            } else {
+              resetedObj[key] = originalObj[key];
+            }
+          }); 
+          return resetedObj;
+        };
+      
+        switch (this.currentSlide) {
+          case 0: // Cittadino 
+            this.formData.cittadino = {
+              ...resetData(this.userData.cittadino, this.formData.cittadino),
+              dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy'),
+              createDate: this.datePipe.transform(this.userData.cittadino.createDate, 'dd/MM/yyyy'),
+              lastUpdateDate: this.datePipe.transform(this.userData.cittadino.lastUpdateDate, 'dd/MM/yyyy'),
+            };
+            break;
+      
+          case 1: // Residenza 
+            this.formData.cittadino.residenza = resetData(
+              this.userData.cittadino?.residenza || {}, 
+              this.formData.cittadino.residenza
+            );
+            break;
+      
+          case 2: // Contatti 
+            this.formData.cittadino.contatti = resetData(
+              this.userData.cittadino?.contatti || {}, 
+              this.formData.cittadino.contatti
+            );
+            break;
+
+            case 3: // Documenti Identita 
+            this.documenti = this.userData.cittadino?.documenti_identita
+        ? this.userData.cittadino.documenti_identita.map(doc => ({
+            ...doc,
+            data_emissione: this.formatDateForDisplay(doc.data_emissione),
+            data_scadenza: this.formatDateForDisplay(doc.data_scadenza)
+          }))
+        : [];
+      this.formData.cittadino.documenti_identita = [...this.documenti];
+        }
+      
+    }
+
+    convertDate(inputDate: string) : any{ 
+      if (!inputDate) {
+        return;
+      }
+        try {
+          const [day, month, year] = inputDate.split('-').map(Number);
+          const dateObj = new Date(year, month - 1, day);
+          return dateObj.toISOString();
+        } catch (error) {
+          return 'Invalid Date Format';
+        }
+    }
+  
+     convertDateFormat(dateString: string) {
+      const [day, month, year] = dateString.split('/').map(Number);
+      const newDate = new Date(year, month - 1, day);
+      return newDate.toISOString().split('T')[0];
+    }
 
   onSubmit() {
-    /* console.log("After: ", this.userForm.getRawValue()) */
-    this.userForm.patchValue({
-      createDate: this.userData.createDate,
-      lastUpdateDate: this.userData.lastUpdateDate,
-    
-    })
-    this.userForm.controls['cittadino'].patchValue({
-      dataDiNascita: this.userData.cittadino.dataDiNascita,
-      createDate: this.userData.cittadino.createDate,
-      lastUpdateDate: this.userData.cittadino.lastUpdateDate,
-    })
-    
-    const data = this.userForm.getRawValue()
+    if (this.anagraficaForm.valid) {
+   /* 
+     console.log("Forma ne fillim: ", this.formData) */
+      const sendAnagraficaData = { 
+        ...this.formData,
+        cittadino: {
+          ...this.formData.cittadino,
+          dataDiNascita: this.convertDateFormat(this.formData.cittadino.dataDiNascita),
+          documenti_identita: this.documenti.map((doc: { data_emissione: string; data_scadenza: string; }) => ({
+            ...doc,
+            data_emissione: this.convertDate(doc.data_emissione),//, 'yyyy-MM-ddTHH:mm:ss.SSSZ'),
+            data_scadenza: this.convertDate(doc.data_scadenza)//this.datePipe.transform(, 'yyyy-MM-ddTHH:mm:ss.SSSZ')
+          })),
+          createDate: this.userData.cittadino.createDate,
+          lastUpdateDate: this.userData.cittadino.lastUpdateDate
+        },
+        createDate: this.userData.createDate,
+        lastUpdateDate: this.userData.lastUpdateDate
+      };
+      console.log("SEND ",sendAnagraficaData)
 
-     /* console.log(data); */
- 
-    if (!this.userForm.valid) {
-      return;
-    }
-    else {
-      this.anagraficaSrv.editAnagrafica(data).subscribe({
+      this.anagraficaSrv.editAnagrafica(sendAnagraficaData).subscribe({
         next: (res) => {
           this.msgService.success("Dati salvati con successo!");
-          console.log(res)
+          console.log(res);
         },
         error: (err) => {
-          if (err.status === 500) {
-            this.errorMsg = "Errore interno del server!"
-          }
-          else if (err.status === 400){
-            this.errorMsg = err.message; 
-          }
-          else{
-            this.errorMsg = "Error!" + err.message;
-          }
-          this.msgService.error(this.errorMsg);         
-        }
-      })
+          this.handleError(err);
+        },
+      complete: ()=> {
+        this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+      }
+      }); 
+    } else {
+      this.markFormTouched();
     }
   }
+
+  private handleError(err: any) {
+    if (err.status === 500) {
+      this.errorMsg = "Errore interno del server!";
+    } else if (err.status === 400) {
+      this.errorMsg = err.message;
+    } else {
+      this.errorMsg = "Error!" + err.message;
+    }
+    this.msgService.error(this.errorMsg);
+  }
+
+  private markFormTouched() {
+    Object.keys(this.anagraficaForm.controls).forEach(key => {
+      const control = this.anagraficaForm.controls[key];
+      control.markAsTouched();
+    });
+  }
+
 }
