@@ -63,20 +63,24 @@
                       <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
                         name="ultimamodifica" [(ngModel)]="formData.cittadino.lastUpdateDate" disabled></ion-input>
                     </ion-item>
-
-                    <ion-item>
-                      <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
-                        [(ngModel)]="formData.cittadino.luogo_nascita.comune"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia" name="provincia"
-                        [(ngModel)]="formData.cittadino.luogo_nascita.provincia"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato"
-                        [(ngModel)]="formData.cittadino.luogo_nascita.stato"></ion-input>
-                    </ion-item>
+                    <div>
+                      <ion-item-divider>
+                        <ion-label>Luogo nascita</ion-label>
+                      </ion-item-divider>
+                      <ion-item>
+                        <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
+                          [(ngModel)]="formData.cittadino.luogo_nascita.comune"></ion-input>
+                      </ion-item>
+                    
+                      <ion-item>
+                        <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia" name="provincia"
+                          [(ngModel)]="formData.cittadino.luogo_nascita.provincia"></ion-input>
+                      </ion-item>
+                      <ion-item>
+                        <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato"
+                          [(ngModel)]="formData.cittadino.luogo_nascita.stato"></ion-input>
+                      </ion-item>
+                    </div>
                   </ion-item-group>
                 </ion-list>
               </ng-container>

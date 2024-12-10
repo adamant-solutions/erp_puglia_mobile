@@ -51,18 +51,32 @@
           							[breakpoints]="[0, 1]">
           							<ng-template>
           								
-          									<ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito"
+          									<ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
           										cancelText="Annulla"  #dataNascita presentation="date" size="cover" (ionChange)="onDataDiNascitaChange(dataNascita.value)"
-          										></ion-datetime>
+          										>
+                              <span slot="title">Seleziona Data di Nascita</span></ion-datetime>
           								
           							</ng-template>
-          						</ion-modal> 
-        
-            <!--    <ion-input label="Data Nascita" labelPlacement="floating"  formControlName="dataDiNascita" type="date" ></ion-input> -->
-          
+          						</ion-modal>     
                     </ion-item>
- 
+
+          <ion-item>
+            <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
+              <ion-select-option value="M">M</ion-select-option>
+              <ion-select-option value="F">F</ion-select-option>
+              <ion-select-option value="N">Nonbinario</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cittadinanza*" labelPlacement="floating"
+                       formControlName="cittadinanza"></ion-input>
+          </ion-item>
+
+           
        <div formGroupName="luogo_nascita">
+        <ion-item-divider>
+          <ion-label>Luogo nascita</ion-label>
+        </ion-item-divider>
             <ion-item>
               <ion-input label="Comune" labelPlacement="floating"
                          formControlName="comune"></ion-input>
@@ -77,18 +91,7 @@
                          formControlName="stato"></ion-input>
             </ion-item>
           </div>
-
-          <ion-item>
-            <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
-              <ion-select-option value="M">M</ion-select-option>
-              <ion-select-option value="F">F</ion-select-option>
-              <ion-select-option value="N">Nonbinario</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Cittadinanza*" labelPlacement="floating"
-                       formControlName="cittadinanza"></ion-input>
-          </ion-item>
+          
        
         <div formGroupName="residenza">
           <ion-item-divider>
@@ -144,7 +147,7 @@
 
        
         </div> 
-<!-- Documenti Identita -->
+<!-- Documenti Identita if te treja jane zgjedhur mos shto me -->
        <div formArrayName="documenti_identita">
           <ion-item-divider>
             <ion-label> Documenti Identita </ion-label>
@@ -268,8 +271,8 @@
       </ion-list>
 
       <div class="ion-padding">
-        <ion-button type="submit">Invia</ion-button>
         <ion-button fill="outline" (click)="cancelInputs()">Annulla</ion-button>
+        <ion-button type="submit">Invia</ion-button>
       </div>
     </form>
 

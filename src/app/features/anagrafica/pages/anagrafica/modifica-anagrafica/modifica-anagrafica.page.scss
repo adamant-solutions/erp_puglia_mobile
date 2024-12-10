@@ -38,7 +38,10 @@ swiper-slide {
 ion-button.md{
     --border-radius: 10px;
 }
-.bottom-modal {
+.bottom-modal{
     --height: 56%;
     --border-radius: 16px 16px 0 0;
   }
+ion-datetime{
+        height: -webkit-fill-available;
+}

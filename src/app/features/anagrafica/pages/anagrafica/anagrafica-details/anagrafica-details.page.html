@@ -62,44 +62,50 @@
 
         </ion-item>
 
-        <ion-item>
-          <ion-label>
-            <h4>Comune</h4>
-            <p>{{userData.cittadino.luogo_nascita?.comune}}</p>
+             
 
-          </ion-label>
-        </ion-item>
+      <ion-item>
+        <ion-label>
+          <h4>Data creato</h4>
+          <p>{{userData.cittadino.createDate | date}}</p>
+        </ion-label>
 
-        <ion-item>
-          <ion-label>
-            <h4>Provincia</h4>
-            <p>{{userData.cittadino.luogo_nascita?.provincia}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h4>Ultima modifica</h4>
+          <p>{{userData.cittadino.lastUpdateDate | date}}</p>
+        </ion-label>
 
-          </ion-label>
-        </ion-item>
+      </ion-item>
 
-        <ion-item>
-          <ion-label>
-            <h4>Stato</h4>
-            <p>{{userData.cittadino.luogo_nascita?.stato}}</p>
-
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h4>Data creato</h4>
-            <p>{{userData.cittadino.createDate | date}}</p>
-          </ion-label>
-
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <h4>Ultima modifica</h4>
-            <p>{{userData.cittadino.lastUpdateDate | date}}</p>
-          </ion-label>
-
-        </ion-item>
+        <div>
+          <ion-item-divider>Luogo nascita</ion-item-divider>
+          <ion-item>
+            <ion-label>
+              <h4>Comune</h4>
+              <p>{{userData.cittadino.luogo_nascita?.comune}}</p>
+  
+            </ion-label>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>
+              <h4>Provincia</h4>
+              <p>{{userData.cittadino.luogo_nascita?.provincia}}</p>
+  
+            </ion-label>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>
+              <h4>Stato</h4>
+              <p>{{userData.cittadino.luogo_nascita?.stato}}</p>
+  
+            </ion-label>
+          </ion-item>
+        </div>
+      
       </ion-item-group>
 
       <ion-item-group>
@@ -259,8 +265,12 @@
     </ion-list>
 
     <div class="ion-padding">
-      <ion-button [routerLink]="['/anagrafica/modifica-anagrafica',userData.id]">Modifica</ion-button>
-      <ion-button color="danger" (click)="onDeleteClick()">Elimina</ion-button>
+      <ion-button [routerLink]="['/anagrafica/modifica-anagrafica',userData.id]">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Modifica</ion-button>
+      <ion-button color="danger" (click)="onDeleteClick()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Elimina</ion-button>
     </div>
 
   </div>
