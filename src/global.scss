@@ -57,6 +57,13 @@ ion-searchbar.custom-search-bar {
   --border-radius: 10px;
 }
 
+ion-item-divider ion-icon{
+  color: var(--ion-color-secondary);
+  margin-inline-end: 20px;
+  font-size: 21px;
+  line-height: 21px;
+}
+
 .list-item-name {
   margin-inline-start: 10px;
 }

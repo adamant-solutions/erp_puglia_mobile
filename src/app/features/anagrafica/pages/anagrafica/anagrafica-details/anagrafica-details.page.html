@@ -19,7 +19,10 @@
 
     <ion-list>
       <ion-item-group>
-        <ion-item-divider>Cittadino</ion-item-divider>
+        <ion-item-divider>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label> Cittadino </ion-label>
+        </ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Codice Fiscale</h4>
@@ -80,7 +83,10 @@
       </ion-item>
 
         <div>
-          <ion-item-divider>Luogo nascita</ion-item-divider>
+          <ion-item-divider>
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            <ion-label>Luogo nascita</ion-label>
+          </ion-item-divider>
           <ion-item>
             <ion-label>
               <h4>Comune</h4>
@@ -109,7 +115,10 @@
       </ion-item-group>
 
       <ion-item-group>
-        <ion-item-divider>Residenza</ion-item-divider>
+        <ion-item-divider>
+          <ion-icon name="pin-outline" slot="start"></ion-icon>
+          <ion-label> Residenza </ion-label>
+        </ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Indirizzo</h4>
@@ -157,7 +166,10 @@
       </ion-item-group>
 
       <ion-item-group>
-        <ion-item-divider>Contatti</ion-item-divider>
+        <ion-item-divider>
+          <ion-icon name="call-outline" slot="start"></ion-icon>
+          <ion-label> Contatti </ion-label>
+        </ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Telefono</h4>
@@ -195,7 +207,10 @@
       </ion-item-group>
 
       <ion-item-group>
-        <ion-item-divider>Documenti Identita</ion-item-divider>
+        <ion-item-divider>
+          <ion-icon name="documents-outline" slot="start"></ion-icon>
+          <ion-label> Documenti Identita </ion-label>
+        </ion-item-divider>
         <div *ngIf="!userData.cittadino.documenti_identita!.length">
           <ion-item>
             Nessun documento
@@ -241,7 +256,10 @@
       </ion-item-group>
 
       <ion-item-group>
-        <ion-item-divider>Altri Dettagli</ion-item-divider>
+        <ion-item-divider>
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          <ion-label> Altri Dettagli </ion-label>
+        </ion-item-divider>
         <ion-item>
           <ion-label>
             <h4>Stato Civile</h4>

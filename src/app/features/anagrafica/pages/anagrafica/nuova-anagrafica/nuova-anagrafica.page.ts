@@ -30,7 +30,7 @@ export class NuovaAnagraficaPage implements OnInit {
     this.addForm = this.fb.group({
       id: -1,
       cittadino: this.fb.group({
-        codiceFiscale: ['',[Validators.required]],
+        codiceFiscale: ['',[Validators.required,Validators.pattern('[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]')]],
         nome: ['',[Validators.required, Validators.minLength(3)]],
         cognome: ['',[Validators.required, Validators.minLength(3)]],
         dataDiNascita: ['',[Validators.required]],
@@ -42,17 +42,17 @@ export class NuovaAnagraficaPage implements OnInit {
         genere: ['M',[Validators.required]],
         cittadinanza: ['',[Validators.required]],
         residenza: this.fb.group({
-          indirizzo: [],
-          civico: [],
-          cap: [],
-          comuneResidenza: [],
-          provinciaResidenza: [],
-          statoResidenza: [],
+          indirizzo: ['',[Validators.required]],
+          civico: ['',[Validators.required]],
+          cap: ['',[Validators.required]],
+          comuneResidenza: ['',[Validators.required]],
+          provinciaResidenza: ['',[Validators.required]],
+          statoResidenza: ['',[Validators.required]],
         }),
         contatti: this.fb.group({
           telefono: [],
           cellulare: [],
-          email: [],
+          email: ['',[Validators.required]],
           pec: [],
         }),
         documenti_identita: this.fb.array([]),
@@ -70,6 +70,7 @@ export class NuovaAnagraficaPage implements OnInit {
 
 
   addDocumentiGroup() {
+    const MAX_LENGTH = 3;
     const documentiGroup = this.fb.group({
       tipo_documento: [],
       numero_documento: [],
@@ -78,7 +79,10 @@ export class NuovaAnagraficaPage implements OnInit {
       ente_emittente: []
     });
 
-    (this.addForm.get('cittadino.documenti_identita') as FormArray).push(documentiGroup);
+    if(this.addForm.get('cittadino.documenti_identita')?.value.length < MAX_LENGTH){
+      (this.addForm.get('cittadino.documenti_identita') as FormArray).push(documentiGroup);
+    }
+   
   }
 
   removeDocumentiGroup(index: number) {

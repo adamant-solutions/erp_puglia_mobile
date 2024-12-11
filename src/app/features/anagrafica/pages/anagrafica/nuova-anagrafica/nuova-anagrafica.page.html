@@ -16,6 +16,7 @@
       <ion-list>
         <ion-item-group formGroupName="cittadino">
           <ion-item-divider>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-label> Cittadino </ion-label>
           </ion-item-divider>
           <ion-item>
@@ -75,6 +76,7 @@
            
        <div formGroupName="luogo_nascita">
         <ion-item-divider>
+          <ion-icon name="location-outline" slot="start"></ion-icon>
           <ion-label>Luogo nascita</ion-label>
         </ion-item-divider>
             <ion-item>
@@ -95,6 +97,7 @@
        
         <div formGroupName="residenza">
           <ion-item-divider>
+            <ion-icon name="pin-outline" slot="start"></ion-icon>
             <ion-label> Residenza </ion-label>
           </ion-item-divider>
           <ion-item>
@@ -125,6 +128,7 @@
 
       <div formGroupName="contatti">
           <ion-item-divider>
+            <ion-icon name="call-outline" slot="start"></ion-icon>
             <ion-label> Contatti </ion-label>
           </ion-item-divider>
           <ion-item>
@@ -147,12 +151,17 @@
 
        
         </div> 
-<!-- Documenti Identita if te treja jane zgjedhur mos shto me -->
+<!-- Documenti Identita -->
        <div formArrayName="documenti_identita">
           <ion-item-divider>
+            <ion-icon name="documents-outline" slot="start"></ion-icon>
             <ion-label> Documenti Identita </ion-label>
-            <ion-button (click)="addDocumentiGroup()">Aggiungi Documenti Identita</ion-button>
           </ion-item-divider>
+          <div class="ion-padding">
+            <ion-button (click)="addDocumentiGroup()" size="small">
+              <ion-icon name="add-circle-outline"></ion-icon>
+              Aggiungi Documenti Identita</ion-button>
+          </div>
           <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
 
             <ion-item>
@@ -253,6 +262,7 @@
         <div formGroupName="altri_dettagli">
 
           <ion-item-divider>
+            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
             <ion-label> Altri Dettagli </ion-label>
           </ion-item-divider>
           <ion-item>
