@@ -23,13 +23,22 @@
     <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca" [value]="searchCFParam"></ion-searchbar>
     <!-- list patrimonio section -->
     <ion-list role="feed">
-      <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
-        <ion-label *ngIf="results.length">Anagrafica</ion-label>
-        <ion-label *ngIf="!results.length" style="
-          display: flex;
-          align-items: center;
-      "><ion-icon name="warning" color="warning"></ion-icon>Nessun dato trovato</ion-label>
-      </ion-list-header>
+    <!--  <ion-list-header>  style="color: var(--ion-color-tertiary); font-size: 1rem;" -->
+    <!--     <ion-label *ngIf="results.length">Anagrafica</ion-label> -->
+         <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
+          <ion-chip color="primary" *ngIf="chip.value.length">
+            <ion-label>{{chip.value}}</ion-label>
+            <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
+          </ion-chip>
+        </span>
+       
+      <!-- </ion-list-header> -->
+    <ion-item *ngIf="!results.length">
+      <ion-label style="
+      display: flex;
+      align-items: flex-end;
+  "><ion-icon name="warning" color="warning" style="font-size: 21px;"></ion-icon>Nessun dato trovato</ion-label>
+    </ion-item>
 
      <ion-item *ngFor="let a of results" role="article">
         <ion-icon name="document-outline"></ion-icon>

@@ -23,6 +23,12 @@ export class AnagraficaPage implements OnInit {
   searchCFParam = '';
   searchNomeParam = '';
   searchCognomeParam = '';
+  searchChips = [
+    { name: 'searchCFParam', value: this.searchCFParam },
+    { name: 'searchNomeParam', value: this.searchNomeParam },
+    { name: 'searchCognomeParam', value: this.searchCognomeParam }
+  ]
+
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -36,6 +42,11 @@ export class AnagraficaPage implements OnInit {
       this.searchCFParam = params['codiceFiscale'] || '';
       this.searchNomeParam = params['nome'] || '';
       this.searchCognomeParam = params['cognome'] || '';
+      this.searchChips = [
+        { name: 'searchCFParam', value: this.searchCFParam },
+        { name: 'searchNomeParam', value: this.searchNomeParam },
+        { name: 'searchCognomeParam', value: this.searchCognomeParam }
+      ]
       this.getList();
     });
   }
@@ -106,7 +117,27 @@ export class AnagraficaPage implements OnInit {
     return await modal.present();
   }
 
+  clearInput(param: any){
+    const searchParams = { ...this.route.snapshot.params };
 
+    if(param.name === 'searchCFParam'){
+      this.searchCFParam = ""
+    }
+    else if(param.name === 'searchNomeParam'){
+      this.searchNomeParam = ""
+    }
+    else {
+      this.searchCognomeParam = ""
+    }
+
+    this.router.navigate(['/anagrafica', {
+      ...searchParams,
+      pagina: 1,
+      codiceFiscale: this.searchCFParam,
+      nome: this.searchNomeParam,
+      cognome: this.searchCognomeParam
+    }]); 
+  }
   
   nextPage() {
     if (this.hasMorePages) {
