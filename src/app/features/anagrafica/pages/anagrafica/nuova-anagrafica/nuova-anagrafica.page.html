@@ -11,270 +11,415 @@
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
 
-    
-    <form [formGroup]="addForm"  (ngSubmit)="onSubmit()">
+
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <ion-list>
+        <!-- Cittadino -->
         <ion-item-group formGroupName="cittadino">
           <ion-item-divider>
             <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-label> Cittadino </ion-label>
           </ion-item-divider>
-          <ion-item>
-            <ion-input label="Codice Fiscale*" labelPlacement="floating"
-                       formControlName="codiceFiscale"
-                       ></ion-input>
-             <!--           <ion-note  class="ion-padding-start"
-                      *ngIf="submitted && addForm.get('cittadino.codiceFiscale')?.invalid" 
-                      color="danger"
-                    >
-                      <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['required']">
-                        Codice Fiscale è obbligatorio
-                      </span>
-                      <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['pattern']">
-                        Codice Fiscale non è valido
-                      </span>
-                    </ion-note> -->
-          </ion-item>
-          <ion-item>
-            <ion-input label="Nome*" labelPlacement="floating" formControlName="nome"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Cognome*" labelPlacement="floating" 
-                       formControlName="cognome"></ion-input>
-          </ion-item>
-
-          <ion-item>
-                     <ion-input id="data_nascita" label="Data Nascita*" labelPlacement="floating"
-                                      formControlName="dataDiNascita"  [value]="formatDisplayDataNascita()"></ion-input> 
-                                      <ion-icon name="calendar-outline"></ion-icon>
-          
-                     <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
-          							[breakpoints]="[0, 1]">
-          							<ng-template>
-          								
-          									<ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
-          										cancelText="Annulla"  #dataNascita presentation="date" size="cover" (ionChange)="onDataDiNascitaChange(dataNascita.value)"
-          										>
-                              <span slot="title">Seleziona Data di Nascita</span></ion-datetime>
-          								
-          							</ng-template>
-          						</ion-modal>     
-                    </ion-item>
-
-          <ion-item>
-            <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
-              <ion-select-option value="M">M</ion-select-option>
-              <ion-select-option value="F">F</ion-select-option>
-              <ion-select-option value="N">Nonbinario</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Cittadinanza*" labelPlacement="floating"
-                       formControlName="cittadinanza"></ion-input>
-          </ion-item>
-
-           
-       <div formGroupName="luogo_nascita">
-        <ion-item-divider>
-          <ion-icon name="location-outline" slot="start"></ion-icon>
-          <ion-label>Luogo nascita</ion-label>
-        </ion-item-divider>
+          <div>
             <ion-item>
-              <ion-input label="Comune" labelPlacement="floating"
-                         formControlName="comune"></ion-input>
+              <ion-input label="Codice Fiscale*" labelPlacement="floating" formControlName="codiceFiscale"></ion-input>
+
             </ion-item>
-
+            <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.codiceFiscale')?.touched) && addForm.get('cittadino.codiceFiscale')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['required']">
+                Codice Fiscale è obbligatorio
+              </span>
+              <span *ngIf="addForm.get('cittadino.codiceFiscale')?.errors?.['pattern']">
+                Codice Fiscale non è valido
+              </span>
+            </ion-note>
+          </div>
+          <div>
             <ion-item>
-              <ion-input label="Provincia" labelPlacement="floating"
-                         formControlName="provincia"></ion-input>
+              <ion-input label="Nome*" labelPlacement="floating" formControlName="nome"></ion-input>
             </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.nome')?.touched) && addForm.get('cittadino.nome')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('cittadino.nome')?.errors?.['required']">
+                Nome è obbligatorio
+              </span>
+              <span *ngIf="addForm.get('cittadino.nome')?.errors?.['minlength']">
+                Il nome deve essere almeno 3 caratteri
+              </span>
+            </ion-note>
+          </div>
+          <div>
             <ion-item>
-              <ion-input label="Stato" labelPlacement="floating"
-                         formControlName="stato"></ion-input>
+              <ion-input label="Cognome*" labelPlacement="floating" formControlName="cognome"></ion-input>
+            </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.cognome')?.touched)  && addForm.get('cittadino.cognome')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('cittadino.cognome')?.errors?.['required']">
+                Cognome è obbligatorio
+              </span>
+              <span *ngIf="addForm.get('cittadino.nome')?.errors?.['minlength']">
+                Il cognome deve essere almeno 3 caratteri
+              </span>
+            </ion-note>
+          </div>
+          <div>
+            <ion-item>
+              <ion-input id="data_nascita" label="Data Nascita*" labelPlacement="floating"
+                formControlName="dataDiNascita" [value]="formatDisplayDataNascita()"></ion-input>
+              <ion-icon name="calendar-outline"></ion-icon>
+
+              <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
+                [breakpoints]="[0, 1]">
+                <ng-template>
+
+                  <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma" cancelText="Annulla"
+                    #dataNascita presentation="date" size="cover"
+                    (ionChange)="onDataDiNascitaChange(dataNascita.value)">
+                    <span slot="title">Seleziona Data di Nascita</span></ion-datetime>
+
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.dataDiNascita')?.touched) && addForm.get('cittadino.dataDiNascita')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('cittadino.dataDiNascita')?.errors?.['required']">
+                Data di Nascita è obbligatoria
+              </span>
+
+            </ion-note>
+          </div>
+          <div>
+            <ion-item>
+              <ion-select label="Genere" labelPlacement="floating" formControlName="genere">
+                <ion-select-option value="M">M</ion-select-option>
+                <ion-select-option value="F">F</ion-select-option>
+                <ion-select-option value="N">Nonbinario</ion-select-option>
+              </ion-select>
             </ion-item>
           </div>
-          
-       
-        <div formGroupName="residenza">
-          <ion-item-divider>
-            <ion-icon name="pin-outline" slot="start"></ion-icon>
-            <ion-label> Residenza </ion-label>
-          </ion-item-divider>
-          <ion-item>
-            <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"
-                      ></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-input label="Civico" labelPlacement="floating" formControlName="civico"
-                      ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="CAP" labelPlacement="floating" formControlName="cap"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Comune Residenza" labelPlacement="floating" formControlName="comuneResidenza"
-                       ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Provincia Residenza" labelPlacement="floating" formControlName="provinciaResidenza"
-                      ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Stato Residenza" labelPlacement="floating" formControlName="statoResidenza"
-                      ></ion-input>
-          </ion-item>
-        </div> 
-
-      <div formGroupName="contatti">
-          <ion-item-divider>
-            <ion-icon name="call-outline" slot="start"></ion-icon>
-            <ion-label> Contatti </ion-label>
-          </ion-item-divider>
-          <ion-item>
-            <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"
-                       ></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"></ion-input>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email"
-                       ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Pec" labelPlacement="floating" formControlName="pec"></ion-input>
-          </ion-item>
-
-       
-        </div> 
-<!-- Documenti Identita -->
-       <div formArrayName="documenti_identita">
-          <ion-item-divider>
-            <ion-icon name="documents-outline" slot="start"></ion-icon>
-            <ion-label> Documenti Identita </ion-label>
-          </ion-item-divider>
-          <div class="ion-padding">
-            <ion-button (click)="addDocumentiGroup()" size="small">
-              <ion-icon name="add-circle-outline"></ion-icon>
-              Aggiungi Documenti Identita</ion-button>
-          </div>
-          <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
-
+          <div>
             <ion-item>
- 
-                <ion-select aria-label="Tipo Documento" placeholder="Seleziona tipo documento" formControlName="tipo_documento"   [class.ion-invalid]="submitted && doc.get('tipo_documento')?.invalid">
-                  <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo" [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
-                </ion-select>
-                <ion-note 
-                *ngIf="submitted && doc.get('tipo_documento')?.invalid" 
-                color="danger"
-              >
-                Tipo documento è obbligatorio
+              <ion-input label="Cittadinanza*" labelPlacement="floating" formControlName="cittadinanza"></ion-input>
+            </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.cittadinanza')?.touched) && addForm.get('cittadino.cittadinanza')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('cittadino.cittadinanza')?.errors?.['required']">
+                Cittadinanza è obbligatoria
+              </span>
+              <span *ngIf="addForm.get('cittadino.cittadinanza')?.errors?.['minlength']">
+                Cittadinanza deve essere almeno 2 caratteri
+              </span>
+            </ion-note>
+          </div>
+      <!-- Luogo Nascita -->
+          <div formGroupName="luogo_nascita">
+            <ion-item-divider>
+              <ion-icon name="location-outline" slot="start"></ion-icon>
+              <ion-label>Luogo nascita</ion-label>
+            </ion-item-divider>
+            <div>
+              <ion-item>
+                <ion-input label="Comune" labelPlacement="floating" formControlName="comune"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.comune')?.touched)  && addForm.get('cittadino.luogo_nascita.comune')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.luogo_nascita.comune')?.errors?.['required']">
+                  Comune è obbligatorio
+                </span>
               </ion-note>
-            </ion-item>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Provincia" labelPlacement="floating" formControlName="provincia"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.provincia')?.touched)  && addForm.get('cittadino.luogo_nascita.provincia')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.luogo_nascita.provincia')?.errors?.['required']">
+                  Provincia è obbligatoria
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Stato" labelPlacement="floating" formControlName="stato"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.stato')?.touched)  && addForm.get('cittadino.luogo_nascita.stato')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.luogo_nascita.stato')?.errors?.['required']">
+                  Stato è obbligatorio
+                </span>
 
-
-            <ion-item>
-              <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
-                         placeholder="Numero Documento"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <ion-input 
-            id="data_emissione_{{i}}" 
-            label="Data Emissione" 
-            labelPlacement="floating" 
-            [value]="formatDisplayDateEmissione(i)"
-          ></ion-input>
-          <ion-icon name="calendar-outline"></ion-icon>
-
-          <ion-modal 
-            [keepContentsMounted]="true" 
-            [trigger]="'data_emissione_' + i" 
-            [initialBreakpoint]="1"
-            [breakpoints]="[0, 1]"
-          >
-            <ng-template>
-              <ion-datetime 
-                locale="it-IT" 
-                [showDefaultButtons]="true" 
-                doneText="Finito"
-                cancelText="Annulla"  
-                presentation="date" 
-                size="cover" 
-                (ionChange)="onDataEmissioneChange($event.detail.value, i)"
-              ></ion-datetime>
-            </ng-template>
-          </ion-modal>
-            </ion-item>
- 
-            <ion-item>
-      
-              <ion-input 
-            id="data_scadenza_{{i}}" 
-            label="Data Scadenza" 
-            labelPlacement="floating" 
-            [value]="formatDisplayDateScadenza(i)"
-          ></ion-input>
-          <ion-icon name="calendar-outline"></ion-icon>
-
-          <ion-modal 
-            [keepContentsMounted]="true" 
-            [trigger]="'data_scadenza_' + i" 
-            [initialBreakpoint]="1"
-            [breakpoints]="[0, 1]"
-          >
-            <ng-template>
-              <ion-datetime 
-                locale="it-IT" 
-                [showDefaultButtons]="true" 
-                doneText="Finito"
-                cancelText="Annulla"  
-                presentation="date" 
-                size="cover" 
-                (ionChange)="onDataScadenzaChange($event.detail.value, i)"
-              ></ion-datetime>
-            </ng-template>
-          </ion-modal>
-          
-            </ion-item>
-
-            <ion-item>
-              <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
-                         placeholder="Ente emittente"></ion-input>
-            </ion-item>
-            <ion-item lines="none">
-            <ion-button color="danger" (click)="removeDocumentiGroup(i)">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-            </ion-item>
-           <!--  
-            <ion-button  >Elimina Documenti Identita</ion-button> -->
+              </ion-note>
+            </div>
           </div>
+
+      <!-- Residenza-->
+          <div formGroupName="residenza">
+            <ion-item-divider>
+              <ion-icon name="pin-outline" slot="start"></ion-icon>
+              <ion-label> Residenza </ion-label>
+            </ion-item-divider>
+            <div>
+              <ion-item>
+                <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.residenza.indirizzo')?.touched)  && addForm.get('cittadino.residenza.indirizzo')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.indirizzo')?.errors?.['required']">
+                  Indirizzo è obbligatorio
+                </span>
+
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Civico" labelPlacement="floating" formControlName="civico"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.residenza.civico')?.touched) && addForm.get('cittadino.residenza.civico')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.civico')?.errors?.['required']">
+                  Civico è obbligatorio
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="CAP" labelPlacement="floating" formControlName="cap"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.residenza.cap')?.touched) && addForm.get('cittadino.residenza.cap')?.invalid"
+                color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.cap')?.errors?.['required']">
+                  CAP è obbligatorio
+                </span>
+                <span *ngIf="addForm.get('cittadino.residenza.cap')?.errors?.['pattern']">
+                  CAP non è valido
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Comune Residenza" labelPlacement="floating"
+                  formControlName="comuneResidenza"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.residenza.comuneResidenza')?.touched) && addForm.get('cittadino.residenza.comuneResidenza')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.comuneResidenza')?.errors?.['required']">
+                  Comune Residenza è obbligatorio
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Provincia Residenza" labelPlacement="floating"
+                  formControlName="provinciaResidenza"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.residenza.provinciaResidenza')?.touched)  && addForm.get('cittadino.residenza.provinciaResidenza')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.provinciaResidenza')?.errors?.['required']">
+                  Provincia Residenza è obbligatoria
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Stato Residenza" labelPlacement="floating"
+                  formControlName="statoResidenza"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.residenza.statoResidenza')?.touched)  && addForm.get('cittadino.residenza.statoResidenza')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.residenza.statoResidenza')?.errors?.['required']">
+                  Stato Residenza è obbligatorio
+                </span>
+              </ion-note>
+            </div>
+          </div>
+      <!-- Contatti -->
+          <div formGroupName="contatti">
+            <ion-item-divider>
+              <ion-icon name="call-outline" slot="start"></ion-icon>
+              <ion-label> Contatti </ion-label>
+            </ion-item-divider>
+            <div>
+              <ion-item>
+                <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.contatti.telefono')?.touched) && addForm.get('cittadino.contatti.telefono')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.contatti.telefono')?.errors?.['required']">
+                  Telefono è obbligatorio
+                </span>
+                <span *ngIf="addForm.get('cittadino.contatti.telefono')?.errors?.['pattern']">
+                  Telefono non è valido
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+                *ngIf="(submitted || addForm.get('cittadino.contatti.cellulare')?.touched) && addForm.get('cittadino.contatti.cellulare')?.invalid" color="danger">
+                <span *ngIf="addForm.get('cittadino.contatti.cellulare')?.errors?.['required']">
+                  Cellulare è obbligatorio
+                </span>
+                <span *ngIf="addForm.get('cittadino.contatti.cellulare')?.errors?.['pattern']">
+                  Cellulare non è valido
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.contatti.email')?.touched) && addForm.get('cittadino.contatti.email')?.invalid"
+                color="danger">
+                <span *ngIf="addForm.get('cittadino.contatti.email')?.errors?.['required']">
+                  Email è obbligatorio
+                </span>
+                <span *ngIf="addForm.get('cittadino.contatti.email')?.errors?.['email']">
+                  Email non è valido
+                </span>
+              </ion-note>
+            </div>
+            <div>
+              <ion-item>
+                <ion-input label="Pec" labelPlacement="floating" formControlName="pec"></ion-input>
+              </ion-item>
+              <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.contatti.pec')?.touched) && addForm.get('cittadino.contatti.pec')?.invalid"
+                color="danger">
+                <span *ngIf="addForm.get('cittadino.contatti.pec')?.errors?.['required']">
+                  PEC è obbligatorio
+                </span>
+                <span *ngIf="addForm.get('cittadino.contatti.pec')?.errors?.['email']">
+                  PEC non è valido
+                </span>
+              </ion-note>
+
+            </div>
+          </div>
+          <!-- Documenti Identita -->
+          <div formArrayName="documenti_identita">
+            <ion-item-divider>
+              <ion-icon name="documents-outline" slot="start"></ion-icon>
+              <ion-label> Documenti Identita </ion-label>
+            </ion-item-divider>
+            <div class="ion-padding">
+              <ion-button (click)="addDocumentiGroup()" size="small">
+                <ion-icon name="add-circle-outline"></ion-icon>
+                Aggiungi Documenti Identita</ion-button>
+            </div>
+            <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
+              <div>
+                <ion-item>
+                  <ion-select aria-label="Tipo Documento" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
+                    [class.ion-invalid]="(submitted || doc.get('tipo_documento')?.touched) && doc.get('tipo_documento')?.invalid">
+                    <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
+                      [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('tipo_documento')?.touched) && doc.get('tipo_documento')?.invalid" color="danger">
+                  <span *ngIf="doc.get('tipo_documento')?.errors?.['required']">
+                    Tipo documento è obbligatorio
+                  </span>
+                </ion-note>
+              </div>
+              <div>
+                <ion-item>
+                  <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
+                    placeholder="Numero Documento"></ion-input>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('numero_documento')?.touched) && doc.get('numero_documento')?.invalid" color="danger">
+                  <span *ngIf="doc.get('numero_documento')?.errors?.['required']">
+                    Numero documento è obbligatorio
+                  </span>
+                  <span *ngIf="doc.get('numero_documento')?.errors?.['pattern']">
+                    Numero documento non è valido
+                  </span>
+                </ion-note>
+              </div>
+              <div>
+                <ion-item>
+                  <ion-input id="data_emissione_{{i}}" label="Data Emissione" labelPlacement="floating"
+                    [value]="formatDisplayDateEmissione(i)"></ion-input>
+                  <ion-icon name="calendar-outline"></ion-icon>
           
-        
-        </div> 
+                  <ion-modal [keepContentsMounted]="true" [trigger]="'data_emissione_' + i" [initialBreakpoint]="1"
+                    [breakpoints]="[0, 1]">
+                    <ng-template>
+                      <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                        presentation="date" size="cover"
+                        (ionChange)="onDataEmissioneChange($event.detail.value, i)"></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('data_emissione')?.touched) && doc.get('data_emissione')?.invalid" color="danger">
+                  <span *ngIf="doc.get('data_emissione')?.errors?.['required']">
+                    Data emissione è obbligatoria
+                  </span>
+                </ion-note>
+              </div>
+              <div>
+                <ion-item>
+          
+                  <ion-input id="data_scadenza_{{i}}" label="Data Scadenza" labelPlacement="floating"
+                    [value]="formatDisplayDateScadenza(i)"></ion-input>
+                  <ion-icon name="calendar-outline"></ion-icon>
+          
+                  <ion-modal [keepContentsMounted]="true" [trigger]="'data_scadenza_' + i" [initialBreakpoint]="1"
+                    [breakpoints]="[0, 1]">
+                    <ng-template>
+                      <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                        presentation="date" size="cover"
+                        (ionChange)="onDataScadenzaChange($event.detail.value, i)"></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+          
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('data_scadenza')?.touched)  && doc.get('data_scadenza')?.invalid" color="danger">
+                  <span *ngIf="doc.get('data_scadenza')?.errors?.['required']">
+                    Data Scadenza è obbligatoria
+                  </span>
+                </ion-note>
+              </div>
+              <div>
+                <ion-item>
+                  <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
+                    placeholder="Ente emittente"></ion-input>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('ente_emittente')?.touched) && doc.get('ente_emittente')?.invalid" color="danger">
+                  <span *ngIf="doc.get('ente_emittente')?.errors?.['required']">
+                    Ente emittente è obbligatoria
+                  </span>
+                </ion-note>
+              </div>
 
-        <div formGroupName="altri_dettagli">
+                <ion-item lines="none">
+                  <ion-button color="danger" (click)="removeDocumentiGroup(i)">
+                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
+            
+              <!--  
+                      <ion-button  >Elimina Documenti Identita</ion-button> -->
+            </div>
+          </div>
 
-          <ion-item-divider>
-            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
-            <ion-label> Altri Dettagli </ion-label>
-          </ion-item-divider>
-          <ion-item>
-            <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"
-                      ></ion-input>
-          </ion-item>
+          <div formGroupName="altri_dettagli">
 
-          <ion-item>
-            <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
-                       formControlName="data_ultimo_aggiornamento"></ion-input>
-          </ion-item>
-        </div>
+            <ion-item-divider>
+              <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+              <ion-label> Altri Dettagli </ion-label>
+            </ion-item-divider>
+            <ion-item>
+              <ion-input label="Stato Civile" labelPlacement="floating" formControlName="stato_civile"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input label="Ultimo Aggiornamento" labelPlacement="floating"
+                formControlName="data_ultimo_aggiornamento"></ion-input>
+            </ion-item>
+          </div>
         </ion-item-group>
 
 

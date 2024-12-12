@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TipoDocumento } from 'src/app/core/models/anagrafica.model';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
 
@@ -18,7 +19,12 @@ export class NuovaAnagraficaPage implements OnInit {
   errorMsg: string = '';
   tipoDocuments = Object.values(TipoDocumento);
 
-  constructor(private fb: FormBuilder,private anagraficaSvc: AnagraficaService,private datePipe: DatePipe,private msgService: MessagesService,private router: Router) { }
+  constructor(private fb: FormBuilder,
+    private anagraficaSvc: AnagraficaService,
+    private datePipe: DatePipe,
+    private msgService: MessagesService,
+    private router: Router,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -30,37 +36,37 @@ export class NuovaAnagraficaPage implements OnInit {
     this.addForm = this.fb.group({
       id: -1,
       cittadino: this.fb.group({
-        codiceFiscale: ['',[Validators.required,Validators.pattern('[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]')]],
-        nome: ['',[Validators.required, Validators.minLength(3)]],
-        cognome: ['',[Validators.required, Validators.minLength(3)]],
-        dataDiNascita: ['',[Validators.required]],
-         luogo_nascita: this.fb.group({
-          comune: [],
-          provincia: [],
-          stato: [],
-        }), 
-        genere: ['M',[Validators.required]],
-        cittadinanza: ['',[Validators.required]],
+        codiceFiscale: ['', [Validators.required, Validators.pattern('[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]')]],
+        nome: ['', [Validators.required, Validators.minLength(3)]],
+        cognome: ['', [Validators.required, Validators.minLength(3)]],
+        dataDiNascita: ['', [Validators.required]],
+        luogo_nascita: this.fb.group({
+          comune: ['', [Validators.required]],
+          provincia: ['', [Validators.required]],
+          stato: ['', [Validators.required]],
+        }),
+        genere: ['M', [Validators.required]],
+        cittadinanza: ['', [Validators.required]],
         residenza: this.fb.group({
-          indirizzo: ['',[Validators.required]],
-          civico: ['',[Validators.required]],
-          cap: ['',[Validators.required]],
-          comuneResidenza: ['',[Validators.required]],
-          provinciaResidenza: ['',[Validators.required]],
-          statoResidenza: ['',[Validators.required]],
+          indirizzo: ['', [Validators.required]],
+          civico: ['', [Validators.required]],
+          cap: ['', [Validators.required,Validators.pattern('^[0-9]{5}$')]], //5 characters
+          comuneResidenza: ['', [Validators.required]],
+          provinciaResidenza: ['', [Validators.required]],
+          statoResidenza: ['', [Validators.required]],
         }),
         contatti: this.fb.group({
-          telefono: [],
-          cellulare: [],
-          email: ['',[Validators.required]],
-          pec: [],
+          telefono: ['', [Validators.required,Validators.pattern('^[+][0-9]+$')]], //+ in beginning dhe digits
+          cellulare: ['', [Validators.required,,Validators.pattern('^[0-9]+$')]],
+          email: ['', [Validators.required,Validators.email]],
+          pec: ['', [Validators.required,Validators.email]],
         }),
         documenti_identita: this.fb.array([]),
         altri_dettagli: this.fb.group({
           stato_civile: [],
           data_ultimo_aggiornamento: [],
         })
-        })
+      })
     })
   }
 
@@ -72,11 +78,11 @@ export class NuovaAnagraficaPage implements OnInit {
   addDocumentiGroup() {
     const MAX_LENGTH = 3;
     const documentiGroup = this.fb.group({
-      tipo_documento: [],
-      numero_documento: [],
-      data_emissione: [],
-      data_scadenza: [],
-      ente_emittente: []
+      tipo_documento: ['', [Validators.required]],
+      numero_documento: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]+$')]],
+      data_emissione: ['', [Validators.required]],
+      data_scadenza: ['', [Validators.required]],
+      ente_emittente: ['', [Validators.required]]
     });
 
     if(this.addForm.get('cittadino.documenti_identita')?.value.length < MAX_LENGTH){
@@ -165,32 +171,40 @@ export class NuovaAnagraficaPage implements OnInit {
   onSubmit(){
     this.submitted = true;
     const anagraficaData = this.addForm.value;
-    console.log(this.addForm.value) 
+    /* console.log(this.addForm.value) */
+    console.log(this.addForm.controls['cittadino']) 
    if(!this.addForm.valid){
     return;
    }
    else {
-    this.anagraficaSvc.addAnagrafica(anagraficaData).subscribe({
-      next: (response) => {
-      /*   console.log("Response: ", response) */
-        this.msgService.success('Dati salvati con successo!');
-      },
-      error: (err) => {
-        if (err.status === 500) {
-          this.errorMsg = "Errore interno del server!"
-        }
-        else if (err.status === 400){
-          this.errorMsg = err.message; 
-        }
-        else{
-          this.errorMsg = "Error!" + err.message;
-        }
-        this.msgService.error(this.errorMsg);         
-      },
-      complete: ()=> {
-        this.router.navigate(['/anagrafica'])
+    this.alertService.showConfirmation(
+      'Conferma i dati personali', 
+      'Sei sicuro di voler aggiungere questa anagrafica? Questa azione non può essere annullata.'
+    ).subscribe(confirmed => {
+      if (confirmed) {
+        this.anagraficaSvc.addAnagrafica(anagraficaData).subscribe({
+          next: (response) => {
+          /*   console.log("Response: ", response) */
+            this.msgService.success('Dati salvati con successo!');
+          },
+          error: (err) => {
+            if (err.status === 500) {
+              this.errorMsg = "Errore interno del server!"
+            }
+            else if (err.status === 400){
+              this.errorMsg = err.message; 
+            }
+            else{
+              this.errorMsg = "Error!" + err.message;
+            }
+            this.msgService.error(this.errorMsg);         
+          },
+          complete: ()=> {
+            this.router.navigate(['/anagrafica'])
+          }
+         })
       }
-     })
+    });
    }
   }
 
