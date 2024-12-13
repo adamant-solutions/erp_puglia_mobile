@@ -6,7 +6,6 @@ import { AlertController } from '@ionic/angular';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
-import { SwiperContainer } from 'swiper/element';
 
 
 @Component({
@@ -80,7 +79,7 @@ export class ModificaAnagraficaPage implements OnInit {
         codiceFiscale: this.userData.cittadino.codiceFiscale,
         nome: this.userData.cittadino.nome,
         cognome: this.userData.cittadino.cognome,
-        dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy'),
+        dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'yyyy-MM-dd'),
         luogo_nascita: {
           comune: this.userData.cittadino?.luogo_nascita?.comune || '',
           provincia: this.userData.cittadino?.luogo_nascita?.provincia || '',
@@ -106,6 +105,16 @@ export class ModificaAnagraficaPage implements OnInit {
   /* 
     console.log(this.documenti) */
   }
+
+  isValidCodiceFiscale(codiceFiscale: string): boolean {
+    if (!codiceFiscale) return false;
+    
+    //[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]
+    const codiceFiscaleRegex = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i;
+    
+    return codiceFiscaleRegex.test(codiceFiscale);
+  }
+
 
    // Format date to DD-MM-YYYY
    formatDateToDDMMYYYY(date: Date): string {
@@ -257,6 +266,11 @@ export class ModificaAnagraficaPage implements OnInit {
       
     }
 
+    onDataDiNascitaChange(data: any) {
+       const formattedDate =  this.datePipe.transform(data, 'YYYY-MM-dd');
+       this.formData.cittadino.dataDiNascita = formattedDate;
+     }
+
     convertDate(inputDate: string) : any{ 
       if (!inputDate) {
         return;
@@ -276,7 +290,7 @@ export class ModificaAnagraficaPage implements OnInit {
       return newDate.toISOString().split('T')[0];
     }
 
-  onSubmit() {
+  onSubmit() {  
     if (this.anagraficaForm.valid) {
    /* 
      console.log("Forma ne fillim: ", this.formData) */
@@ -284,7 +298,7 @@ export class ModificaAnagraficaPage implements OnInit {
         ...this.formData,
         cittadino: {
           ...this.formData.cittadino,
-          dataDiNascita: this.convertDateFormat(this.formData.cittadino.dataDiNascita),
+          dataDiNascita: this.formData.cittadino.dataDiNascita,//this.convertDateFormat(this.formData.cittadino.dataDiNascita),
           documenti_identita: this.documenti.map((doc: { data_emissione: string; data_scadenza: string; }) => ({
             ...doc,
             data_emissione: this.convertDate(doc.data_emissione),//, 'yyyy-MM-ddTHH:mm:ss.SSSZ'),
@@ -319,7 +333,7 @@ export class ModificaAnagraficaPage implements OnInit {
     if (err.status === 500) {
       this.errorMsg = "Errore interno del server!";
     } else if (err.status === 400) {
-      this.errorMsg = err.message;
+      this.errorMsg =  "Compila tutti i campi obbligatori";
     } else {
       this.errorMsg = "Error!" + err.message;
     }

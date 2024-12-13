@@ -26,60 +26,148 @@
                     <ion-item-divider>
                       <ion-label> Cittadino </ion-label>
                     </ion-item-divider>
+                    <div>
+                      <ion-item>
+                        <ion-input label="Codice Fiscale *" labelPlacement="floating" placeholder="Codice Fiscale"
+                          id="codiceFiscale" name="codiceFiscale" [(ngModel)]="formData.cittadino.codiceFiscale"
+                          required #codiceFiscale="ngModel"></ion-input>
 
-                    <ion-item>
-                      <ion-input label="Codice Fiscale *" labelPlacement="floating" placeholder="Codice Fiscale"
-                        name="codiceFiscale" [(ngModel)]="formData.cittadino.codiceFiscale" required></ion-input>
-                    </ion-item>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger"
+                        *ngIf="codiceFiscale.dirty || codiceFiscale.touched">
 
-                    <ion-item>
-                      <ion-input label="Nome *" labelPlacement="floating" placeholder="Nome" name="nome"
-                        [(ngModel)]="formData.cittadino.nome" required></ion-input>
-                    </ion-item>
+                        <ion-text *ngIf="codiceFiscale.errors?.['required']">
+                          Codice Fiscale è obbligatorio
+                        </ion-text>
 
-                    <ion-item>
-                      <ion-input label="Cognome *" labelPlacement="floating" placeholder="Cognome" name="cognome"
-                        [(ngModel)]="formData.cittadino.cognome" required></ion-input>
-                    </ion-item>
+                        <ion-text *ngIf="codiceFiscale.value && !isValidCodiceFiscale(codiceFiscale.value)">
+                          Codice Fiscale non è valido
+                        </ion-text>
+                      </ion-note>
+                    </div>
 
-                    <ion-item>
-                      <ion-input label="Data Nascita" labelPlacement="floating" placeholder="Data di Nascita"
-                        name="dataDiNascita" [(ngModel)]="formData.cittadino.dataDiNascita"></ion-input>
-                    </ion-item>
+                    <div>
+                      <ion-item>
+                        <ion-input label="Nome *" labelPlacement="floating" placeholder="Nome" name="nome" id="nome"
+                          [(ngModel)]="formData.cittadino.nome" #nome="ngModel" required [minlength]="3"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="nome.dirty || nome.touched">
 
-                    <ion-item>
-                      <ion-select label="Genere" labelPlacement="floating" name="genere"
-                        [(ngModel)]="formData.cittadino.genere" required>
-                        <ion-select-option value="M">M</ion-select-option>
-                        <ion-select-option value="F">F</ion-select-option>
-                        <ion-select-option value="N">Nonbinario</ion-select-option>
-                      </ion-select>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
-                        name="dataCreato" [(ngModel)]="formData.cittadino.createDate" disabled></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
-                        name="ultimamodifica" [(ngModel)]="formData.cittadino.lastUpdateDate" disabled></ion-input>
-                    </ion-item>
+                        <ion-text *ngIf="nome.errors?.['required']">
+                          Nome è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="nome.value && nome.errors?.['minlength']">
+                          Il nome deve essere almeno 3 caratteri
+                        </ion-text>
+                      </ion-note>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Cognome *" labelPlacement="floating" placeholder="Cognome" name="cognome"
+                          id="cognome" [(ngModel)]="formData.cittadino.cognome" #cognome="ngModel" required
+                          [minlength]="3"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="cognome.dirty || cognome.touched">
+
+                        <ion-text *ngIf="cognome.errors?.['required']">
+                          Cognome è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="cognome.value && cognome.errors?.['minlength']">
+                          Il cognome deve essere almeno 3 caratteri
+                        </ion-text>
+                      </ion-note>
+                    </div>
+                    <div> <ion-item>
+                        <ion-input label="Data Nascita *" labelPlacement="floating" placeholder="Data di Nascita"
+                          name="dataDiNascita" id="dataDiNascita" [(ngModel)]="formData.cittadino.dataDiNascita"
+                          #dataDiNascita="ngModel"></ion-input>
+
+                        <ion-icon name="calendar-outline"></ion-icon>
+                        <!--       <ion-input 
+                          formControlName="dataDiNascita" [value]="formatDisplayDataNascita()"></ion-input> -->
+
+
+                        <ion-modal [keepContentsMounted]="true" trigger="dataDiNascita" [initialBreakpoint]="1"
+                          [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
+                          <ng-template>
+
+                            <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
+                              cancelText="Annulla" #dataNascita presentation="date" size="cover"
+                              (ionChange)="onDataDiNascitaChange(dataNascita.value)">
+                              <span slot="title">Seleziona Data di Nascita</span></ion-datetime>
+
+                          </ng-template>
+                        </ion-modal>
+
+                      </ion-item>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-select label="Genere" labelPlacement="floating" name="genere"
+                          [(ngModel)]="formData.cittadino.genere" required>
+                          <ion-select-option value="M">M</ion-select-option>
+                          <ion-select-option value="F">F</ion-select-option>
+                          <ion-select-option value="N">Nonbinario</ion-select-option>
+                        </ion-select>
+                      </ion-item></div>
+                    <div>
+                      <ion-item>
+                        <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
+                          name="dataCreato" [(ngModel)]="formData.cittadino.createDate" disabled></ion-input>
+                      </ion-item>
+                    </div>
+
+                    <div>
+                      <ion-item>
+                        <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
+                          name="ultimamodifica" [(ngModel)]="formData.cittadino.lastUpdateDate" disabled></ion-input>
+                      </ion-item>
+                    </div>
+
                     <div>
                       <ion-item-divider>
                         <ion-label>Luogo nascita</ion-label>
                       </ion-item-divider>
-                      <ion-item>
-                        <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
-                          [(ngModel)]="formData.cittadino.luogo_nascita.comune"></ion-input>
-                      </ion-item>
-                    
-                      <ion-item>
-                        <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia" name="provincia"
-                          [(ngModel)]="formData.cittadino.luogo_nascita.provincia"></ion-input>
-                      </ion-item>
-                      <ion-item>
-                        <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato"
-                          [(ngModel)]="formData.cittadino.luogo_nascita.stato"></ion-input>
-                      </ion-item>
+                      <div> <ion-item>
+                          <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
+                            id="comune" [(ngModel)]="formData.cittadino.luogo_nascita.comune" #comune="ngModel"
+                            required></ion-input>
+                        </ion-item>
+                        <ion-note class="ion-padding-start" color="danger" *ngIf="comune.dirty || comune.touched">
+
+                          <ion-text *ngIf="comune.errors?.['required']">
+                            Comune è obbligatorio
+                          </ion-text>
+                        </ion-note>
+                      </div>
+
+                      <div> <ion-item>
+                          <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
+                            name="provincia" id="provincia" [(ngModel)]="formData.cittadino.luogo_nascita.provincia"
+                            #provincia="ngModel" required></ion-input>
+                        </ion-item>
+                        <ion-note class="ion-padding-start" color="danger" *ngIf="provincia.dirty || provincia.touched">
+
+                          <ion-text *ngIf="provincia.errors?.['required']">
+                            Provincia è obbligatoria
+                          </ion-text>
+                        </ion-note>
+                      </div>
+
+                      <div> <ion-item>
+                          <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato" id="stato"
+                            [(ngModel)]="formData.cittadino.luogo_nascita.stato" #stato="ngModel" required></ion-input>
+                        </ion-item>
+                        <ion-note class="ion-padding-start" color="danger" *ngIf="stato.dirty || stato.touched">
+
+                          <ion-text *ngIf="stato.errors?.['required']">
+                            Stato è obbligatorio
+                          </ion-text>
+                        </ion-note>
+                      </div>
+
                     </div>
                   </ion-item-group>
                 </ion-list>
@@ -94,31 +182,94 @@
                     <ion-item-divider>
                       <ion-label> Residenza </ion-label>
                     </ion-item-divider>
-                    <ion-item>
-                      <ion-input label="Indirizzo" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.indirizzo" name="indirizzo"
-                        placeholder="Indirizzo"></ion-input>
-                    </ion-item>
+                    <div> <ion-item>
+                        <ion-input label="Indirizzo" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.residenza.indirizzo" name="indirizzo" id="indirizzo"
+                          placeholder="Indirizzo" #indirizzo="ngModel" required></ion-input>
+                      </ion-item>
 
-                    <ion-item>
-                      <ion-input label="Civico" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.civico"  name="civico"
-                        placeholder="Civico"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="CAP" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.cap"  name="cap"
-                        placeholder="cap"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Comune Residenza" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.comuneResidenza"  name="comune"
-                        placeholder="Indirizzo"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Provinica Residenza" labelPlacement="floating"
-                        [(ngModel)]="formData.cittadino.residenza.provinciaResidenza" placeholder="Provinica Residenza"  name="provincia"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Stato Residenza" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.statoResidenza"  name="stato"
-                        placeholder="Stato Residenza"></ion-input>
-                    </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="indirizzo.dirty || indirizzo.touched">
+
+                        <ion-text *ngIf="indirizzo.errors?.['required']">
+                          Indirizzo è obbligatorio
+                        </ion-text>
+                      </ion-note>
+
+                    </div>
+                    <div> <ion-item>
+                        <ion-input label="Civico" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.residenza.civico" name="civico" id="civico"
+                          placeholder="Civico" #civico="ngModel" required></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="civico.dirty || civico.touched">
+
+                        <ion-text *ngIf="civico.errors?.['required']">
+                          Civico è obbligatorio
+                        </ion-text>
+                      </ion-note>
+                    </div>
+                    <div> <ion-item>
+                        <ion-input label="CAP" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.cap"
+                          name="cap" id="cap" placeholder="cap" #cap="ngModel" required
+                          [pattern]="'^[0-9]{5}$'"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="cap.dirty || cap.touched">
+
+                        <ion-text *ngIf="cap.errors?.['required']">
+                          CAP è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="cap.value && cap.errors?.['pattern']">
+                          CAP non è valido
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Comune Residenza" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.residenza.comuneResidenza" name="comuneResidenza"
+                          id="comuneResidenza" placeholder="Indirizzo" #comuneResidenza="ngModel" required></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger"
+                        *ngIf="comuneResidenza.dirty || comuneResidenza.touched">
+
+                        <ion-text *ngIf="comuneResidenza.errors?.['required']">
+                          Comune Residenza è obbligatorio
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Provinica Residenza" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.residenza.provinciaResidenza"
+                          placeholder="Provinica Residenza" name="provinciaResidenza" id="provinciaResidenza"
+                          #provinciaResidenza="ngModel" required></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger"
+                        *ngIf="provinciaResidenza.dirty || provinciaResidenza.touched">
+
+                        <ion-text *ngIf="provinciaResidenza.errors?.['required']">
+                          Provincia Residenza è obbligatoria
+                        </ion-text>
+                      </ion-note>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Stato Residenza" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.residenza.statoResidenza" name="statoResidenza"
+                          id="statoResidenza" #statoResidenza="ngModel" placeholder="Stato Residenza"
+                          required></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger"
+                        *ngIf="statoResidenza.dirty || statoResidenza.touched">
+
+                        <ion-text *ngIf="statoResidenza.errors?.['required']">
+                          Stato Residenza è obbligatorio
+                        </ion-text>
+                      </ion-note>
+                    </div>
                   </ion-item-group>
                 </ion-list>
               </ng-container>
@@ -131,179 +282,204 @@
                     <ion-item-divider>
                       <ion-label> Contatti </ion-label>
                     </ion-item-divider>
-                    <ion-item>
-                      <ion-input label="Telefono" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.telefono"  name="telefono"
-                        placeholder="Telefono"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Cellulare" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.cellulare" name="cellulare"
-                        placeholder="Cellulare"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Email" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.email" name="email"
-                        placeholder="Email"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-input label="Pec" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.pec" name="pec"
-                        placeholder="Pec"></ion-input>
-                    </ion-item>
+                    <div> <ion-item>
+                        <ion-input label="Telefono" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.contatti.telefono" name="telefono" id="telefono"
+                          #telefono="ngModel" [pattern]="'^[+][0-9]+$'" placeholder="Telefono"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="telefono.dirty || telefono.touched">
+<!-- 
+                        <ion-text *ngIf="telefono.errors?.['required']">
+                          Telefono è obbligatorio
+                        </ion-text> -->
+
+                        <ion-text *ngIf="telefono.value && telefono.errors?.['pattern']">
+                          Telefono non è valido
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
+                    <div>
+                      <ion-item>
+                        <ion-input label="Cellulare" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.contatti.cellulare" name="cellulare" id="cellulare"
+                          #cellulare="ngModel" placeholder="Cellulare" required [pattern]="'^[0-9]+$'"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="cellulare.dirty || cellulare.touched">
+
+                        <ion-text *ngIf="cellulare.errors?.['required']">
+                          Cellulare è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="cellulare.value && cellulare.errors?.['pattern']">
+                          Cellulare non è valido
+                        </ion-text>
+
+                      </ion-note>
+
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Email" labelPlacement="floating"
+                          [(ngModel)]="formData.cittadino.contatti.email" name="email" id="email" placeholder="Email"
+                          #email="ngModel" required [pattern]="''"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="email.dirty || email.touched">
+
+                        <ion-text *ngIf="email.errors?.['required']">
+                          Email è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="email.value && email.errors?.['pattern']">
+                          Email non è valido
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
+                    <div> <ion-item>
+                        <ion-input label="Pec" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.pec"
+                          #pec="ngModel" name="pec" id="pec" placeholder="Pec" required [pattern]="''"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="pec.dirty || pec.touched">
+
+                        <ion-text *ngIf="pec.errors?.['required']">
+                          PEC è obbligatorio
+                        </ion-text>
+
+                        <ion-text *ngIf="pec.value && pec.errors?.['pattern']">
+                          PEC non è valido
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
                   </ion-item-group>
                 </ion-list>
               </ng-container>
             </swiper-slide>
 
- 
-<swiper-slide>
-  <ng-container *ngIf="currentSlide === 3">
-      <ion-item-group>
-        <ion-item-divider>
-          <ion-label>Documenti Identita</ion-label>
-          <ion-button (click)="addDocumentoIdentita()">Aggiungi Documento</ion-button>
-        </ion-item-divider>
-  
-        <div *ngFor="let doc of documenti; let i = index">
-          <ion-item>
-            <ion-select 
-              label="Tipo Documento" 
-              labelPlacement="floating" 
-              name="tipoDocumento_{{i}}"
-              placeholder="Seleziona tipo documento"
-              [(ngModel)]="doc.tipo_documento" 
-              required
-              #tipoDocumento="ngModel"
-            >
-              <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
-                [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-  
-          <ion-item>
-            <ion-input 
-              label="Numero Documento" 
-              labelPlacement="floating" 
-              name="numeroDocumento_{{i}}"
-              [(ngModel)]="doc.numero_documento" 
-              required
-              #numeroDocumento="ngModel"
-              placeholder="Numero Documento"
-            ></ion-input>
-          </ion-item>
-  
-          <ion-item>
-            <ion-input 
-              id="data_emissione_{{i}}" 
-              label="Data Emissione *" 
-              labelPlacement="floating" 
-              name="dataEmissione_{{i}}"
-              [(ngModel)]="doc.data_emissione"
-              readonly
-              required
-              #dataEmissione="ngModel"
-              
-            ></ion-input>
-            
-            <ion-icon 
-              name="calendar-outline" 
-              [id]="'data_emissione_' + i"
-              button 
-            ></ion-icon>
-          
-            <ion-modal 
-              [keepContentsMounted]="true" 
-              [trigger]="'data_emissione_' + i" 
-              [initialBreakpoint]="1"
-              [breakpoints]="[0, 1]"
-              [cssClass]="'bottom-modal'"
-            >
-              <ng-template>
-                <ion-datetime 
-                  locale="it-IT"
-                  [showDefaultButtons]="true" 
-                  doneText="Conferma"
-                  cancelText="Annulla"  
-                  presentation="date" 
-                  size="cover"
-                  #dataEmissione     
-                  (ionChange)="onDataEmissioneChange($event.detail.value, i)"
-                >
-                <span slot="title">Seleziona Data Emissione</span></ion-datetime>
-               
-              </ng-template>
-            </ion-modal>
-          </ion-item>
-          
-      
-          <ion-item>
-            <ion-input 
-              id="data_scadenza_{{i}}" 
-              label="Data Scadenza" 
-              labelPlacement="floating" 
-              name="dataScadenza_{{i}}"
-              [(ngModel)]="doc.data_scadenza"
-              readonly
-              required
-              #dataScadenza="ngModel"
-            ></ion-input>
-            <ion-icon 
-              name="calendar-outline" 
-              [id]="'data_scadenza_' + i"
-              button 
-            ></ion-icon>
-          
-            <ion-modal 
-              [keepContentsMounted]="true" 
-              [trigger]="'data_scadenza_' + i" 
-              [initialBreakpoint]="1"
-              [breakpoints]="[0, 1]"
-              [cssClass]="'bottom-modal'"
-            >
-              <ng-template>
-                <ion-datetime 
-                  locale="it-IT"
-                  [showDefaultButtons]="true" 
-                  doneText="Conferma"
-                  cancelText="Annulla"  
-                  presentation="date" 
-                  size="cover"
-                  #dataScandeza
-                  (ionChange)="onDataScadenzaChange($event.detail.value, i)"
-                >
-                <span slot="title">Seleziona Data Scadenza</span>
-              </ion-datetime>
-              </ng-template>
-            </ion-modal>
 
-       <!--      <ion-modal [keepContentsMounted]="true" trigger="data_nascita" [initialBreakpoint]="1"
-            [breakpoints]="[0, 1]">
-            
-          </ion-modal>  -->
+            <swiper-slide>
+              <ng-container *ngIf="currentSlide === 3">
+                <ion-item-group>
+                  <ion-item-divider>
+                    <ion-label>Documenti Identita</ion-label>
+                    <ion-button (click)="addDocumentoIdentita()">Aggiungi Documento</ion-button>
+                  </ion-item-divider>
+
+                  <div *ngFor="let doc of documenti; let i = index">
+                    <div> <ion-item>
+                        <ion-select label="Tipo Documento" labelPlacement="floating" name="tipoDocumento_{{i}}" id="tipoDocumento_{{i}}"
+                          placeholder="Seleziona tipo documento" [(ngModel)]="doc.tipo_documento" required
+                          #tipoDocumento="ngModel">
+                          <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
+                            [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="tipoDocumento.dirty || tipoDocumento.touched">
+
+                        <ion-text *ngIf="tipoDocumento.errors?.['required']">
+                          Tipo Documento è obbligatorio
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+
+                    <div>
+                      <ion-item>
+                        <ion-input label="Numero Documento" labelPlacement="floating" name="numeroDocumento_{{i}}" id="numeroDocumento_{{i}}"
+                          [(ngModel)]="doc.numero_documento" required [pattern]="'^[a-zA-Z0-9]+$'" #numeroDocumento="ngModel"
+                          placeholder="Numero Documento"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="numeroDocumento.dirty || numeroDocumento.touched">
+
+                        <ion-text *ngIf="numeroDocumento.errors?.['required']">
+                          Numero Documento è obbligatorio
+                        </ion-text>
+                        <ion-text *ngIf="numeroDocumento.value && numeroDocumento.errors?.['pattern']">
+                          Numero Documento non è valido
+                        </ion-text>
+
+                      </ion-note>
+                    </div>
+                    <div>
+                      <ion-item>
+                        <ion-input id="data_emissione_{{i}}" label="Data Emissione *" labelPlacement="floating"
+                          name="dataEmissione_{{i}}" [(ngModel)]="doc.data_emissione" readonly required
+                          #dataEmissione="ngModel"></ion-input>
+
+                        <ion-icon name="calendar-outline" [id]="'data_emissione_' + i" button></ion-icon>
+
+                        <ion-modal [keepContentsMounted]="true" [trigger]="'data_emissione_' + i"
+                          [initialBreakpoint]="1" [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
+                          <ng-template>
+                            <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
+                              cancelText="Annulla" presentation="date" size="cover" #dataEmissione
+                              (ionChange)="onDataEmissioneChange($event.detail.value, i)">
+                              <span slot="title">Seleziona Data Emissione</span></ion-datetime>
+
+                          </ng-template>
+                        </ion-modal>
+                      </ion-item>
+
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="dataEmissione.dirty || dataEmissione.touched">
+                        <ion-text *ngIf="dataEmissione.errors?.['required']">
+                          Data emissione è obbligatoria
+                        </ion-text>
+                      </ion-note>
+                    
+                    </div>
+                    <div>
+
+                      <ion-item>
+                        <ion-input id="data_scadenza_{{i}}" label="Data Scadenza" labelPlacement="floating"
+                          name="dataScadenza_{{i}}" [(ngModel)]="doc.data_scadenza" readonly required
+                          #dataScadenza="ngModel"></ion-input>
+                        <ion-icon name="calendar-outline" [id]="'data_scadenza_' + i" button></ion-icon>
+
+                        <ion-modal [keepContentsMounted]="true" [trigger]="'data_scadenza_' + i" [initialBreakpoint]="1"
+                          [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
+                          <ng-template>
+                            <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
+                              cancelText="Annulla" presentation="date" size="cover" #dataScandeza
+                              (ionChange)="onDataScadenzaChange($event.detail.value, i)">
+                              <span slot="title">Seleziona Data Scadenza</span>
+                            </ion-datetime>
+                          </ng-template>
+                        </ion-modal>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="dataScadenza.dirty || dataScadenza.touched">
+                      <ion-text *ngIf="dataScadenza.errors?.['required']">
+                        Data Scadenza è obbligatoria
+                      </ion-text>
+                    </ion-note>
+                    </div>
+                    <div> <ion-item>
+                        <ion-input label="Ente emittente" labelPlacement="floating" name="enteEmittente_{{i}}"
+                          [(ngModel)]="doc.ente_emittente" required #enteEmittente="ngModel"
+                          placeholder="Ente emittente"></ion-input>
+                      </ion-item>
+                      <ion-note class="ion-padding-start" color="danger" *ngIf="enteEmittente.dirty || enteEmittente.touched">
+                        <ion-text *ngIf="enteEmittente.errors?.['required']">
+                          Ente emittente è obbligatoria
+                        </ion-text>
+                      </ion-note>
+                    </div>
 
 
-          </ion-item>
+                    <ion-item lines="none">
+                      <ion-button color="danger" (click)="removeDocumentoIdentita(i)">
+                        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                      </ion-button>
+                    </ion-item>
+                  </div>
+                </ion-item-group>
 
-          <ion-item>
-            <ion-input 
-              label="Ente emittente" 
-              labelPlacement="floating"
-              name="enteEmittente_{{i}}"
-              [(ngModel)]="doc.ente_emittente" 
-              required
-              #enteEmittente="ngModel"
-              placeholder="Ente emittente"
-            ></ion-input>
-          </ion-item>
-  
-          <ion-item lines="none">
-            <ion-button color="danger" (click)="removeDocumentoIdentita(i)">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </div>
-      </ion-item-group>
-
-  </ng-container>
-</swiper-slide>
-<!--
+              </ng-container>
+            </swiper-slide>
+            <!--
             <ion-item-group formGroupName="altri_dettagli">
 
               <ion-item-divider>
@@ -327,26 +503,29 @@
           </swiper-container>
 
           <div class="ion-padding navigation-buttons">
-            <ion-button class="custom-back-button" *ngIf="currentSlide !== 0" fill="outline" (click)="prevSlide()"><!--  [disabled]="currentSlide === 0" -->
+            <ion-button class="custom-back-button" *ngIf="currentSlide !== 0" fill="outline"
+              (click)="prevSlide()"><!--  [disabled]="currentSlide === 0" -->
               Indietro
             </ion-button>
 
-            <ion-button  class="cancel-button" fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+            <ion-button class="cancel-button" fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
 
-            <ion-button  class="custom-next-button"  *ngIf="currentSlide !== slides.length - 1"  (click)="nextSlide()"><!--  [disabled]="currentSlide === slides.length - 1" -->
-             Avanti
+            <ion-button class="custom-next-button" *ngIf="currentSlide !== slides.length - 1"
+              (click)="nextSlide()"><!--  [disabled]="currentSlide === slides.length - 1" -->
+              Avanti
             </ion-button>
 
           </div>
 
-           <div class="ion-padding" style="
+          <div class="ion-padding" style="
             display: flex;
             flex-direction: column;
             padding-top: 0;
         ">
-            <ion-button type="submit" class="submit-button"  *ngIf="currentSlide === slides.length - 1">Invia</ion-button>
-          
-          </div> 
+            <ion-button type="submit" class="submit-button"
+              *ngIf="currentSlide === slides.length - 1">Invia</ion-button>
+
+          </div>
         </form>
 
       </ion-card-content>
