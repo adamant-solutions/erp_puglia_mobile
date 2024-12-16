@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Anagrafica } from 'src/app/core/models/anagrafica.model';
+import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -17,6 +17,7 @@ export class AnagraficaDetailsPage implements OnInit {
 
   breadCrumbs = [{ name: 'Anagrafica', url: '/anagrafica' }, { name: 'Anagrafica Dettagli', url: [] }]
   userForm!: FormGroup;
+  tipoDocuments = Object(TipoDocumento);
 
   constructor(private route: ActivatedRoute,
               private router: Router,

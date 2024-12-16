@@ -149,3 +149,13 @@ ion-item-divider ion-icon{
     border-radius: 8px;
   }
 }
+
+.documenti-svgs{
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  contain: strict;
+  fill: currentColor;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important;
+}
