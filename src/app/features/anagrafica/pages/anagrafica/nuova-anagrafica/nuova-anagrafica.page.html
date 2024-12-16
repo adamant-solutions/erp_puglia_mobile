@@ -305,11 +305,12 @@
               <ion-label> Documenti Identita </ion-label>
             </ion-item-divider>
             <div class="ion-padding">
-              <ion-button (click)="addDocumentiGroup()" size="small">
+              <ion-button (click)="addDocumentiGroup()" size="small" [disabled]="documentiIdentitaForms.length === tipoDocuments.length">
                 <ion-icon name="add-circle-outline"></ion-icon>
                 Aggiungi Documenti Identita</ion-button>
             </div>
-            <div *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
+            <ion-card *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
+              <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
               <div>
                 <ion-item>
                   <ion-select aria-label="Tipo Documento" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
@@ -402,7 +403,8 @@
             
               <!--  
                       <ion-button  >Elimina Documenti Identita</ion-button> -->
-            </div>
+                    </ion-card-content>
+            </ion-card>
           </div>
 
           <div formGroupName="altri_dettagli">

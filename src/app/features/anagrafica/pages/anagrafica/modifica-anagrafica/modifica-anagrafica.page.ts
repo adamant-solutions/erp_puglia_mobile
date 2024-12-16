@@ -21,6 +21,7 @@ export class ModificaAnagraficaPage implements OnInit {
   formData: any = {};
   documenti: any//[] = [];
   tipoDocuments = Object.values(TipoDocumento);
+  maxDocuments!: number;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -153,6 +154,8 @@ export class ModificaAnagraficaPage implements OnInit {
 
 
     addDocumentoIdentita() {
+      this.maxDocuments = this.tipoDocuments.length;
+      if(this.documenti.length < this.maxDocuments){
       this.documenti.push({
         tipo_documento: null,
         numero_documento: null,
@@ -160,6 +163,7 @@ export class ModificaAnagraficaPage implements OnInit {
         data_scadenza: null,
         ente_emittente: null
       });
+    }
     }
 
     removeDocumentoIdentita(index: number) {
