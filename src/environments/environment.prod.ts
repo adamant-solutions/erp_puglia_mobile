@@ -1,4 +1,4 @@
-const API_URL = 'http://195.231.37.106:8089/';
+const API_URL = 'http://195.231.37.106:8080/';
 
 export const environment = {
   production: true,
