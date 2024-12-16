@@ -192,7 +192,10 @@ export class NuovaAnagraficaPage implements OnInit {
               this.errorMsg = "Errore interno del server!"
             }
             else if (err.status === 400){
-              this.errorMsg = err.message; 
+              this.errorMsg = 'Compila tutti i campi obbligatori'; 
+            }
+            else if(err.status === 422){
+              this.errorMsg = 'Campi di input non validi o contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
             }
             else{
               this.errorMsg = "Error!" + err.message;
