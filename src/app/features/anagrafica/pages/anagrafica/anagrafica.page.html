@@ -69,7 +69,7 @@
       <ion-buttons slot="end">
         <ion-button 
           (click)="nextPage()" 
-          [disabled]="!hasMorePages"
+          [disabled]="currentPage === totalPages - 1"
         >
       <!--   Successivo -->
         <ion-icon name="chevron-forward-outline"></ion-icon>

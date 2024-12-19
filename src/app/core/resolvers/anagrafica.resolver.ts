@@ -21,6 +21,12 @@ export const anagraficaResolver: ResolveFn<any> =
   return anagraficaService.getAnagraficaListPaginated(searchParams)
 };
 
+export const anagraficaAllCountResolver: ResolveFn<any> = 
+(route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
+  return anagraficaService.getAllAnagrafica();
+};
+
+
 export const anagraficaByIdResolver: ResolveFn<any> = 
 (route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
   const ID  = route.params['id'];

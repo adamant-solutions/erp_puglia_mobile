@@ -50,6 +50,10 @@ export class AnagraficaService {
     }
   }
 
+  getAllAnagrafica(){
+    return this.httpClient.get(`${this.anagraficaUrl}/count`).pipe(
+      catchError(e => { throw (e) }));
+  }
   
   getAnagraficaById(id: string){
     if (this.platform.is('hybrid')) {

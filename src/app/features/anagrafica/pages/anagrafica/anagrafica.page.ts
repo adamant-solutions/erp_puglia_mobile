@@ -18,7 +18,8 @@ export class AnagraficaPage implements OnInit {
   anagraficaList: Anagrafica[] = [];
   results: Anagrafica [] = [];
   currentPage = 0;
-  hasMorePages = true;
+  totalPages = 1;
+  numElements!: number;
   itemsPerPage = 10;
   searchCFParam = '';
   searchNomeParam = '';
@@ -55,9 +56,10 @@ export class AnagraficaPage implements OnInit {
     this.route.data.subscribe({
       next: (data) => {
         this.anagraficaList = data['anagraficaResolver']
-        this.results = [...this.anagraficaList]
-        this.hasMorePages = this.anagraficaList.length === this.itemsPerPage;
-        console.log(this.hasMorePages)
+        this.numElements = data['anagraficaAllCountResolver'].nrAnagrafica;
+        this.results = [...this.anagraficaList];
+        this.totalPages = Math.ceil(this.numElements / this.itemsPerPage);
+        /* console.log(this.totalPages) */
       },
       error: (err) => {
         console.log(err)
@@ -141,7 +143,7 @@ export class AnagraficaPage implements OnInit {
   }
   
   nextPage() {
-    if (this.hasMorePages) {
+    if (this.currentPage < this.totalPages) {
      this.navigateToPage(this.currentPage + 1);  
     }
   }
