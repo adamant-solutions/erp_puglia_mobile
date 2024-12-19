@@ -17,7 +17,7 @@ export class AnagraficaPage implements OnInit {
 
   anagraficaList: Anagrafica[] = [];
   results: Anagrafica [] = [];
-  currentPage = 1;
+  currentPage = 0;
   hasMorePages = true;
   itemsPerPage = 10;
   searchCFParam = '';
@@ -38,7 +38,7 @@ export class AnagraficaPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.currentPage = +params['pagina'] || 1;
+      this.currentPage = +params['pagina'] || 0;
       this.searchCFParam = params['codiceFiscale'] || '';
       this.searchNomeParam = params['nome'] || '';
       this.searchCognomeParam = params['cognome'] || '';
@@ -57,6 +57,7 @@ export class AnagraficaPage implements OnInit {
         this.anagraficaList = data['anagraficaResolver']
         this.results = [...this.anagraficaList]
         this.hasMorePages = this.anagraficaList.length === this.itemsPerPage;
+        console.log(this.hasMorePages)
       },
       error: (err) => {
         console.log(err)
@@ -71,7 +72,7 @@ export class AnagraficaPage implements OnInit {
     
     this.router.navigate(['/anagrafica', {
       ...searchParams,
-      pagina: 1,
+      pagina: 0,
       codiceFiscale: searchTerm
     }]);
   /*   
@@ -80,7 +81,7 @@ export class AnagraficaPage implements OnInit {
   }
 
   search(searchParams: AnagraficaSearchParams) {
-    this.anagrafSrc.getAnagraficaList(searchParams)?.subscribe({
+    this.anagrafSrc.getAnagraficaListPaginated(searchParams)?.subscribe({
       next: (results) => {
         /* console.log("Brenda search :" , results) */
           this.results = [...results];
@@ -106,7 +107,7 @@ export class AnagraficaPage implements OnInit {
         const currentParams = { ...this.route.snapshot.params };
         this.router.navigate(['/anagrafica', {
           ...currentParams,
-          pagina: 1,
+          pagina: 0,
           codiceFiscale: result.data.codiceFiscale,
           nome: result.data.nome,
           cognome: result.data.cognome
@@ -132,7 +133,7 @@ export class AnagraficaPage implements OnInit {
 
     this.router.navigate(['/anagrafica', {
       ...searchParams,
-      pagina: 1,
+      pagina: 0,
       codiceFiscale: this.searchCFParam,
       nome: this.searchNomeParam,
       cognome: this.searchCognomeParam
@@ -146,7 +147,7 @@ export class AnagraficaPage implements OnInit {
   }
 
   previousPage() {
-    if (this.currentPage > 1) {
+    if (this.currentPage > 0) {
       this.navigateToPage(this.currentPage - 1);
     }
   }

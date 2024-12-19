@@ -57,14 +57,14 @@
       <ion-buttons slot="start">
         <ion-button 
           (click)="previousPage()" 
-          [disabled]="currentPage === 1"
+          [disabled]="currentPage === 0"
         >
         <ion-icon name="chevron-back-outline"></ion-icon>
        <!--    Precedente -->
         </ion-button>
       </ion-buttons>
 
-      <ion-text class="current-page">{{ currentPage }}</ion-text>
+      <ion-text class="current-page">{{ currentPage + 1 }}</ion-text>
 
       <ion-buttons slot="end">
         <ion-button 

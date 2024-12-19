@@ -17,7 +17,7 @@ export class AnagraficaService {
     private platform: Platform
   ) { }
 
-  getAnagraficaList(params: AnagraficaSearchParams) {
+  getAnagraficaListPaginated(params: AnagraficaSearchParams) {
     if (this.platform.is('hybrid')) {
       console.log("is hybrid")
       return
@@ -32,7 +32,7 @@ export class AnagraficaService {
     }
     else {
       let httpParams = new HttpParams()
-        .set('pagina', (params.pagina || 1).toString())
+        .set('pagina', (params.pagina || 0).toString())
 
       if (params.codiceFiscale) {
         httpParams = httpParams.set('codiceFiscale', params.codiceFiscale);
