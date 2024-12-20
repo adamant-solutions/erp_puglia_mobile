@@ -91,10 +91,36 @@ export class AnagraficaService {
     }
   }
   
-  addAnagrafica(data: Anagrafica){
-    return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, data).pipe(
-      catchError(e => { throw (e) })
-    );
+  addAnagrafica(anagraficaData: Anagrafica) {
+    if (this.platform.is('hybrid')) {
+      const options = {
+        url: `${this.anagraficaUrl}`,
+        method: 'POST',
+        data: anagraficaData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': "application/json"
+        }
+      };
+
+      return new Observable((observer) => {
+        CapacitorHttp.post(options)
+          .then(response => {
+            observer.next(response.data);
+            observer.complete();
+          })
+          .catch(error => {
+            console.log("Error: ", error)
+            observer.error(error);
+          });
+      });
+    }
+    else {
+      return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, anagraficaData).pipe(
+        catchError(e => { throw (e) })
+      );
+    }
+
   }
 
   editAnagrafica(anagraficaData: Anagrafica){
@@ -123,7 +149,6 @@ export class AnagraficaService {
             observer.error(error); 
           });
         });
-
     }
     else {
       return this.httpClient.put<Anagrafica>(`${this.anagraficaUrl}`, anagraficaData).pipe(
@@ -135,8 +160,29 @@ export class AnagraficaService {
 
   
   eliminaAnagrafica(id: string) {
-    return this.httpClient.delete<Anagrafica>(`${this.anagraficaUrl}/${id}`).pipe(
-      catchError(e => { throw (e) })
-    );
+    if (this.platform.is('hybrid')) {
+
+      const options = {
+        url: `${this.anagraficaUrl}/${id}`,
+        method: 'DELETE'
+      };
+
+      return new Observable((observer) => {
+        CapacitorHttp.delete(options)
+        .then(response => {
+          observer.next(response.data);
+          observer.complete(); 
+        })
+        .catch(error => {
+          console.log("Error: " , error)
+          observer.error(error); 
+        });
+      });
+    }
+    else {
+      return this.httpClient.delete<Anagrafica>(`${this.anagraficaUrl}/${id}`).pipe(
+        catchError(e => { throw (e) })
+      );
+    }
   }
 }
