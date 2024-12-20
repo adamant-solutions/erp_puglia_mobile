@@ -1,54 +1,66 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Anagrafica } from '../models/anagrafica.model';
-import { catchError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { AnagraficaSearchParams } from '../resolvers/anagrafica.resolver';
-/* import { HTTP } from '@awesome-cordova-plugins/http/ngx'; */
+import { CapacitorHttp } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnagraficaService {
+
   constructor(
-    //private nativeHttp: HTTP,
     private httpClient: HttpClient,
     @Inject('anagraficaUrl') private anagraficaUrl: string,
     private platform: Platform
   ) { }
-
+  
   getAnagraficaListPaginated(params: AnagraficaSearchParams) {
-    if (this.platform.is('hybrid')) {
-      console.log("is hybrid")
-      return
-      /*    return this.nativeHttp.get(`${this.anagraficaUrl}?pagina=${pageIndex}`, {}, {})
-           .then(response => {
-             return response;
-           })
-           .catch(error => {
-             throw error;
-           }); */
+    let httpParams = new HttpParams().set('pagina', (params.pagina || 0).toString())
 
-    }
-    else {
-      let httpParams = new HttpParams()
-        .set('pagina', (params.pagina || 0).toString())
-
-      if (params.codiceFiscale) {
+    if (params.codiceFiscale) {
         httpParams = httpParams.set('codiceFiscale', params.codiceFiscale);
-      }
-      if (params.nome) {
-        httpParams = httpParams.set('nome', params.nome);
-      }
-      if (params.cognome) {
-        httpParams = httpParams.set('cognome', params.cognome);
-      }
-
-      return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}`, { params: httpParams }).pipe(
-        catchError(e => { throw (e) })
-      );
     }
-  }
+    if (params.nome) {
+        httpParams = httpParams.set('nome', params.nome);
+    }
+    if (params.cognome) {
+        httpParams = httpParams.set('cognome', params.cognome);
+    }
+
+    const paramsForCapacitor = httpParams.keys().reduce((acc : any, key) => {
+        acc[key] = httpParams.getAll(key)
+;
+        return acc;
+    }, {} as {[key: string]: string});
+
+    if (this.platform.is('hybrid')) {
+        console.log("is hybrid");
+
+        const options = {
+            url: `${this.anagraficaUrl}`,
+            method: 'GET',
+            params: paramsForCapacitor
+        };
+        console.log("is options" , options);
+
+        return CapacitorHttp.get(options)
+            .then(response => {
+             /*  console.log("Roanda" ,response) */
+                return response;
+            })
+            .catch(error => {
+                throw error;
+            }); 
+
+    } else {
+        return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}`, { params: httpParams }).pipe(
+            catchError(e => { throw e; })
+        );
+    }
+}
 
   getAllAnagrafica(){
     return this.httpClient.get(`${this.anagraficaUrl}/count`).pipe(
@@ -57,16 +69,20 @@ export class AnagraficaService {
   
   getAnagraficaById(id: string){
     if (this.platform.is('hybrid')) {
-      console.log("is hybrid")
-      return
-      /*    return this.nativeHttp.get(`${this.anagraficaUrl}?pagina=${pageIndex}`, {}, {})
-           .then(response => {
-             return response;
-           })
-           .catch(error => {
-             throw error;
-           }); */
-    
+
+      const options = {
+        url: `${this.anagraficaUrl}/${id}`,
+        method: 'GET'
+    };
+
+    return CapacitorHttp.get(options)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            throw error;
+        }); 
+
     }
     else {
              return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}/${id}`, {headers: {'Accept':'application/json'} }).pipe(
@@ -81,10 +97,40 @@ export class AnagraficaService {
     );
   }
 
-  editAnagrafica(data: any) { //any type temp
-    return this.httpClient.put<any>(`${this.anagraficaUrl}`, data).pipe(
-      catchError(e => { throw (e) })
-    );
+  editAnagrafica(anagraficaData: Anagrafica){
+    if (this.platform.is('hybrid')) {
+      
+      const options = {
+        url: `${this.anagraficaUrl}`,
+        method: 'PUT',
+        data: anagraficaData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type' : "application/json"
+        }
+      };
+      
+        return new Observable((observer) => {
+          /* console.log("Send src:" ,options) */
+          CapacitorHttp.put(options)
+          .then(response => {
+          /*   console.log("Response src:" ,response) */
+            observer.next(response.data);
+            observer.complete(); 
+          })
+          .catch(error => {
+            console.log("Error: " , error)
+            observer.error(error); 
+          });
+        });
+
+    }
+    else {
+      return this.httpClient.put<Anagrafica>(`${this.anagraficaUrl}`, anagraficaData).pipe(
+        catchError(e => { throw (e) })
+      );
+    }
+
   }
 
   

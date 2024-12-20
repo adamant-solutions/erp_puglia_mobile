@@ -1,10 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController} from '@ionic/angular';
+import { ModalController, Platform} from '@ionic/angular';
 import {Anagrafica} from 'src/app/core/models/anagrafica.model';
 import { AnagraficaSearchParams } from 'src/app/core/resolvers/anagrafica.resolver';
 import { SearchModalComponent } from '../../components/search-modal/search-modal.component';
-import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 
 
 @Component({
@@ -16,7 +15,6 @@ export class AnagraficaPage implements OnInit {
   pageTitle: string = "anagrafica";
 
   anagraficaList: Anagrafica[] = [];
-  results: Anagrafica [] = [];
   currentPage = 0;
   totalPages = 1;
   numElements!: number;
@@ -34,7 +32,7 @@ export class AnagraficaPage implements OnInit {
   private route = inject(ActivatedRoute);
 
   constructor( private modalController: ModalController,
-               private anagrafSrc: AnagraficaService){
+               private platform: Platform){
   }
 
   ngOnInit() {
@@ -48,21 +46,44 @@ export class AnagraficaPage implements OnInit {
         { name: 'searchNomeParam', value: this.searchNomeParam },
         { name: 'searchCognomeParam', value: this.searchCognomeParam }
       ]
-      this.getList();
+  
+      if (this.platform.is('hybrid')) {
+        this.getListInNative();
+      }
+      else{
+        this.getList();
+      }
+     
     });
   }
 
-  getList() {
+  getList(){
     this.route.data.subscribe({
       next: (data) => {
         this.anagraficaList = data['anagraficaResolver']
         this.numElements = data['anagraficaAllCountResolver'].nrAnagrafica;
-        this.results = [...this.anagraficaList];
+        this.anagraficaList = [...this.anagraficaList]; 
         this.totalPages = Math.ceil(this.numElements / this.itemsPerPage);
-        /* console.log(this.totalPages) */
       },
       error: (err) => {
         console.log(err)
+      }
+    });
+  }
+
+  getListInNative() { 
+    this.route.data.subscribe({
+      next: (data) => {
+       const responseData = data['anagraficaResolver']
+        this.anagraficaList = responseData.data
+       /*  console.log("Anagrafica list:", this.anagraficaList); */
+        this.numElements = responseData.headers['X-Paging-TotalRecordCount'];
+        this.totalPages = responseData.headers['X-Paging-PageCount'];
+        /*  console.log(this.totalPages) */
+     
+      },
+      error: (err) => {
+        console.log("Error:" ,err)
       }
     });
   }
@@ -80,18 +101,6 @@ export class AnagraficaPage implements OnInit {
   /*   
     console.log("Handle input: ", searchTerm)
     console.log("search object" , searchParams ) */
-  }
-
-  search(searchParams: AnagraficaSearchParams) {
-    this.anagrafSrc.getAnagraficaListPaginated(searchParams)?.subscribe({
-      next: (results) => {
-        /* console.log("Brenda search :" , results) */
-          this.results = [...results];
-      },
-      error: (err) => {
-        this.results = [];
-      }
-    })
   }
 
   async openAdvancedSearch() {

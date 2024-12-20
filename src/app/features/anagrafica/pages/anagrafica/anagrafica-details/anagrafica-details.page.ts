@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
@@ -23,19 +24,34 @@ export class AnagraficaDetailsPage implements OnInit {
               private router: Router,
               private anagraficaSrvc : AnagraficaService,
               private msgService: MessagesService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private platform: Platform) {
   }
 
   ngOnInit() {
-    this.route.data.subscribe({
-      next: (data) => {
-        this.userData = data['anagraficaByIdResolver']
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    });
-    console.log(this.userData);
+    if(this.platform.is('hybrid')){
+      this.route.data.subscribe({
+        next: (data) => {
+        /*   console.log("Details:" , data) */
+          this.userData = data['anagraficaByIdResolver'].data
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
+    }
+    else {
+      this.route.data.subscribe({
+        next: (data) => {
+          this.userData = data['anagraficaByIdResolver']
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
+      /* console.log(this.userData); */
+    }
+   
 
   }
 

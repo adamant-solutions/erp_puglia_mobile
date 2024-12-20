@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -40,10 +40,25 @@ export class ModificaAnagraficaPage implements OnInit {
     private datePipe: DatePipe,
     private anagraficaSrv: AnagraficaService,
     private msgService: MessagesService,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private platform: Platform) { }
 
 
   ngOnInit() {
+    if(this.platform.is('hybrid')){
+      this.route.data.subscribe({
+      next: (data) => {
+        this.userData = data['anagraficaByIdResolver'].data
+        this.initializeForm();
+          console.log(this.userData)
+      },
+      error: (err) => {
+        console.log(err)
+      }
+      });
+    }
+    else {
+       
     this.route.data.subscribe({
       next: (data) => {
         this.userData = data['anagraficaByIdResolver']
@@ -55,7 +70,8 @@ export class ModificaAnagraficaPage implements OnInit {
       }
     });
 
-
+    }
+ 
     if (this.swiper) {
       //parameters
       Object.assign(this.swiper.nativeElement, {
@@ -237,7 +253,7 @@ export class ModificaAnagraficaPage implements OnInit {
           case 0: // Cittadino 
             this.formData.cittadino = {
               ...resetData(this.userData.cittadino, this.formData.cittadino),
-              dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'dd/MM/yyyy'),
+              dataDiNascita: this.datePipe.transform(this.userData.cittadino.dataDiNascita, 'yyyy-MM-dd'),
               createDate: this.datePipe.transform(this.userData.cittadino.createDate, 'dd/MM/yyyy'),
               lastUpdateDate: this.datePipe.transform(this.userData.cittadino.lastUpdateDate, 'dd/MM/yyyy'),
             };
@@ -316,18 +332,37 @@ export class ModificaAnagraficaPage implements OnInit {
       };
       console.log("SEND ",sendAnagraficaData)
 
-      this.anagraficaSrv.editAnagrafica(sendAnagraficaData).subscribe({
-        next: (res) => {
-          this.msgService.success("Dati salvati con successo!");
-          console.log(res);
-        },
-        error: (err) => {
-          this.handleError(err);
-        },
-      complete: ()=> {
-        this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+       if(this.platform.is('hybrid')){
+      
+        this.anagraficaSrv.editAnagrafica(sendAnagraficaData)?.subscribe({
+          next: (res: any) => {
+            if (res.error) {
+              this.handleError(res);
+             /*  console.log("is error: " ,res); */
+            } else {
+              this.msgService.success("Dati salvati con successo!");
+              console.log(res);
+            }
+          },
+        complete: ()=> {
+          this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+        }
+        }) 
       }
-      }); 
+      else {       
+       this.anagraficaSrv.editAnagrafica(sendAnagraficaData).subscribe({
+          next: (res) => {
+            this.msgService.success("Dati salvati con successo!"); 
+            console.log(res);
+          },
+          error: (err) => {
+            this.handleError(err);
+          },
+        complete: ()=> {
+          this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+        }
+        });
+      }
     } else {
       this.markFormTouched();
     }
@@ -337,11 +372,13 @@ export class ModificaAnagraficaPage implements OnInit {
     if (err.status === 500) {
       this.errorMsg = "Errore interno del server!";
     } else if (err.status === 400) {
-      this.errorMsg =  "Compila tutti i campi obbligatori";
-    } else {
-      this.errorMsg = "Error!" + err.message;
+      this.errorMsg = "Si è verificato un errore durante l'invio dei dati. Controllare nuovamente i dati inseriti.";//Compila tutti i campi obbligatori
+    }
+    else {
+      this.errorMsg = "Error! " + err.message;
     }
     this.msgService.error(this.errorMsg);
+
   }
 
   private markFormTouched() {
