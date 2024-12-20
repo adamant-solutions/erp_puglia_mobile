@@ -13,6 +13,11 @@ $RECYCLE.BIN/
 log.txt
 
 
+android/
+ios/
+icons/
+src/manifest.webmanifest
+
 /.sourcemaps
 /.versions
 /coverage
