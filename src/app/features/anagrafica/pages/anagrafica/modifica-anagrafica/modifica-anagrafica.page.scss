@@ -16,14 +16,29 @@ ion-item-divider.ios {
 }
 
 
-.navigation-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    ion-button {
-        flex-grow: 1;
-        margin: 0 5px;
+@media only screen and (max-width: 600px) {
+    .navigation-buttons {
+        display: flex;
+        flex-direction: column;
+
+        ion-button {
+            flex-grow: 1;
+            margin: 10px;
+        }
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ion-button {
+            flex-grow: 1;
+            margin: 0 5px;
+        }
     }
 }
 
