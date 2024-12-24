@@ -19,7 +19,7 @@ export class AlertService {
   showConfirmation(
     header: string, 
     message: string, 
-    cssClass: string = 'custom-alert'
+    cssClass: string = 'custom-alert' 
   ): Observable<boolean> {
     const alert = this.alertController.create({
       header: header,
@@ -37,7 +37,8 @@ export class AlertService {
           cssClass: 'alert-button-confirm',
           handler: () => true
         }
-      ]
+      ],
+      backdropDismiss : false,
     });
 
     return from(alert).pipe(
@@ -65,7 +66,8 @@ export class AlertService {
       header: header,
       message: message,
       cssClass: cssClass,
-      buttons: ['OK']
+      buttons: ['OK'],
+      backdropDismiss : false
     });
 
     return from(alert).pipe(
