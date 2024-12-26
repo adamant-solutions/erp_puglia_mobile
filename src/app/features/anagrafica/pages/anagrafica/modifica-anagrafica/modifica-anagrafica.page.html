@@ -28,7 +28,7 @@
                     </ion-item-divider>
                     <div>
                       <ion-item>
-                        <ion-input label="Codice Fiscale *" labelPlacement="floating" placeholder="Codice Fiscale"
+                        <ion-input label="Codice Fiscale*" labelPlacement="floating" placeholder="Codice Fiscale"
                           id="codiceFiscale" name="codiceFiscale" [(ngModel)]="formData.cittadino.codiceFiscale"
                           required #codiceFiscale="ngModel"></ion-input>
 
@@ -48,7 +48,7 @@
 
                     <div>
                       <ion-item>
-                        <ion-input label="Nome *" labelPlacement="floating" placeholder="Nome" name="nome" id="nome"
+                        <ion-input label="Nome*" labelPlacement="floating" placeholder="Nome" name="nome" id="nome"
                           [(ngModel)]="formData.cittadino.nome" #nome="ngModel" required [minlength]="3"></ion-input>
                       </ion-item>
                       <ion-note class="ion-padding-start" color="danger" *ngIf="nome.dirty || nome.touched">
@@ -64,7 +64,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Cognome *" labelPlacement="floating" placeholder="Cognome" name="cognome"
+                        <ion-input label="Cognome*" labelPlacement="floating" placeholder="Cognome" name="cognome"
                           id="cognome" [(ngModel)]="formData.cittadino.cognome" #cognome="ngModel" required
                           [minlength]="3"></ion-input>
                       </ion-item>
@@ -80,7 +80,7 @@
                       </ion-note>
                     </div>
                     <div> <ion-item>
-                        <ion-input label="Data Nascita *" labelPlacement="floating" placeholder="Data di Nascita"
+                        <ion-input label="Data Nascita*" labelPlacement="floating" placeholder="Data di Nascita"
                           name="dataDiNascita" id="dataDiNascita" [(ngModel)]="formData.cittadino.dataDiNascita"
                           #dataDiNascita="ngModel"></ion-input>
 
@@ -131,7 +131,7 @@
                         <ion-label>Luogo nascita</ion-label>
                       </ion-item-divider>
                       <div> <ion-item>
-                          <ion-input label="Comune" labelPlacement="floating" placeholder="Comune" name="comune"
+                          <ion-input label="Comune*" labelPlacement="floating" placeholder="Comune" name="comune"
                             id="comune" [(ngModel)]="formData.cittadino.luogo_nascita.comune" #comune="ngModel"
                             required></ion-input>
                         </ion-item>
@@ -144,7 +144,7 @@
                       </div>
 
                       <div> <ion-item>
-                          <ion-input label="Provincia" labelPlacement="floating" placeholder="Provincia"
+                          <ion-input label="Provincia*" labelPlacement="floating" placeholder="Provincia"
                             name="provincia" id="provincia" [(ngModel)]="formData.cittadino.luogo_nascita.provincia"
                             #provincia="ngModel" required></ion-input>
                         </ion-item>
@@ -157,7 +157,7 @@
                       </div>
 
                       <div> <ion-item>
-                          <ion-input label="Stato" labelPlacement="floating" placeholder="Stato" name="stato" id="stato"
+                          <ion-input label="Stato*" labelPlacement="floating" placeholder="Stato" name="stato" id="stato"
                             [(ngModel)]="formData.cittadino.luogo_nascita.stato" #stato="ngModel" required></ion-input>
                         </ion-item>
                         <ion-note class="ion-padding-start" color="danger" *ngIf="stato.dirty || stato.touched">
@@ -183,7 +183,7 @@
                       <ion-label> Residenza </ion-label>
                     </ion-item-divider>
                     <div> <ion-item>
-                        <ion-input label="Indirizzo" labelPlacement="floating"
+                        <ion-input label="Indirizzo*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.indirizzo" name="indirizzo" id="indirizzo"
                           placeholder="Indirizzo" #indirizzo="ngModel" required></ion-input>
                       </ion-item>
@@ -197,7 +197,7 @@
 
                     </div>
                     <div> <ion-item>
-                        <ion-input label="Civico" labelPlacement="floating"
+                        <ion-input label="Civico*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.civico" name="civico" id="civico"
                           placeholder="Civico" #civico="ngModel" required></ion-input>
                       </ion-item>
@@ -209,7 +209,7 @@
                       </ion-note>
                     </div>
                     <div> <ion-item>
-                        <ion-input label="CAP" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.cap"
+                        <ion-input label="CAP*" labelPlacement="floating" [(ngModel)]="formData.cittadino.residenza.cap"
                           name="cap" id="cap" placeholder="cap" #cap="ngModel" required
                           [pattern]="'^[0-9]{5}$'"></ion-input>
                       </ion-item>
@@ -227,7 +227,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Comune Residenza" labelPlacement="floating"
+                        <ion-input label="Comune Residenza*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.comuneResidenza" name="comuneResidenza"
                           id="comuneResidenza" placeholder="Indirizzo" #comuneResidenza="ngModel" required></ion-input>
                       </ion-item>
@@ -242,7 +242,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Provinica Residenza" labelPlacement="floating"
+                        <ion-input label="Provinica Residenza*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.provinciaResidenza"
                           placeholder="Provinica Residenza" name="provinciaResidenza" id="provinciaResidenza"
                           #provinciaResidenza="ngModel" required></ion-input>
@@ -257,7 +257,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Stato Residenza" labelPlacement="floating"
+                        <ion-input label="Stato Residenza*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.statoResidenza" name="statoResidenza"
                           id="statoResidenza" #statoResidenza="ngModel" placeholder="Stato Residenza"
                           required></ion-input>
@@ -283,7 +283,7 @@
                       <ion-label> Contatti </ion-label>
                     </ion-item-divider>
                     <div> <ion-item>
-                        <ion-input label="Telefono" labelPlacement="floating"
+                        <ion-input label="Telefono*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.contatti.telefono" name="telefono" id="telefono"
                           #telefono="ngModel" [pattern]="'^[+][0-9]+$'" placeholder="Telefono"></ion-input>
                       </ion-item>
@@ -302,7 +302,7 @@
 
                     <div>
                       <ion-item>
-                        <ion-input label="Cellulare" labelPlacement="floating"
+                        <ion-input label="Cellulare*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.contatti.cellulare" name="cellulare" id="cellulare"
                           #cellulare="ngModel" placeholder="Cellulare" required [pattern]="'^[0-9]+$'"></ion-input>
                       </ion-item>
@@ -321,7 +321,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Email" labelPlacement="floating"
+                        <ion-input label="Email*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.contatti.email" name="email" id="email" placeholder="Email"
                           #email="ngModel" required [pattern]="''"></ion-input>
                       </ion-item>
@@ -339,7 +339,7 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Pec" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.pec"
+                        <ion-input label="Pec*" labelPlacement="floating" [(ngModel)]="formData.cittadino.contatti.pec"
                           #pec="ngModel" name="pec" id="pec" placeholder="Pec" required [pattern]="''"></ion-input>
                       </ion-item>
                       <ion-note class="ion-padding-start" color="danger" *ngIf="pec.dirty || pec.touched">
@@ -371,7 +371,7 @@
 
                   <div *ngFor="let doc of documenti; let i = index">
                     <div> <ion-item>
-                        <ion-select label="Tipo Documento" labelPlacement="floating" name="tipoDocumento_{{i}}" id="tipoDocumento_{{i}}"
+                        <ion-select label="Tipo Documento*" labelPlacement="floating" name="tipoDocumento_{{i}}" id="tipoDocumento_{{i}}"
                           placeholder="Seleziona tipo documento" [(ngModel)]="doc.tipo_documento" required
                           #tipoDocumento="ngModel">
                           <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
@@ -389,7 +389,7 @@
 
                     <div>
                       <ion-item>
-                        <ion-input label="Numero Documento" labelPlacement="floating" name="numeroDocumento_{{i}}" id="numeroDocumento_{{i}}"
+                        <ion-input label="Numero Documento*" labelPlacement="floating" name="numeroDocumento_{{i}}" id="numeroDocumento_{{i}}"
                           [(ngModel)]="doc.numero_documento" required [pattern]="'^[a-zA-Z0-9]+$'" #numeroDocumento="ngModel"
                           placeholder="Numero Documento"></ion-input>
                       </ion-item>
@@ -406,7 +406,7 @@
                     </div>
                     <div>
                       <ion-item>
-                        <ion-input id="data_emissione_{{i}}" label="Data Emissione *" labelPlacement="floating"
+                        <ion-input id="data_emissione_{{i}}" label="Data Emissione*" labelPlacement="floating"
                           name="dataEmissione_{{i}}" [(ngModel)]="doc.data_emissione" readonly required
                           #dataEmissione="ngModel"></ion-input>
 
@@ -434,7 +434,7 @@
                     <div>
 
                       <ion-item>
-                        <ion-input id="data_scadenza_{{i}}" label="Data Scadenza" labelPlacement="floating"
+                        <ion-input id="data_scadenza_{{i}}" label="Data Scadenza*" labelPlacement="floating"
                           name="dataScadenza_{{i}}" [(ngModel)]="doc.data_scadenza" readonly required
                           #dataScadenza="ngModel"></ion-input>
                         <ion-icon name="calendar-outline" [id]="'data_scadenza_' + i" button></ion-icon>
@@ -457,7 +457,7 @@
                     </ion-note>
                     </div>
                     <div> <ion-item>
-                        <ion-input label="Ente emittente" labelPlacement="floating" name="enteEmittente_{{i}}"
+                        <ion-input label="Ente emittente*" labelPlacement="floating" name="enteEmittente_{{i}}"
                           [(ngModel)]="doc.ente_emittente" required #enteEmittente="ngModel"
                           placeholder="Ente emittente"></ion-input>
                       </ion-item>

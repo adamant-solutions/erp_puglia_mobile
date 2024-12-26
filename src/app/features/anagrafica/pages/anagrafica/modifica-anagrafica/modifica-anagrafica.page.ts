@@ -223,11 +223,13 @@ export class ModificaAnagraficaPage implements OnInit {
           },
           {
             text: 'Sì',
+            role: 'confirm',
             handler: () => {
               this.resetCurrentSlideData();
             }
           }
-        ]
+        ],
+        cssClass: 'custom-annulla-alert'
       });
     
       await alert.present();

@@ -120,7 +120,7 @@
             </ion-item-divider>
             <div>
               <ion-item>
-                <ion-input label="Comune" labelPlacement="floating" formControlName="comune"></ion-input>
+                <ion-input label="Comune*" labelPlacement="floating" formControlName="comune"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.comune')?.touched)  && addForm.get('cittadino.luogo_nascita.comune')?.invalid" color="danger">
@@ -131,7 +131,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Provincia" labelPlacement="floating" formControlName="provincia"></ion-input>
+                <ion-input label="Provincia*" labelPlacement="floating" formControlName="provincia"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.provincia')?.touched)  && addForm.get('cittadino.luogo_nascita.provincia')?.invalid" color="danger">
@@ -142,7 +142,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Stato" labelPlacement="floating" formControlName="stato"></ion-input>
+                <ion-input label="Stato*" labelPlacement="floating" formControlName="stato"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.luogo_nascita.stato')?.touched)  && addForm.get('cittadino.luogo_nascita.stato')?.invalid" color="danger">
@@ -162,7 +162,7 @@
             </ion-item-divider>
             <div>
               <ion-item>
-                <ion-input label="Indirizzo" labelPlacement="floating" formControlName="indirizzo"></ion-input>
+                <ion-input label="Indirizzo*" labelPlacement="floating" formControlName="indirizzo"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.residenza.indirizzo')?.touched)  && addForm.get('cittadino.residenza.indirizzo')?.invalid" color="danger">
@@ -174,7 +174,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Civico" labelPlacement="floating" formControlName="civico"></ion-input>
+                <ion-input label="Civico*" labelPlacement="floating" formControlName="civico"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.residenza.civico')?.touched) && addForm.get('cittadino.residenza.civico')?.invalid" color="danger">
@@ -185,7 +185,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="CAP" labelPlacement="floating" formControlName="cap"></ion-input>
+                <ion-input label="CAP*" labelPlacement="floating" formControlName="cap"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.residenza.cap')?.touched) && addForm.get('cittadino.residenza.cap')?.invalid"
                 color="danger">
@@ -199,7 +199,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Comune Residenza" labelPlacement="floating"
+                <ion-input label="Comune Residenza*" labelPlacement="floating"
                   formControlName="comuneResidenza"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
@@ -211,7 +211,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Provincia Residenza" labelPlacement="floating"
+                <ion-input label="Provincia Residenza*" labelPlacement="floating"
                   formControlName="provinciaResidenza"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
@@ -223,7 +223,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Stato Residenza" labelPlacement="floating"
+                <ion-input label="Stato Residenza*" labelPlacement="floating"
                   formControlName="statoResidenza"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
@@ -242,7 +242,7 @@
             </ion-item-divider>
             <div>
               <ion-item>
-                <ion-input label="Telefono" labelPlacement="floating" formControlName="telefono"></ion-input>
+                <ion-input label="Telefono*" labelPlacement="floating" formControlName="telefono"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.contatti.telefono')?.touched) && addForm.get('cittadino.contatti.telefono')?.invalid" color="danger">
@@ -256,7 +256,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Cellulare" labelPlacement="floating" formControlName="cellulare"></ion-input>
+                <ion-input label="Cellulare*" labelPlacement="floating" formControlName="cellulare"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.contatti.cellulare')?.touched) && addForm.get('cittadino.contatti.cellulare')?.invalid" color="danger">
@@ -270,7 +270,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email"></ion-input>
+                <ion-input label="Email*" type="email" labelPlacement="floating" formControlName="email"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.contatti.email')?.touched) && addForm.get('cittadino.contatti.email')?.invalid"
                 color="danger">
@@ -284,7 +284,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="Pec" labelPlacement="floating" formControlName="pec"></ion-input>
+                <ion-input label="Pec*" labelPlacement="floating" formControlName="pec"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.contatti.pec')?.touched) && addForm.get('cittadino.contatti.pec')?.invalid"
                 color="danger">
@@ -313,7 +313,7 @@
               <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
               <div>
                 <ion-item>
-                  <ion-select aria-label="Tipo Documento" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
+                  <ion-select aria-label="Tipo Documento*" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
                     [class.ion-invalid]="(submitted || doc.get('tipo_documento')?.touched) && doc.get('tipo_documento')?.invalid">
                     <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
                       [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
@@ -327,7 +327,7 @@
               </div>
               <div>
                 <ion-item>
-                  <ion-input label="Numero Documento" labelPlacement="floating" formControlName="numero_documento"
+                  <ion-input label="Numero Documento*" labelPlacement="floating" formControlName="numero_documento"
                     placeholder="Numero Documento"></ion-input>
                 </ion-item>
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('numero_documento')?.touched) && doc.get('numero_documento')?.invalid" color="danger">
@@ -341,7 +341,7 @@
               </div>
               <div>
                 <ion-item>
-                  <ion-input id="data_emissione_{{i}}" label="Data Emissione" labelPlacement="floating"
+                  <ion-input id="data_emissione_{{i}}" label="Data Emissione*" labelPlacement="floating"
                     [value]="formatDisplayDateEmissione(i)"></ion-input>
                   <ion-icon name="calendar-outline"></ion-icon>
           
@@ -363,7 +363,7 @@
               <div>
                 <ion-item>
           
-                  <ion-input id="data_scadenza_{{i}}" label="Data Scadenza" labelPlacement="floating"
+                  <ion-input id="data_scadenza_{{i}}" label="Data Scadenza*" labelPlacement="floating"
                     [value]="formatDisplayDateScadenza(i)"></ion-input>
                   <ion-icon name="calendar-outline"></ion-icon>
           
@@ -385,7 +385,7 @@
               </div>
               <div>
                 <ion-item>
-                  <ion-input label="Ente emittente" labelPlacement="floating" formControlName="ente_emittente"
+                  <ion-input label="Ente emittente*" labelPlacement="floating" formControlName="ente_emittente"
                     placeholder="Ente emittente"></ion-input>
                 </ion-item>
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('ente_emittente')?.touched) && doc.get('ente_emittente')?.invalid" color="danger">

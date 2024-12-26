@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
@@ -24,7 +25,8 @@ export class NuovaAnagraficaPage implements OnInit {
     private datePipe: DatePipe,
     private msgService: MessagesService,
     private router: Router,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -211,8 +213,33 @@ export class NuovaAnagraficaPage implements OnInit {
    }
   }
 
-  cancelInputs(){
+  resetForm(){
     this.addForm.reset();
+  }
+
+
+  async cancelInputs() {
+    const alert = await this.alertController.create({
+      header: 'Annulla',
+      message: 'Vuoi annullare l\'inserimento della nuova anagrafica? I dati non salvati verranno persi.',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Sì',
+          role: 'confirm',
+          handler: () => {
+            this.resetForm();
+           /*  this.router.navigate(['/anagrafica']); */
+          }
+        }
+      ],
+      cssClass: 'custom-annulla-alert'
+    });
+  
+    await alert.present();
   }
 
 
