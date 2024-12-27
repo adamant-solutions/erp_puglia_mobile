@@ -1,6 +1,6 @@
 {
   "/": {
-    "target": "http://195.231.37.106:8080",
+    "target": "https://195.231.37.106:8443",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {

@@ -5,6 +5,7 @@ const API_URL = '/';
 
 export const environment = {
   production: false,
+  accessTokenUrl: API_URL + 'oauth2/token',
   anagraficaUrl: API_URL + 'anagrafica'
 };
 
