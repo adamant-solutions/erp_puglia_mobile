@@ -12,27 +12,55 @@
     <!-- searchBar section -->
 
     <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"></ion-searchbar>
-    <!-- list patrimonio section -->
-    <ion-list role="feed">
+  
+   <!--  <ion-list role="feed">
       <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
         <ion-label>Lista del Patrimonio</ion-label>
       </ion-list-header>
 
-      <ion-item *ngFor="let p of results" role="article">
+       <ion-item *ngFor="let p of patrimonioList" role="article">
         <ion-icon name="business-outline"></ion-icon>
-        <ion-label class="list-item-name">{{ p }}</ion-label>
+        <ion-label class="list-item-name">{{ p.quartiere }}</ion-label>
         <ion-icon name="chevron-forward-outline" color="primary" [routerLink]="[p,'patrimonio-details']"></ion-icon>
 
       </ion-item>
-    </ion-list>
+    </ion-list> -->
 
-    <!-- scroll content -->
-
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-
-
+  <!--  patrimonio list section -->
+  <ion-card *ngFor="let p of patrimonioList">
+    <ion-card-header>
+  
+      <ion-card-title style="
+            display: flex;
+            color: var(--ion-color-secondary);
+            justify-content: space-between;
+            align-items: center;
+        ">
+        <div>
+          <ion-icon name="business-outline" style="margin-right: 5px;"></ion-icon>{{p.zona}} - {{p.quartiere}}
+        </div> <ion-icon name="chevron-forward-outline" color="primary"
+          [routerLink]="[p.id,'patrimonio-details']"></ion-icon>
+      </ion-card-title>
+  
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div>
+        <p>Metri Quadri: {{p.metriQuadri}}</p>
+        <p>Classe Energetica: {{p.classeEnergetica}}</p>
+        <p>Stato: {{p.statoDisponibilita}}</p>
+      </div>
+  
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- scroll content -->
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
+  
   </div>
-</ion-content>
-<app-footer></app-footer>
+  </ion-content>
+  <app-footer></app-footer>
