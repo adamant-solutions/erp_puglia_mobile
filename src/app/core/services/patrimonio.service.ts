@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Patrimonio} from '../models/patrimonio.model';
 import {catchError, Observable, of} from 'rxjs';
 
@@ -8,15 +8,14 @@ import {catchError, Observable, of} from 'rxjs';
 })
 export class PatrimonioService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, @Inject('patrimonioUrl') private patrimonioUrl: string,) {
   }
 
   getPatrimonioData(): Observable<Patrimonio[]> {
-    const url = ''; //'https://api.example.com/data';
-    return this.http.get<Patrimonio[]>(url)
+    return this.http.get<Patrimonio[]>(`${this.patrimonioUrl}`)
       .pipe(
         catchError(error => {
-          return of([]);
+          return of(error);
         })
       );
   }

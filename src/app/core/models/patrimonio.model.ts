@@ -1,28 +1,38 @@
+
+
 export interface Patrimonio {
-  id?: number;
-  edilizia: Edilizia;
-  riferimentoDetails: Riferimento,
-  //....
+  id: number
+  createDate: string
+  lastUpdateDate: string
+  metriQuadri: number
+  quartiere: string
+  zona: string
+  classeEnergetica: string
+  tipoAmministrazione: string
+  statoDisponibilita: string
+  descrizione: string
+  comune: string
+  provincia: string
+  indirizzo: string
+  civico: string
+  sezioneUrbana: string
+  foglio: string
+  particella: string
+  subalterno: string
+  categoriaCatastale: string
+  classeCatastale: string
+  renditaCatastale: number
+  consistenzaCatastale: number
+  piano: string
+  documenti: Documenti[]
 }
 
-export interface Edilizia {
-  id?: string;
-  metri_quadri: number;
-  quartiere: string;
-  zona: string;
-  classe_energetica: string;
-  year_of_construction: number;
-  province: string;
-  //etc...
-}
-
-export interface Riferimento {
-  id?: string;
-  tipologia_di_amministrazione: string;
-  stato_di_disponibilita: string;
-  tipoSfittanza: string;
-  tipologia_di_contratto: string;
-  tipo_di_registrazione: string;
-  causale_di_cessazione: string;
-  //etc...
+export interface Documenti {
+  id: number
+  createDate: string
+  lastUpdateDate: string
+  tipoDocumento: string
+  dataDocumento: string
+  percorsoFile: string
+  descrizione: string
 }
