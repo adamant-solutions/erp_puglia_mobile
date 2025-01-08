@@ -2,11 +2,13 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {PatrimonioDetailsPage} from './patrimonio-details.page';
+import { patrimonioByIdResolver } from 'src/app/core/resolvers/patrimonio.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: PatrimonioDetailsPage
+    component: PatrimonioDetailsPage,
+    resolve: { patrimonioByIdResolver }
   }
 ];
 

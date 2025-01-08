@@ -8,7 +8,6 @@ const routes: Routes = [
     path: '',
     component: PatrimonioPage,
     resolve: {patrimonioResolver},
-    runGuardsAndResolvers: 'pathParamsOrQueryParamsChange'
   },
   {
     path: ':id/patrimonio-details',

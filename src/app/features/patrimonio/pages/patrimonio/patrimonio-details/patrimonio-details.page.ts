@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Patrimonio} from 'src/app/core/models/patrimonio.model';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-patrimonio-details',
@@ -10,32 +12,42 @@ import {Patrimonio} from 'src/app/core/models/patrimonio.model';
 export class PatrimonioDetailsPage implements OnInit {
 
   breadCrumbs = [{name: 'Patrimonio', url: '/'}, {name: 'Patrimonio Dettagli', url: []}]
-  modelMock: Patrimonio =
-    {
-      id: 1,
-      edilizia: {
-        metri_quadri: 120,
-        quartiere: 'Centro Storico',
-        zona: 'Centro',
-        classe_energetica: 'A+',
-        year_of_construction: 1995,
-        province: 'Puglia'
-      },
-      riferimentoDetails: {
-        tipologia_di_amministrazione: 'Privata',
-        stato_di_disponibilita: 'Disponibile',
-        tipoSfittanza: 'Affitto',
-        tipologia_di_contratto: 'Contratto a lungo termine',
-        tipo_di_registrazione: 'Registrato',
-        causale_di_cessazione: 'Cessazione per scadenza contratto'
-      }
-    }
+  patrimonioData!: Patrimonio;
 
 
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(private activeRoute: ActivatedRoute,
+              private msgService: MessagesService,
+              private alertService: AlertService,
+  ) {
   }
 
   ngOnInit() {
+  
+    this.activeRoute.data.subscribe({
+      next: (data) => {
+        this.patrimonioData = data['patrimonioByIdResolver']
+       /*  console.log(this.patrimonioData) */
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
+  }
+
+
+  trackByDoc(index: number, doc: any): any {
+    return doc.id;
+  }
+
+  onDeleteClick() {
+    this.alertService.showConfirmation(
+      'Conferma Eliminazione', 
+      'Sei sicuro di voler eliminare questo patrimonio? Questa azione non può essere annullata.'
+    ).subscribe(confirmed => {
+      if (confirmed) {
+        //this.elimina();
+      }
+    });
   }
 
 }
