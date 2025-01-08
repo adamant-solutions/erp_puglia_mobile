@@ -9,6 +9,16 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
+
+     <!-- Add patrimonio section -->
+     <div class="custom-add-bar ion-padding">
+      <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Patrimonio"></ion-icon>
+      <ion-text>Aggiungi patrimonio</ion-text>
+
+    <ion-icon name="chevron-forward-outline" color="primary"
+    [routerLink]="['nuovo-patrimonio']"></ion-icon>
+   </div>
+
     <!-- searchBar section -->
 
     <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"></ion-searchbar>

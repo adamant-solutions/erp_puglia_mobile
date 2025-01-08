@@ -1,0 +1,310 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" defaultHref="/patrimonio"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div id="container" class="ion-padding">
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          <ion-label> Dettagli </ion-label>
+        </ion-item-divider>
+        <div>
+          <ion-item>
+            <!--   <ion-label position="floating">Quartiere*</ion-label> -->
+            <ion-input formControlName="quartiere" label="Quartiere*" labelPlacement="floating"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('quartiere')?.touched) && addForm.get('quartiere')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('quartiere')?.errors?.['required']">
+              Quartiere è obbligatoria
+            </span>
+          </ion-note>
+
+        </div>
+        <ion-item>
+          <ion-select label="Tipo Amministrazione*" labelPlacement="floating" formControlName="tipoAmministrazione">
+            <ion-select-option value="DIRETTA">Diretta</ion-select-option>
+            <ion-select-option value="INDIRETTA">Indiretta</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-select label="Stato Disponibilità*" labelPlacement="floating" formControlName="statoDisponibilita">
+            <ion-select-option value="DISPONIBILE">Disponibile</ion-select-option>
+            <ion-select-option value="NON DISPONIBILE">Non disponibile</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div>  <ion-item>
+          <ion-input formControlName="metriQuadri" label="Metri Quadri" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-note class="ion-padding-start"
+        *ngIf="(submitted || addForm.get('metriQuadri')?.touched) && addForm.get('metriQuadri')?.invalid" color="danger">
+        <span *ngIf="addForm.get('metriQuadri')?.errors?.['pattern']">
+          Metri quadri non valido
+        </span>
+      </ion-note>
+</div>
+      
+        <div>
+          <ion-item>
+            <ion-select label="Comune*" labelPlacement="floating" placeholder="Seleziona Comune"
+              formControlName="comune">
+              <ion-select-option *ngFor="let comune of comuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
+            </ion-select>
+
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('comune')?.touched) && addForm.get('comune')?.invalid" color="danger">
+            <span *ngIf="addForm.get('comune')?.errors?.['required']">
+              Comune è obbligatoria
+            </span>
+          </ion-note>
+        </div>
+
+        <div><ion-item>
+            <ion-select label="Provincia*" labelPlacement="floating" placeholder="Seleziona Provincia"
+              formControlName="provincia">
+              <ion-select-option *ngFor="let p of provincia" [value]="p.sigla">{{p.nome}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('provincia')?.touched) && addForm.get('provincia')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('provincia')?.errors?.['required']">
+              Provincia è obbligatoria
+            </span>
+          </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="indirizzo" label="Indirizzo*" labelPlacement="floating"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('indirizzo')?.touched) && addForm.get('indirizzo')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('indirizzo')?.errors?.['required']">
+              Indirizzo è obbligatorio
+            </span>
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input formControlName="sezioneUrbana" label="Sezione Urbana*" labelPlacement="floating"
+              maxlength="3"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('sezioneUrbana')?.touched) && addForm.get('sezioneUrbana')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('sezioneUrbana')?.errors?.['required']">
+            Sezione urbana è obbligatoria
+          </span>
+        </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input formControlName="foglio" maxlength="4" labelPlacement="floating" label="Foglio*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('foglio')?.touched) && addForm.get('foglio')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('foglio')?.errors?.['required']">
+            Foglio è obbligatorio
+          </span>
+        </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="particella" maxlength="5" labelPlacement="floating"
+              label="Particella*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('particella')?.touched) && addForm.get('particella')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('particella')?.errors?.['required']">
+            Particella è obbligatoria
+          </span>
+        </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="categoriaCatastale" maxlength="3" labelPlacement="floating"
+              label="Categoria Catastale*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('categoriaCatastale')?.touched) && addForm.get('categoriaCatastale')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('categoriaCatastale')?.errors?.['required']">
+            Categoria catastale è obbligatoria
+          </span>
+        </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="classeCatastale" maxlength="2" labelPlacement="floating"
+              label="Classe Catastale*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('classeCatastale')?.touched) && addForm.get('classeCatastale')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('classeCatastale')?.errors?.['required']">
+            Classe catastale è obbligatoria
+          </span>
+        </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="renditaCatastale" labelPlacement="floating"
+              label="Rendita Catastale*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('renditaCatastale')?.touched) && addForm.get('renditaCatastale')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('renditaCatastale')?.errors?.['required']">
+            Rendita catastale è obbligatoria
+          </span>
+
+          <span *ngIf="addForm.get('renditaCatastale')?.errors?.['pattern']">
+            Rendita catastale non è valido
+          </span>
+        </ion-note>
+
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="consistenzaCatastale" labelPlacement="floating"
+              label="Consistenza Catastale*"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('consistenzaCatastale')?.touched) && addForm.get('consistenzaCatastale')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('consistenzaCatastale')?.errors?.['required']">
+            Consistenzae catastale è obbligatoria
+          </span>
+          <span *ngIf="addForm.get('consistenzaCatastale')?.errors?.['pattern']">
+            Consistenzae catastale non è valido
+          </span>
+        </ion-note>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="zona" labelPlacement="floating" label="Zona"></ion-input>
+          </ion-item></div>
+
+        <div> <ion-item>
+            <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
+          </ion-item>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="civico" labelPlacement="floating" label="Civico"></ion-input>
+          </ion-item>
+        </div>
+
+        <div> <ion-item>
+            <ion-input formControlName="subalterno" labelPlacement="floating" label="Subalterno"></ion-input>
+          </ion-item></div>
+
+        <div> <ion-item>
+            <ion-input formControlName="piano" labelPlacement="floating" label="Subalterno"></ion-input>
+          </ion-item>
+        </div>
+
+      </ion-item-group>
+
+      <ion-item-group>
+
+        <div formArrayName="documenti">
+          <ion-item-divider>
+            <ion-icon name="documents-outline" slot="start"></ion-icon>
+            <ion-label> Documenti </ion-label>
+          </ion-item-divider>
+
+          <div class="ion-padding">
+            <ion-button (click)="addDocument()" size="small">
+              <ion-icon name="add-circle-outline"></ion-icon>
+              Aggiungi Documenti</ion-button>
+          </div>
+          <ion-card *ngFor="let doc of documenti.controls; let i = index" [formGroupName]="i">
+            <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
+
+              <div>
+                <ion-item>
+                  <ion-input formControlName="tipoDocumento" labelPlacement="floating"
+                    label="Tipo Documento*"></ion-input>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('tipoDocumento')?.touched) && doc.get('tipoDocumento')?.invalid" color="danger">
+                  <span *ngIf="doc.get('tipoDocumento')?.errors?.['required']">
+                    Tipo documento è obbligatorio
+                  </span>
+                </ion-note>
+              </div>
+              <div>
+                <ion-item>
+                  <ion-input formControlName="dataDocumento" id="dataDocumento{{i}}" label="Data Documento*"
+                    labelPlacement="floating" [value]="formatDisplayDate(i)"></ion-input>
+                  <ion-icon name="calendar-outline"></ion-icon>
+
+                  <ion-modal [keepContentsMounted]="true" [trigger]="'dataDocumento' + i" [initialBreakpoint]="1"
+                    [breakpoints]="[0, 1]">
+                    <ng-template>
+                      <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                        presentation="date" size="cover"
+                        (ionChange)="onDataDocumentoChange($event.detail.value, i)"></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('dataDocumento')?.touched) && doc.get('dataDocumento')?.invalid" color="danger">
+                  <span *ngIf="doc.get('dataDocumento')?.errors?.['required']">
+                    Data del documento è obbligatoria
+                  </span>
+                </ion-note>
+              </div>
+
+              <div> <ion-item>
+                  <ion-input formControlName="percorsoFile" labelPlacement="floating"
+                    label="Percorso File*"></ion-input>
+                </ion-item>
+                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('percorsoFile')?.touched) && doc.get('percorsoFile')?.invalid" color="danger">
+                  <span *ngIf="doc.get('percorsoFile')?.errors?.['required']">
+                    Percorso del file è obbligatorio
+                  </span>
+                </ion-note>
+              </div>
+              <div> <ion-item>
+                  <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
+                </ion-item></div>
+
+              <ion-item lines="none">
+                <ion-button color="danger" (click)="removeDocument(i)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-item>
+
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+      </ion-item-group>
+
+      <div class="ion-padding">
+        <ion-button fill="outline" (click)="cancelInputs()">Annulla</ion-button>
+        <ion-button type="submit">Invia</ion-button>
+      </div>
+    </form>
+
+  </div>
+</ion-content>

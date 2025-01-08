@@ -1,0 +1,30 @@
+ion-item-group{
+    border-bottom: 2px solid var(--ion-color-secondary); 
+    padding-bottom: 10px;
+}
+ion-item-divider.md{
+        color: var(--ion-color-secondary);
+        font-size: 17px;
+        font-weight: 600;
+        border-bottom: none;
+        --padding-top: 10px;
+        line-height: 24px;
+}
+ion-item-divider.ios{
+    --background: none;
+    color: var(--ion-color-secondary);
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    line-height: 24px;
+}
+ion-input{
+    --highlight-color-valid:  var(--ion-color-primary);
+    --highlight-color-focused: var(--ion-color-primary); 
+}
+
+ ion-input.input-wrapper{
+    --color: var(--ion-color-primary)
+}
+ion-modal {
+    --height: auto;
+}

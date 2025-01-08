@@ -206,7 +206,7 @@
     </ion-list>
     
       <div class="ion-padding">
-        <ion-button ><!--[routerLink]="['/patrimonio/modifica-patrimonio',patrimonioData.id]"  -->
+        <ion-button [routerLink]="['/patrimonio/modifica-patrimonio',patrimonioData.id]">
           <ion-icon slot="start" name="create-outline"></ion-icon>
           Modifica</ion-button>
         <ion-button color="danger" (click)="onDeleteClick()">
