@@ -369,8 +369,17 @@
                     <ion-button (click)="addDocumentoIdentita()">Aggiungi Documento</ion-button>
                   </ion-item-divider>
 
-                  <div *ngFor="let doc of documenti; let i = index">
-                    <div> <ion-item>
+                   <div *ngFor="let doc of documenti; let i = index">
+               <!--      <ion-card *ngFor="let doc of documenti; let i = index">-->
+                      <div class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;
+                        border-bottom: 1px solid var(--ion-color-medium)"> 
+                    
+
+                    <ion-item lines="none" style="justify-self: right;">
+                      <ion-icon name="close-circle-outline" (click)="removeDocumentoIdentita(i)" color="danger"></ion-icon>
+                    </ion-item>
+                    <div>
+                       <ion-item>
                         <ion-select label="Tipo Documento*" labelPlacement="floating" name="tipoDocumento_{{i}}" id="tipoDocumento_{{i}}"
                           placeholder="Seleziona tipo documento" [(ngModel)]="doc.tipo_documento" required
                           #tipoDocumento="ngModel">
@@ -467,14 +476,9 @@
                         </ion-text>
                       </ion-note>
                     </div>
-
-
-                    <ion-item lines="none">
-                      <ion-button color="danger" (click)="removeDocumentoIdentita(i)">
-                        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                      </ion-button>
-                    </ion-item>
                   </div>
+                </div>
+             <!--  </ion-card> -->
                 </ion-item-group>
 
               </ng-container>

@@ -311,9 +311,14 @@
             </div>
             <ion-card *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
               <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
+        
+            <ion-item lines="none" style="justify-self: right;">
+              <ion-icon name="close-circle-outline" (click)="removeDocumentiGroup(i)" color="danger"></ion-icon>
+            </ion-item>
+  
               <div>
                 <ion-item>
-                  <ion-select aria-label="Tipo Documento*" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
+                  <ion-select label="Tipo Documento*" labelPlacement="floating" placeholder="Seleziona tipo documento" formControlName="tipo_documento"
                     [class.ion-invalid]="(submitted || doc.get('tipo_documento')?.touched) && doc.get('tipo_documento')?.invalid">
                     <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
                       [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
@@ -395,12 +400,6 @@
                 </ion-note>
               </div>
 
-                <ion-item lines="none">
-                  <ion-button color="danger" (click)="removeDocumentiGroup(i)">
-                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                  </ion-button>
-                </ion-item>
-            
               <!--  
                       <ion-button  >Elimina Documenti Identita</ion-button> -->
                     </ion-card-content>
