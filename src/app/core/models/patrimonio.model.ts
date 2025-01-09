@@ -28,9 +28,9 @@ export interface Patrimonio {
 }
 
 export interface Documenti {
-  id: number
-  createDate: string
-  lastUpdateDate: string
+  id?: number
+  createDate?: string
+  lastUpdateDate?: string
   tipoDocumento: string
   dataDocumento: string
   percorsoFile: string

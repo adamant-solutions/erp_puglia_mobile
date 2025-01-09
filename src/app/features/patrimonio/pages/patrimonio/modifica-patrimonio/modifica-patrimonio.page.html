@@ -1,17 +1,304 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button color="secondary"
-        [defaultHref]="['/patrimonio/patrimonio-details',patrimonioData.id]"></ion-back-button>
+      <ion-back-button color="secondary" defaultHref="/patrimonio"></ion-back-button>
     </ion-buttons>
-    <ion-title color="secondary">Modifica Patrimonio</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
+    <form #patrimonioForm="ngForm" (ngSubmit)="onSubmit()">
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          <ion-label> Dettagli </ion-label>
+        </ion-item-divider>
 
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.quartiere" name="quartiere" label="Quartiere*" labelPlacement="floating"
+              required #quartiere="ngModel" ></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || quartiere?.touched && !quartiere" color="danger">
+            Quartiere è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="patrimonioData.tipoAmministrazione" name="tipoAmministrazione" label="Tipo Amministrazione*"
+              labelPlacement="floating" required #tipoAmministrazione="ngModel">
+              <ion-select-option value="DIRETTA">Diretta</ion-select-option>
+              <ion-select-option value="INDIRETTA">Indiretta</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="patrimonioData.statoDisponibilita" name="statoDisponibilita" label="Stato Disponibilità*"
+              labelPlacement="floating" required #statoDisponibilita="ngModel">
+              <ion-select-option value="DISPONIBILE">Disponibile</ion-select-option>
+              <ion-select-option value="NON DISPONIBILE">Non disponibile</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri" labelPlacement="floating"
+              pattern="[0-9]*" #metriQuadri="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']" color="danger">
+            Metri quadri non valido
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="patrimonioData.comune" name="comune" label="Comune*" labelPlacement="floating" required #comune="ngModel">
+              <ion-select-option *ngFor="let comune of comuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !comune" color="danger">
+            Comune è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="patrimonioData.provincia" name="provincia" label="Provincia*" labelPlacement="floating">
+              <ion-select-option *ngFor="let p of provincia" [value]="p.sigla">{{ p.nome }}</ion-select-option>
+            </ion-select>
+
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !provincia" color="danger">
+            Provincia è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.indirizzo" name="indirizzo" label="Indirizzo*" labelPlacement="floating"
+              required #indirizzo="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !indirizzo" color="danger">
+            Indirizzo è obbligatorio
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.sezioneUrbana" name="sezioneUrbana" label="Sezione Urbana*"
+              labelPlacement="floating" maxlength="3" required #sezioneUrbana="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !sezioneUrbana" color="danger">
+            Sezione urbana è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.foglio" name="foglio" label="Foglio*" labelPlacement="floating" maxlength="4"
+              required #foglio="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !foglio" color="danger">
+            Foglio è obbligatorio
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.particella" name="particella" label="Particella*" labelPlacement="floating"
+              maxlength="5" required #particella="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !particella" color="danger">
+            Particella è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.categoriaCatastale" name="categoriaCatastale" label="Categoria Catastale*"
+              labelPlacement="floating" maxlength="3" required #categoriaCatastale="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !categoriaCatastale" color="danger">
+            Categoria catastale è obbligatoria
+          </ion-note>
+        </div>
+
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.classeCatastale" name="classeCatastale" label="Classe Catastale*"
+              labelPlacement="floating" maxlength="2" required #classeCatastale="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !classeCatastale" color="danger">
+            Classe catastale è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.renditaCatastale" name="renditaCatastale" label="Rendita Catastale*"
+              labelPlacement="floating" required #renditaCatastale="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !renditaCatastale" color="danger">
+            Rendita catastale è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.consistenzaCatastale" name="consistenzaCatastale" label="Consistenza Catastale*"
+              labelPlacement="floating" required #consistenzaCatastale="ngModel"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !consistenzaCatastale" color="danger">
+            Consistenzae catastale è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.zona" name="zona" label="Zona" labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.descrizione" name="descrizione" label="Descrizione"
+              labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.civico" name="civico" label="Civico" labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.subalterno" name="subalterno" label="Subalterno"
+              labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.piano" name="piano" label="Piano" labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
+              name="dataCreato" [(ngModel)]="patrimonioData.createDate" disabled></ion-input>
+          </ion-item>
+        </div>
+
+
+        <div>
+          <ion-item>
+            <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
+              name="ultimamodifica" [(ngModel)]="patrimonioData.lastUpdateDate" disabled></ion-input>
+          </ion-item>
+        </div>
+
+
+      </ion-item-group>
+
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-icon name="documents-outline" slot="start"></ion-icon>
+          <ion-label> Documenti </ion-label>
+        </ion-item-divider>
+
+        <div class="ion-padding">
+          <ion-button (click)="addDocumento()" size="small">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Aggiungi Documenti</ion-button>
+        </div>
+      
+        <ion-card *ngFor="let document of patrimonioData.documenti; let i = index">
+          <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
+        
+            <ion-item lines="none" style="justify-self: right;">
+              <ion-icon name="close-circle-outline" (click)="removeDocumento(i)" color="danger"></ion-icon>
+            </ion-item>
+        
+            <div>
+            <ion-item>
+              <ion-input [(ngModel)]="document.tipoDocumento" name="tipoDocumento{{i}}" labelPlacement="floating"
+                label="Tipo Documento*" #tipoDocumento="ngModel" ></ion-input>
+            </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || tipoDocumento?.touched) && tipoDocumento?.invalid" color="danger">
+              <span *ngIf="tipoDocumento?.errors?.['required']">
+                Tipo documento è obbligatorio
+              </span>
+            </ion-note>
+          </div>
+
+          <div>
+           <!--  "dataDocumento": "2024-03-20", -->
+
+            <ion-item>
+              <ion-input id="dataDocumento{{i}}" label="Data Documento*" labelPlacement="floating"
+                name="dataDocumento{{i}}"  [(ngModel)]="document.dataDocumento" readonly required
+                #dataDocumento="ngModel"></ion-input>
+
+              <ion-icon name="calendar-outline" [id]="'dataDocumento' + i" button></ion-icon>
+
+              <ion-modal [keepContentsMounted]="true" [trigger]="'dataDocumento' + i"
+                [initialBreakpoint]="1" [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
+                <ng-template>
+                  <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
+                    cancelText="Annulla" presentation="date" size="cover" #dataDocumento
+                    (ionChange)="onDataDocumentoChange($event.detail.value, i)" [value]="document.dataDocumento">
+                    <span slot="title">Seleziona Data Documento</span></ion-datetime>
+
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+
+            <ion-note class="ion-padding-start" color="danger" *ngIf="dataDocumento.dirty || dataDocumento.touched">
+              <ion-text *ngIf="dataDocumento.errors?.['required']">
+                Data del documento è obbligatoria
+              </ion-text>
+            </ion-note>
+
+          </div>
+
+          <div>
+            <ion-item>
+              <ion-input [(ngModel)]="document.percorsoFile" name="percorsoFile{{i}}" labelPlacement="floating"
+                label="Percorso file*" #percorsoFile="ngModel"></ion-input>
+            </ion-item>
+            <ion-note class="ion-padding-start" *ngIf="(submitted || percorsoFile?.touched) && percorsoFile?.invalid" color="danger">
+              <span *ngIf="percorsoFile?.errors?.['required']">
+                Percorso del file è obbligatorio
+              </span>
+            </ion-note>
+          </div>
+          <div>
+            <ion-item>
+              <ion-input [(ngModel)]="document.descrizione" name="descrizione{{i}}" labelPlacement="floating"
+                label="Descrizione*" #descrizione="ngModel"></ion-input>
+            </ion-item>
+          </div>
+
+      </ion-card-content>
+    </ion-card>
+      </ion-item-group>
+
+      <div class="ion-padding">
+        <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+        <ion-button type="submit">Invia</ion-button>
+      </div>
+    </form>
   </div>
-
 </ion-content>

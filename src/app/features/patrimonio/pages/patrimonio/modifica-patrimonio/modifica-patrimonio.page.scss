@@ -1,0 +1,41 @@
+ion-item-divider.md {
+    --color: var(--ion-color-step-850, var(--ion-text-color-step-150, #262626));
+    border-radius: 0;
+    position: relative;
+    font-size: 1.0625rem;
+    font-weight: 600;
+
+}
+ion-item-divider.ios {
+ --background : transparent;
+}
+
+
+.list-md {
+    padding-top: 0;
+}
+
+ion-button.md{
+    --border-radius: 10px;
+}
+.bottom-modal {
+    --height: 60%;
+    --border-radius: 16px 16px 0 0;
+}
+
+@media screen and (max-height: 850px) {
+    .bottom-modal {
+        --height: 70%;
+    }
+}
+
+@media screen and (max-height: 730px) {
+    .bottom-modal {
+        --height: 80%;
+    }
+}
+
+
+ion-datetime {
+    height: -webkit-fill-available;
+}
