@@ -170,7 +170,11 @@
             <ion-icon name="documents-outline" slot="start"></ion-icon>
             <ion-label> Documenti </ion-label>
           </ion-item-divider>
-          
+          <div *ngIf="!patrimonioData.documenti!.length">
+            <ion-item>
+              Nessun documento
+            </ion-item>
+          </div>
             <ion-accordion-group>
               <ion-accordion  *ngFor="let doc of patrimonioData?.documenti;let i = index; trackBy: trackByDoc">
               
