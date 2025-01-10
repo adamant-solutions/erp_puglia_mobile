@@ -134,7 +134,7 @@ export class PatrimonioService {
   }
 
   
-  eliminaPatrimonio(id: string) {
+  eliminaPatrimonio(id: number) {
     if (this.platform.is('hybrid')) {
 
       const options = {

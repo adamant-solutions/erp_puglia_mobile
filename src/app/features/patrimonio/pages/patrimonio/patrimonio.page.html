@@ -21,7 +21,7 @@
 
     <!-- searchBar section -->
 
-    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca comune"></ion-searchbar>
+    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca comune"  [value]="searchComuneParam"></ion-searchbar>
   
    <!--  <ion-list role="feed">
       <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
