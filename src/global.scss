@@ -119,6 +119,13 @@ ion-item-divider ion-icon{
   font-weight: bold;
   border-radius: 2rem;
 }
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px
+}
+
 /*custom-alert */
 .custom-alert {
   .alert-title {
