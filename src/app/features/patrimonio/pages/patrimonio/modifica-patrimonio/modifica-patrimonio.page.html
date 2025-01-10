@@ -49,7 +49,7 @@
         <div>
           <ion-item>
             <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri" labelPlacement="floating"
-              pattern="[0-9]*" #metriQuadri="ngModel"></ion-input>
+              pattern="^[0-9]*\.?[0-9]+$" #metriQuadri="ngModel"></ion-input>
           </ion-item>
           <ion-note class="ion-padding-start"
             *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']" color="danger">
@@ -145,21 +145,29 @@
         <div>
           <ion-item>
             <ion-input [(ngModel)]="patrimonioData.renditaCatastale" name="renditaCatastale" label="Rendita Catastale*"
-              labelPlacement="floating" required #renditaCatastale="ngModel"></ion-input>
+              labelPlacement="floating" required pattern="^[0-9]*\.?[0-9]+$" #renditaCatastale="ngModel"></ion-input>
           </ion-item>
           <ion-note class="ion-padding-start" *ngIf="submitted || !renditaCatastale" color="danger">
             Rendita catastale è obbligatoria
           </ion-note>
+          <ion-note class="ion-padding-start"
+          *ngIf="submitted || renditaCatastale?.touched && renditaCatastale.errors?.['pattern']" color="danger">
+          Rendita catastale non valido
+        </ion-note>
         </div>
 
         <div>
           <ion-item>
             <ion-input [(ngModel)]="patrimonioData.consistenzaCatastale" name="consistenzaCatastale" label="Consistenza Catastale*"
-              labelPlacement="floating" required #consistenzaCatastale="ngModel"></ion-input>
+              labelPlacement="floating" required #consistenzaCatastale="ngModel" pattern="^[0-9]*\.?[0-9]+$"></ion-input>
           </ion-item>
           <ion-note class="ion-padding-start" *ngIf="submitted || !consistenzaCatastale" color="danger">
-            Consistenzae catastale è obbligatoria
+            Consistenza catastale è obbligatoria
           </ion-note>
+          <ion-note class="ion-padding-start"
+          *ngIf="submitted || consistenzaCatastale?.touched && consistenzaCatastale.errors?.['pattern']" color="danger">
+          Consistenza catastale non valido
+        </ion-note>
         </div>
 
         <div>

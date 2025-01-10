@@ -1,11 +1,13 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Patrimonio, TipoDocumento } from 'src/app/core/models/patrimonio.model';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
 import { DatePipe } from '@angular/common';
+import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-modifica-patrimonio',
@@ -16,7 +18,8 @@ export class ModificaPatrimonioPage implements OnInit {
 
   pageTitle: string = "Modifica Patrimonio"
   patrimonioData!: Patrimonio;
-  submitted: boolean = false
+  submitted: boolean = false;
+  errorMsg = '';
   formData: Patrimonio = {
     id: 0,
     createDate: '',
@@ -51,7 +54,11 @@ export class ModificaPatrimonioPage implements OnInit {
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
   
   
-  constructor(private alertController: AlertController,private datePipe: DatePipe) { }
+  constructor(private alertController: AlertController,
+    private datePipe: DatePipe,
+    private platform: Platform,
+    private patrimonioSrv: PatrimonioService,
+    private msgService: MessagesService) { }
 
   ngOnInit() {
     this.route.data.subscribe({
@@ -92,11 +99,11 @@ export class ModificaPatrimonioPage implements OnInit {
   
 
   onDataDocumentoChange(selectedDate: any, index: number) {
+    //console.log(selectedDate)
     if (!selectedDate) return;
-    this.patrimonioData.documenti[index].dataDocumento = this.formatToDisplayDate(selectedDate);
+    this.patrimonioData.documenti[index].dataDocumento = selectedDate;
   }
-  
-
+ 
   async cancelModifiedInputs() {
     const alert = await this.alertController.create({
       header: 'Annulla Modifiche',
@@ -111,7 +118,10 @@ export class ModificaPatrimonioPage implements OnInit {
           text: 'Sì',
           role: 'confirm',
           handler: () => {
-            this.patrimonioForm.reset();
+            //this.patrimonioForm.reset();
+           // console.log(this.patrimonioData)
+           //this.patrimonioForm.resetForm(this.patrimonioData);
+            
           }
         }
       ],
@@ -122,27 +132,63 @@ export class ModificaPatrimonioPage implements OnInit {
   }
 
   onSubmit() {  
-    console.log(this.patrimonioData);
-    
 
+    if (this.patrimonioForm.valid) {
+
+     const sendData = { 
+      ...this.patrimonioData,
+      createDate:  this.datePipe.transform(this.patrimonioData.createDate,'yyyy-MM-ddTHH:mm:ss.SSS')!,/* this.getISODate(this.patrimonioData.createDate),*/
+      lastUpdateDate:this.datePipe.transform(this.patrimonioData.lastUpdateDate,'yyyy-MM-ddTHH:mm:ss.SSS')!
+    };
+      //console.log("SEND ",sendData)
+
+       if(this.platform.is('hybrid')){
+      
+        this.patrimonioSrv.editPatrimonio(sendData)?.subscribe({
+          next: (res: any) => {
+            if (res.error) {
+              this.handleError(res);
+             /*  console.log("is error: " ,res); */
+            } else {
+              this.msgService.success("Dati salvati con successo!");
+              console.log(res);
+            }
+          },
+        complete: ()=> {
+          this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])
+        }
+        }) 
+      }
+      else {       
+       this.patrimonioSrv.editPatrimonio(sendData).subscribe({
+          next: (res) => {
+            this.msgService.success("Dati salvati con successo!"); 
+            console.log(res);
+          },
+          error: (err) => {
+            this.handleError(err);
+          },
+        complete: ()=> {
+          this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])
+        }
+        });
+      }
+    } else {
+      return;
+    }
   }
 
-  
-  // Convert ISO to dd-mm-yyyy
-  formatToDisplayDate(isoDate: string): string {
-    if (!isoDate) return '';
-    const date = new Date(isoDate);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  }
+  private handleError(err: any) {
+    if (err.status === 500) {
+      this.errorMsg = "Errore interno del server!";
+    } else if (err.status === 400) {
+      this.errorMsg = "Si è verificato un errore durante l'invio dei dati. Controllare nuovamente i dati inseriti.";//Compila tutti i campi obbligatori
+    }
+    else {
+      this.errorMsg = "Error! " + err.message;
+    }
+    this.msgService.error(this.errorMsg);
 
-   // Convert dd-mm-yyyy to ISO 
-   getISODate(dateStr: string): string {
-    if (!dateStr) return '';
-    const [day, month, year] = dateStr.split('-');
-    return `${year}-${month}-${day}`;
   }
-  
+ 
 }
