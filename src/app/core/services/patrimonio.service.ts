@@ -48,6 +48,7 @@ export class PatrimonioService {
           } else {
             return this.http.get<Patrimonio[]>(this.patrimonioUrl, {
               params: httpParams,
+              observe: 'response'
                /* headers: {
                 'Authorization': `${token.token_type} ${token.access_token}`
               }  */

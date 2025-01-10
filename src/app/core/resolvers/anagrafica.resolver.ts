@@ -12,20 +12,16 @@ export interface AnagraficaSearchParams {
 export const anagraficaResolver: ResolveFn<any> = 
 (route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
 
-  const searchParams: AnagraficaSearchParams = {
+  const searchParams: AnagraficaSearchParams = {    
     pagina: route.params['pagina'] ? +route.params['pagina'] : 0,
     codiceFiscale: route.params['codiceFiscale'] || '',
     nome: route.params['nome'] || '',
     cognome: route.params['cognome'] || ''
   };
+ 
+
   return anagraficaService.getAnagraficaListPaginated(searchParams)
 };
-
-export const anagraficaAllCountResolver: ResolveFn<any> = 
-(route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {
-  return anagraficaService.getAllAnagrafica();
-};
-
 
 export const anagraficaByIdResolver: ResolveFn<any> = 
 (route, state, anagraficaService: AnagraficaService = inject(AnagraficaService)) => {

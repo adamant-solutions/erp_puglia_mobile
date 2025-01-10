@@ -60,10 +60,10 @@ export class AnagraficaPage implements OnInit {
   getList(){
     this.route.data.subscribe({
       next: (data) => {
-        this.anagraficaList = data['anagraficaResolver']
-        this.numElements = data['anagraficaAllCountResolver'].nrAnagrafica;
-        this.anagraficaList = [...this.anagraficaList]; 
-        this.totalPages = Math.ceil(this.numElements / this.itemsPerPage);
+        const responseData = data['anagraficaResolver']
+        this.anagraficaList = responseData.body
+        this.numElements = responseData.headers.get('X-Paging-TotalRecordCount');
+        this.totalPages = responseData.headers.get('X-Paging-PageCount') 
       },
       error: (err) => {
         console.log(err)
@@ -74,6 +74,9 @@ export class AnagraficaPage implements OnInit {
   getListInNative() { 
     this.route.data.subscribe({
       next: (data) => {
+        if(data['anagraficaResolver'] === ""){
+          this.anagraficaList = []
+        }
        const responseData = data['anagraficaResolver']
         this.anagraficaList = responseData.data
        /*  console.log("Anagrafica list:", this.anagraficaList); */

@@ -57,14 +57,17 @@ export class PatrimonioPage implements OnInit {
   getList(){
     this.route.data.subscribe({
       next: (data) => {
-        this.patrimonioList = data['patrimonioResolver']
-        this.patrimonioList = [...this.patrimonioList]; 
+        const responseData = data['patrimonioResolver']
+        this.patrimonioList = responseData.body
+        this.numElements = responseData.headers.get('X-Paging-TotalRecordCount');
+        this.totalPages = responseData.headers.get('X-Paging-PageCount');
       },
       error: (err) => {
         console.log(err)
       }
     });
   }
+
 
   getListInNative() { 
     this.route.data.subscribe({

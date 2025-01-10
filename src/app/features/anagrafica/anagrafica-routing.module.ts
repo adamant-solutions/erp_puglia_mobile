@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AnagraficaPage } from './pages/anagrafica/anagrafica.page';
-import { anagraficaAllCountResolver, anagraficaResolver } from 'src/app/core/resolvers/anagrafica.resolver';
+import {anagraficaResolver } from 'src/app/core/resolvers/anagrafica.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: AnagraficaPage,
-    resolve: { anagraficaResolver  , anagraficaAllCountResolver }
+    resolve: { anagraficaResolver }
   },
   {
     path: 'anagrafica-details/:id',
