@@ -8,6 +8,7 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
+import { TipoDocumento } from 'src/app/core/models/patrimonio.model';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class NuovoPatrimonioPage implements OnInit {
   errorMsg: string = '';
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
+  tipoDocuments = Object.values(TipoDocumento);
 
   ngOnInit() {
     this.initializeForm();
@@ -81,6 +83,14 @@ export class NuovoPatrimonioPage implements OnInit {
     this.documenti.removeAt(index);
   }
 
+  
+  isDocumentTypeDisabled(currentIndex: number, documentType: string): boolean {
+    return this.documenti.controls.some((doc, index) => 
+      index !== currentIndex && 
+      doc.get('tipoDocumento')?.value === documentType
+    );
+  }
+
   onDataDocumentoChange(event: any, index: number) {
     const selectedDate = new Date(event);
     const isoDate = selectedDate.toISOString()
@@ -89,7 +99,6 @@ export class NuovoPatrimonioPage implements OnInit {
     documentiArray.at(index).get('dataDocumento')?.setValue(isoDate);
     /*    console.log(isoDate)  */
   }
-
 
   formatDisplayDate(index: number): string {
     const documentiArray = this.addForm.get('documenti') as FormArray;
@@ -139,17 +148,60 @@ export class NuovoPatrimonioPage implements OnInit {
     await alert.present();
   }
 
-
-
   onSubmit() {
-    // if (this.addForm.valid) {
-    console.log(this.addForm.value);
+    this.submitted = true;
+    const patrimonioData = this.addForm.value;
+    /*
+       console.log("Send: ", sendData) 
+      console.log(this.addForm.controls) */
+    if (!this.addForm.valid) {
+      // console.log('Form is invalid');
+      return;
+    }
+    else {
 
-    /* } else {
-      console.log('Form is invalid');
-    } */
+      const sendData = {
+        ...patrimonioData,
+        documenti: patrimonioData.documenti.map((doc: { dataDocumento: string; }) => ({
+          ...doc,
+          dataDocumento: this.datePipe.transform(doc.dataDocumento, 'yyyy-MM-dd')
+        }))
+      };
+
+
+      this.alertService.showConfirmation(
+        'Conferma i dati personali',
+        'Sei sicuro di voler aggiungere questo patrimonio? Questa azione non può essere annullata.'
+      ).subscribe(confirmed => {
+        if (confirmed) {
+          this.patrimonioSvc.addPatrimonio(sendData).subscribe({
+            next: (response) => {
+              /*   console.log("Response: ", response) */
+              this.msgService.success('Dati salvati con successo!');
+            },
+            error: (err) => {
+              if (err.status === 500) {
+                this.errorMsg = "Errore interno del server!"
+              }
+              else if (err.status === 400) {
+                this.errorMsg = 'Compila tutti i campi obbligatori';
+              }
+              else if (err.status === 422) {
+                this.errorMsg = 'Campi di input non validi o contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
+              }
+              else {
+                this.errorMsg = "Error!" + err.message;
+              }
+              this.msgService.error(this.errorMsg);
+            },
+            complete: () => {
+              this.router.navigate(['/patrimonio'])
+            }
+          })
+        }
+      });
+    }
   }
-
 }
 /*
 
@@ -183,5 +235,4 @@ export class NuovoPatrimonioPage implements OnInit {
     }
   ]
 }
-
    */

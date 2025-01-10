@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Patrimonio } from 'src/app/core/models/patrimonio.model';
+import { Patrimonio, TipoDocumento } from 'src/app/core/models/patrimonio.model';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
 import { DatePipe } from '@angular/common';
@@ -45,6 +45,7 @@ export class ModificaPatrimonioPage implements OnInit {
   };
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
+  tipoDocuments = Object.values(TipoDocumento);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
@@ -68,7 +69,7 @@ export class ModificaPatrimonioPage implements OnInit {
 
   addDocumento(){
     this.patrimonioData.documenti.push({
-      tipoDocumento: '',
+      tipoDocumento: TipoDocumento.CATASTALE,
       dataDocumento: '',
       percorsoFile: '',
       descrizione: ''
@@ -80,6 +81,15 @@ export class ModificaPatrimonioPage implements OnInit {
    // this.documenti.splice(index, 1);
   }
 
+  
+  isDocumentTypeDisabled(currentIndex: number, documentType: string): boolean {
+    return this.patrimonioData.documenti.some((doc:any,index:any) => 
+      index !== currentIndex && 
+      doc.tipo_documento === documentType
+      
+    );
+  }
+  
 
   onDataDocumentoChange(selectedDate: any, index: number) {
     if (!selectedDate) return;

@@ -218,7 +218,7 @@
           </ion-item></div>
 
         <div> <ion-item>
-            <ion-input formControlName="piano" labelPlacement="floating" label="Subalterno"></ion-input>
+            <ion-input formControlName="piano" labelPlacement="floating" label="Piano"></ion-input>
           </ion-item>
         </div>
 
@@ -240,11 +240,19 @@
           <ion-card *ngFor="let doc of documenti.controls; let i = index" [formGroupName]="i">
             <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
 
+              <ion-item lines="none" style="justify-self: right;">
+                <ion-icon name="close-circle-outline" (click)="removeDocument(i)" color="danger"></ion-icon>
+              </ion-item>
+    
               <div>
                 <ion-item>
-                  <ion-input formControlName="tipoDocumento" labelPlacement="floating"
-                    label="Tipo Documento*"></ion-input>
+                  <ion-select label="Tipo Documento*" labelPlacement="floating" placeholder="Seleziona tipo documento" formControlName="tipoDocumento"
+                    [class.ion-invalid]="(submitted || doc.get('tipoDocumento')?.touched) && doc.get('tipoDocumento')?.invalid">
+                    <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
+                      [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                  </ion-select>
                 </ion-item>
+
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('tipoDocumento')?.touched) && doc.get('tipoDocumento')?.invalid" color="danger">
                   <span *ngIf="doc.get('tipoDocumento')?.errors?.['required']">
                     Tipo documento è obbligatorio
@@ -262,11 +270,14 @@
                     <ng-template>
                       <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                         presentation="date" size="cover"
-                        (ionChange)="onDataDocumentoChange($event.detail.value, i)"></ion-datetime>
+                        (ionChange)="onDataDocumentoChange($event.detail.value, i)">
+                        <span slot="title">Seleziona Data del documento</span>
+                      </ion-datetime>
                     </ng-template>
                   </ion-modal>
 
                 </ion-item>
+                
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('dataDocumento')?.touched) && doc.get('dataDocumento')?.invalid" color="danger">
                   <span *ngIf="doc.get('dataDocumento')?.errors?.['required']">
                     Data del documento è obbligatoria
@@ -287,12 +298,6 @@
               <div> <ion-item>
                   <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
                 </ion-item></div>
-
-              <ion-item lines="none">
-                <ion-button color="danger" (click)="removeDocument(i)">
-                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                </ion-button>
-              </ion-item>
 
             </ion-card-content>
           </ion-card>

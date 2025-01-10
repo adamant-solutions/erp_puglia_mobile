@@ -232,10 +232,17 @@
             </ion-item>
         
             <div>
+   
             <ion-item>
-              <ion-input [(ngModel)]="document.tipoDocumento" name="tipoDocumento{{i}}" labelPlacement="floating"
-                label="Tipo Documento*" #tipoDocumento="ngModel" ></ion-input>
+              <ion-select label="Tipo Documento*" labelPlacement="floating" name="tipoDocumento{{i}}" id="tipoDocumento{{i}}"
+                placeholder="Seleziona tipo documento" [(ngModel)]="document.tipoDocumento" required
+                #tipoDocumento="ngModel">
+                <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
+                  [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+              </ion-select>
             </ion-item>
+
+
             <ion-note class="ion-padding-start" *ngIf="(submitted || tipoDocumento?.touched) && tipoDocumento?.invalid" color="danger">
               <span *ngIf="tipoDocumento?.errors?.['required']">
                 Tipo documento è obbligatorio
@@ -259,7 +266,7 @@
                   <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma"
                     cancelText="Annulla" presentation="date" size="cover" #dataDocumento
                     (ionChange)="onDataDocumentoChange($event.detail.value, i)" [value]="document.dataDocumento">
-                    <span slot="title">Seleziona Data Documento</span></ion-datetime>
+                    <span slot="title">Seleziona Data del Documento</span></ion-datetime>
 
                 </ng-template>
               </ion-modal>

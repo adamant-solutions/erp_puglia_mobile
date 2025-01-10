@@ -355,7 +355,8 @@
                     <ng-template>
                       <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                         presentation="date" size="cover"
-                        (ionChange)="onDataEmissioneChange($event.detail.value, i)"></ion-datetime>
+                        (ionChange)="onDataEmissioneChange($event.detail.value, i)">
+                        <span slot="title">Seleziona data del emissione</span></ion-datetime>
                     </ng-template>
                   </ion-modal>
                 </ion-item>
@@ -377,7 +378,8 @@
                     <ng-template>
                       <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                         presentation="date" size="cover"
-                        (ionChange)="onDataScadenzaChange($event.detail.value, i)"></ion-datetime>
+                        (ionChange)="onDataScadenzaChange($event.detail.value, i)">
+                        <span slot="title">Seleziona data di scadenza</span></ion-datetime>
                     </ng-template>
                   </ion-modal>
           

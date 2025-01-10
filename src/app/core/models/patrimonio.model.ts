@@ -31,8 +31,15 @@ export interface Documenti {
   id?: number
   createDate?: string
   lastUpdateDate?: string
-  tipoDocumento: string
+  tipoDocumento: TipoDocumento
   dataDocumento: string
   percorsoFile: string
   descrizione: string
+}
+
+export enum TipoDocumento {
+  CATASTALE = "CATASTALE",
+  /* certificazione energetica
+  planimetria
+  certificato idoneità impianti */
 }
