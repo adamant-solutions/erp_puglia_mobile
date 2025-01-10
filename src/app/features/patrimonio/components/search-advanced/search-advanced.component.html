@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="secondary">Ricerca Avanzata</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" color="primary">Chiudi</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="floating">Comune</ion-label>
+    <ion-input [(ngModel)]="comune" type="text"  [clearInput]="true"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Zona</ion-label>
+    <ion-input [(ngModel)]="zona" type="text" [clearInput]="true"></ion-input>
+  </ion-item>
+  
+  <div class="ion-padding-top">
+    <ion-button expand="block" (click)="search()">Cerca</ion-button>
+  </div>
+</ion-content>

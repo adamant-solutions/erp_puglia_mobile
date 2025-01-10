@@ -21,7 +21,7 @@
 
     <!-- searchBar section -->
 
-    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca"></ion-searchbar>
+    <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar" placeholder="Cerca comune"></ion-searchbar>
   
    <!--  <ion-list role="feed">
       <ion-list-header style="color: var(--ion-color-tertiary); font-size: 1rem;">
@@ -37,6 +37,25 @@
     </ion-list> -->
 
   <!--  patrimonio list section -->
+ 
+      <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
+        <ion-chip color="primary" *ngIf="chip.value.length">
+          <ion-label>{{chip.value}}</ion-label>
+          <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
+        </ion-chip>
+      </span>
+
+    <div class="center-container ion-padding" *ngIf="!patrimonioList.length"> 
+      <ion-item  lines="none" style="width: 60%;">
+        <div style="text-align: center;">
+   <!-- <ion-icon name="warning" color="warning" style="font-size: 21px;"></ion-icon>Nessun dato trovato -->
+        <ion-img src="./assets/svg/no-data.svg" alt="Nessun Dato Trovato" class="img-fluid"></ion-img>
+        <ion-label style="padding: 16px; color: var(--ion-color-secondary); font-weight:600">Nessun Dato Trovato</ion-label>
+      </div>
+      </ion-item>
+      </div>
+  
+
   <ion-card *ngFor="let p of patrimonioList">
     <ion-card-header>
   
@@ -47,7 +66,7 @@
             align-items: center;
         ">
         <div>
-          <ion-icon name="business-outline" style="margin-right: 5px;"></ion-icon>{{p.zona}} - {{p.quartiere}}
+          <ion-icon name="business-outline" style="margin-right: 5px;"></ion-icon>{{p.zona}} - {{p.comune}}
         </div> <ion-icon name="chevron-forward-outline" color="primary"
           [routerLink]="[p.id,'patrimonio-details']"></ion-icon>
       </ion-card-title>
@@ -66,11 +85,41 @@
   
   <!-- scroll content -->
   
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
+ <!--  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll> -->
+
+  <div class="custom-pagination" *ngIf="patrimonioList.length">
+    <ion-buttons slot="start">
+      <ion-button 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 0"
+      >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+     <!--    Precedente -->
+      </ion-button>
+    </ion-buttons>
+
+    <ion-text class="current-page">{{ currentPage + 1 }}</ion-text>
+
+    <ion-buttons slot="end">
+      <ion-button 
+        (click)="nextPage()" 
+        [disabled]="currentPage === totalPages - 1"
+      >
+    <!--   Successivo -->
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
   
   
   </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="openAdvancedSearch()">
+      <ion-icon name="search"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   </ion-content>
   <app-footer></app-footer>

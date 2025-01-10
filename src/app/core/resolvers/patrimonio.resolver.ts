@@ -6,6 +6,7 @@ import {inject} from '@angular/core';
 export interface PatrimonioSearchParams {
   pagina?: number;
   zona?: string;
+  comune?: string;
   //params ... 
 }
 
@@ -15,6 +16,7 @@ export const patrimonioResolver: ResolveFn<any> = (route, state, patrimonioServi
   const searchParams: PatrimonioSearchParams = {
     pagina: route.params['pagina'] ? +route.params['pagina'] : 0,
     zona: route.params['zona'] || '',
+    comune: route.params['comune'] || ''
   };
 
   return patrimonioService.getPatrimonioData(searchParams)
