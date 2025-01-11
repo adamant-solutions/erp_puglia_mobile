@@ -8,17 +8,20 @@
 </ion-header>
 <ion-content class="ion-padding">
   <ion-item>
-    <ion-label position="floating">Codice Fiscale</ion-label>
+    <ion-label position="stacked">Codice Fiscale</ion-label>
+    <ion-icon slot="start" name="id-card-outline" alt="Codice Fiscale"></ion-icon>
     <ion-input [(ngModel)]="codiceFiscale" type="text"  [clearInput]="true"></ion-input>
   </ion-item>
-  
+
   <ion-item>
-    <ion-label position="floating">Nome</ion-label>
+    <ion-label position="stacked">Nome</ion-label>
+    <ion-icon slot="start" name="person-circle-outline" alt="Nome"></ion-icon>
     <ion-input [(ngModel)]="nome" type="text" [clearInput]="true"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="floating">Cognome</ion-label>
+    <ion-label position="stacked">Cognome</ion-label>
+    <ion-icon slot="start" name="person-circle-outline" alt="Cognome"></ion-icon>
     <ion-input [(ngModel)]="cognome" type="text" [clearInput]="true"></ion-input>
   </ion-item>
   

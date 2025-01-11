@@ -7,13 +7,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">Comune</ion-label>
-    <ion-input [(ngModel)]="comune" type="text"  [clearInput]="true"></ion-input>
+  <ion-item class="custom-input">
+    <ion-label position="stacked">Comune</ion-label>
+    <ion-img src="./assets/svg/comune.svg" alt="Comune" slot="start"></ion-img>
+   <!--  <ion-icon slot="start" name="location-outline"></ion-icon> -->
+    <ion-input [(ngModel)]="comune" type="text" [clearInput]="true">
+    </ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="floating">Zona</ion-label>
+    <ion-label  position="stacked">Zona</ion-label>
+     <ion-icon slot="start" name="locate-outline" alt="Zona" style="margin-right: 16px;"></ion-icon> 
     <ion-input [(ngModel)]="zona" type="text" [clearInput]="true"></ion-input>
   </ion-item>
   
