@@ -31,23 +31,51 @@
           </ion-note>
 
         </div>
-        <ion-item>
-          <ion-select label="Tipo Amministrazione*" labelPlacement="floating" formControlName="tipoAmministrazione">
-            <ion-select-option value="DIRETTA">Diretta</ion-select-option>
-            <ion-select-option value="INDIRETTA">Indiretta</ion-select-option>
-          </ion-select>
-        </ion-item>
+        <div> 
+          <ion-item>
+            <ion-select label="Tipo Amministrazione*" labelPlacement="floating" placeholder="Seleziona tipo amministrazione"
+              formControlName="tipoAmministrazione">
+              <ion-select-option *ngFor="let tipo of tipoAmministrazione" [value]="tipo">
+                {{tipo | capitalize}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('tipoAmministrazione')?.touched) && addForm.get('tipoAmministrazione')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('tipoAmministrazione')?.errors?.['required']">
+              Tipo amministrazione è obbligatoria
+            </span>
+          </ion-note>
+          </div>
 
-        <ion-item>
-          <ion-select label="Stato Disponibilità*" labelPlacement="floating" formControlName="statoDisponibilita">
-            <ion-select-option value="DISPONIBILE">Disponibile</ion-select-option>
-            <ion-select-option value="NON DISPONIBILE">Non disponibile</ion-select-option>
-          </ion-select>
-        </ion-item>
+          <div> 
+            <ion-item>
+              <ion-select  label="Stato Disponibilità*" labelPlacement="floating" formControlName="statoDisponibilita" placeholder="Seleziona stato disponibilità">
+                <ion-select-option *ngFor="let tipo of statoDisponibilita" [value]="tipo">
+                  {{tipo | capitalize}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            
+            <ion-note class="ion-padding-start"
+              *ngIf="(submitted || addForm.get('statoDisponibilita')?.touched) && addForm.get('statoDisponibilita')?.invalid"
+              color="danger">
+              <span *ngIf="addForm.get('statoDisponibilita')?.errors?.['required']">
+                Stato disponibilità è obbligatorio
+              </span>
+            </ion-note>
+            </div>
 
-        <div>  <ion-item>
+        <div> 
+         <ion-item>
           <ion-input formControlName="metriQuadri" label="Metri Quadri" labelPlacement="floating"></ion-input>
         </ion-item>
+        <ion-note class="ion-padding-start"
+        *ngIf="(submitted || addForm.get('metriQuadri')?.touched) && addForm.get('metriQuadri')?.invalid" color="danger">
+        <span *ngIf="addForm.get('metriQuadri')?.errors?.['required']">
+          Metri quadri è obbligatorio
+        </span>
+      </ion-note>
         <ion-note class="ion-padding-start"
         *ngIf="(submitted || addForm.get('metriQuadri')?.touched) && addForm.get('metriQuadri')?.invalid" color="danger">
         <span *ngIf="addForm.get('metriQuadri')?.errors?.['pattern']">
@@ -249,7 +277,7 @@
                   <ion-select label="Tipo Documento*" labelPlacement="floating" placeholder="Seleziona tipo documento" formControlName="tipoDocumento"
                     [class.ion-invalid]="(submitted || doc.get('tipoDocumento')?.touched) && doc.get('tipoDocumento')?.invalid">
                     <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
-                      [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                      >{{tipo | capitalize}}</ion-select-option><!-- [disabled]="isDocumentTypeDisabled(i, tipo)" -->
                   </ion-select>
                 </ion-item>
 

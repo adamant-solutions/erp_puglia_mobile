@@ -30,31 +30,40 @@
           <ion-item>
             <ion-select [(ngModel)]="patrimonioData.tipoAmministrazione" name="tipoAmministrazione" label="Tipo Amministrazione*"
               labelPlacement="floating" required #tipoAmministrazione="ngModel">
-              <ion-select-option value="DIRETTA">Diretta</ion-select-option>
-              <ion-select-option value="INDIRETTA">Indiretta</ion-select-option>
+              <ion-select-option *ngFor="let tipo of tipoAmministraziones" [value]="tipo"
+              >{{tipo | capitalize}}</ion-select-option>
             </ion-select>
           </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || tipoAmministrazione.errors?.['required']" color="danger">
+            Tipo amministrazione è obbligatorio
+          </ion-note>
         </div>
 
         <div>
           <ion-item>
             <ion-select [(ngModel)]="patrimonioData.statoDisponibilita" name="statoDisponibilita" label="Stato Disponibilità*"
               labelPlacement="floating" required #statoDisponibilita="ngModel">
-              <ion-select-option value="DISPONIBILE">Disponibile</ion-select-option>
-              <ion-select-option value="NON DISPONIBILE">Non disponibile</ion-select-option>
+              <ion-select-option *ngFor="let tipo of statoDisponibilitas"  [value]="tipo">{{tipo | capitalize}}</ion-select-option>
             </ion-select>
           </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || statoDisponibilita.errors?.['required']" color="danger">
+            Stato disponibilità è obbligatorio
+          </ion-note>
         </div>
 
         <div>
           <ion-item>
-            <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri" labelPlacement="floating"
-              pattern="^[0-9]*\.?[0-9]+$" #metriQuadri="ngModel"></ion-input>
+            <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri"
+              labelPlacement="floating" required pattern="^[0-9]*\.?[0-9]+$" #metriQuadri="ngModel"></ion-input>
           </ion-item>
-          <ion-note class="ion-padding-start"
-            *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']" color="danger">
-            Metri quadri non valido
+        
+          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri.errors?.['required']" color="danger">
+            Metri quadri è obbligatorio
           </ion-note>
+          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']"
+            color="danger">
+            Metri quadri non valido
+          </ion-note>        
         </div>
 
         <div>
@@ -246,7 +255,7 @@
                 placeholder="Seleziona tipo documento" [(ngModel)]="document.tipoDocumento" required
                 #tipoDocumento="ngModel">
                 <ion-select-option *ngFor="let tipo of tipoDocuments" [value]="tipo"
-                  [disabled]="isDocumentTypeDisabled(i, tipo)">{{tipo}}</ion-select-option>
+                  >{{tipo | capitalize}}</ion-select-option><!-- [disabled]="isDocumentTypeDisabled(i, tipo)" -->
               </ion-select>
             </ion-item>
 

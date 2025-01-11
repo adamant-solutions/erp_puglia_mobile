@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { NuovoPatrimonioPageRoutingModule } from './nuovo-patrimonio-routing.module';
 
 import { NuovoPatrimonioPage } from './nuovo-patrimonio.page';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { NuovoPatrimonioPage } from './nuovo-patrimonio.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    NuovoPatrimonioPageRoutingModule
+    NuovoPatrimonioPageRoutingModule,
+    CapitalizePipe
   ],
   declarations: [NuovoPatrimonioPage]
 })

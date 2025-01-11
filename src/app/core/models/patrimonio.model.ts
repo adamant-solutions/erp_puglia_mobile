@@ -8,8 +8,8 @@ export interface Patrimonio {
   quartiere: string
   zona: string
   classeEnergetica: string
-  tipoAmministrazione: string
-  statoDisponibilita: string
+  tipoAmministrazione: TipoAmministrazione;
+  statoDisponibilita: StatoDisponibilita;
   descrizione: string
   comune: string
   provincia: string
@@ -31,15 +31,12 @@ export interface Documenti {
   id?: number
   createDate?: string
   lastUpdateDate?: string
-  tipoDocumento: TipoDocumento
+  tipoDocumento: TipoDocumento;
   dataDocumento: string
   percorsoFile: string
   descrizione: string
 }
 
-export enum TipoDocumento {
-  CATASTALE = "CATASTALE",
-  /* certificazione energetica
-  planimetria
-  certificato idoneità impianti */
-}
+export type TipoAmministrazione = "DIRETTA" | "INDIRETTA" | "MISTA";
+export type StatoDisponibilita = "DISPONIBILE" | "OCCUPATO" | "IN_MANUTENZIONE" | "SFITTO" | "NON_DISPONIBILE";
+export type TipoDocumento = 'CATASTALE' | "CERTIFICAZIONE_ENERGETICA" | "TAVOLA_PROGETO" | "ATTO_PROVENIENZA" | "ALTRO";

@@ -8,7 +8,7 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
-import { TipoDocumento } from 'src/app/core/models/patrimonio.model';
+import { StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/core/models/patrimonio.model';
 
 
 @Component({
@@ -32,7 +32,9 @@ export class NuovoPatrimonioPage implements OnInit {
   errorMsg: string = '';
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
-  tipoDocuments = Object.values(TipoDocumento);
+  tipoAmministrazione: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
+  statoDisponibilita: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
+  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETO" , "ATTO_PROVENIENZA" , "ALTRO"];
 
   ngOnInit() {
     this.initializeForm();
@@ -41,10 +43,10 @@ export class NuovoPatrimonioPage implements OnInit {
 
   private initializeForm() {
     this.addForm = new FormGroup({
-      metriQuadri: new FormControl(null, [Validators.pattern('^[0-9]*\.?[0-9]+$')]),
+      metriQuadri: new FormControl(null, [Validators.required,Validators.pattern('^[0-9]*\.?[0-9]+$')]),
       quartiere: new FormControl(null, Validators.required),
-      tipoAmministrazione: new FormControl('DIRETTA', Validators.required),
-      statoDisponibilita: new FormControl('DISPONIBILE', Validators.required),
+      tipoAmministrazione: new FormControl(null, Validators.required),
+      statoDisponibilita: new FormControl(null, Validators.required),
       comune: new FormControl(null, Validators.required),
       provincia: new FormControl(null, [Validators.required, Validators.maxLength(2)]),
       indirizzo: new FormControl(null, Validators.required),
@@ -152,8 +154,8 @@ export class NuovoPatrimonioPage implements OnInit {
     this.submitted = true;
     const patrimonioData = this.addForm.value;
     /*
-       console.log("Send: ", sendData) 
-      console.log(this.addForm.controls) */
+       console.log("Send: ", sendData)
+      console.log(this.addForm.value) */ 
     if (!this.addForm.valid) {
       // console.log('Form is invalid');
       return;

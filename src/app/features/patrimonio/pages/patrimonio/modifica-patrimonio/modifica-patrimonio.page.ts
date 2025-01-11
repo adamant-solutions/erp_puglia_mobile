@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
-import { Patrimonio, TipoDocumento } from 'src/app/core/models/patrimonio.model';
+import { Patrimonio, StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/core/models/patrimonio.model';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
 import { DatePipe } from '@angular/common';
@@ -28,8 +28,8 @@ export class ModificaPatrimonioPage implements OnInit {
     quartiere: '',
     zona: '',
     classeEnergetica: '',
-    tipoAmministrazione: '',
-    statoDisponibilita: '',
+    tipoAmministrazione: 'DIRETTA',
+    statoDisponibilita: 'DISPONIBILE',
     descrizione: '',
     comune: '',
     provincia: '',
@@ -48,7 +48,9 @@ export class ModificaPatrimonioPage implements OnInit {
   };
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
-  tipoDocuments = Object.values(TipoDocumento);
+  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETO" , "ATTO_PROVENIENZA" , "ALTRO"];
+  tipoAmministraziones: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
+  statoDisponibilitas: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
@@ -76,7 +78,7 @@ export class ModificaPatrimonioPage implements OnInit {
 
   addDocumento(){
     this.patrimonioData.documenti.push({
-      tipoDocumento: TipoDocumento.CATASTALE,
+      tipoDocumento: 'CATASTALE',
       dataDocumento: '',
       percorsoFile: '',
       descrizione: ''
@@ -89,14 +91,13 @@ export class ModificaPatrimonioPage implements OnInit {
   }
 
   
-  isDocumentTypeDisabled(currentIndex: number, documentType: string): boolean {
+/*   isDocumentTypeDisabled(currentIndex: number, documentType: string): boolean {
     return this.patrimonioData.documenti.some((doc:any,index:any) => 
       index !== currentIndex && 
-      doc.tipo_documento === documentType
-      
+      doc.tipoDocumento === documentType
     );
   }
-  
+  */
 
   onDataDocumentoChange(selectedDate: any, index: number) {
     //console.log(selectedDate)
@@ -133,6 +134,7 @@ export class ModificaPatrimonioPage implements OnInit {
 
   onSubmit() {  
 
+    /* console.log(this.patrimonioForm.value) */
     if (this.patrimonioForm.valid) {
 
      const sendData = { 
