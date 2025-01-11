@@ -18,7 +18,9 @@ export class AnagraficaDetailsPage implements OnInit {
 
   breadCrumbs = [{ name: 'Anagrafica', url: '/anagrafica' }, { name: 'Anagrafica Dettagli', url: [] }]
   userForm!: FormGroup;
-  tipoDocuments = Object(TipoDocumento);
+/*   tipoDocuments = Object(TipoDocumento); */
+   tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,

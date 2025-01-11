@@ -43,11 +43,7 @@ export interface Contatti {
   pec: string
 }
 
-export enum TipoDocumento {
-  CARTA_DEL_IDENTITA = "Carta d'Identità",
-  PASSAPORTO = 'Passaporto',
-  PATENTE = 'Patente',
-}
+export type TipoDocumento = "Carta d'Identità" | "Passaporto" | "Patente";
 
 export interface DocumentoIdentita {
   tipo_documento: TipoDocumento;

@@ -221,12 +221,12 @@
         <ion-card *ngFor="let doc of userData.cittadino.documenti_identita; let i = index" style="padding-top: 16px;">
           <ion-card-header>
             <ion-card-title>
-              <span *ngIf="doc.tipo_documento === tipoDocuments.CARTA_DEL_IDENTITA"><ion-icon name="id-card-outline"></ion-icon>
+               <span *ngIf="doc.tipo_documento === 'Carta d\'Identit&agrave;'"><ion-icon name="id-card-outline"></ion-icon>
               </span>
-              <span *ngIf="doc.tipo_documento === tipoDocuments.PASSAPORTO"><ion-img src="../../../../../../assets/svg/passport-svgrepo-com.svg" alt="Passaporto"  class="documenti-svgs"></ion-img>
+              <span *ngIf="doc.tipo_documento === 'Passaporto'"><ion-img src="../../../../../../assets/svg/passport-svgrepo-com.svg" alt="Passaporto"  class="documenti-svgs"></ion-img>
               </span>
-              <span *ngIf="doc.tipo_documento === tipoDocuments.PATENTE"><ion-img src="../../../../../../assets/svg/license-svgrepo-com.svg" alt="Patente" class="documenti-svgs"></ion-img>
-              </span>
+              <span *ngIf="doc.tipo_documento === 'Patente'"><ion-img src="../../../../../../assets/svg/license-svgrepo-com.svg" alt="Patente" class="documenti-svgs"></ion-img>
+              </span> 
               {{doc.tipo_documento | uppercase}}</ion-card-title>
           </ion-card-header>
           <!--  <ion-text class="ion-padding">{{doc.tipo_documento | uppercase}}</ion-text> -->

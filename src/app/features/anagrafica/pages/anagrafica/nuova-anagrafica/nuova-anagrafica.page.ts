@@ -18,7 +18,7 @@ export class NuovaAnagraficaPage implements OnInit {
   addForm!: FormGroup;
   submitted = false;
   errorMsg: string = '';
-  tipoDocuments = Object.values(TipoDocumento);
+  tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
 
   constructor(private fb: FormBuilder,
     private anagraficaSvc: AnagraficaService,
@@ -174,7 +174,7 @@ export class NuovaAnagraficaPage implements OnInit {
     this.submitted = true;
     const anagraficaData = this.addForm.value;
     /* console.log(this.addForm.value) */
-    console.log(this.addForm.controls['cittadino']) 
+   //  console.log(this.addForm.controls['cittadino'].get('documenti_identita')?.value) //this.addForm.controls['cittadino']
    if(!this.addForm.valid){
     return;
    }

@@ -20,7 +20,8 @@ export class ModificaAnagraficaPage implements OnInit {
   errorMsg = '';
   formData: any = {};
   documenti: any//[] = [];
-  tipoDocuments = Object.values(TipoDocumento);
+  //tipoDocuments = Object.values(TipoDocumento);
+  tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
   maxDocuments!: number;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
