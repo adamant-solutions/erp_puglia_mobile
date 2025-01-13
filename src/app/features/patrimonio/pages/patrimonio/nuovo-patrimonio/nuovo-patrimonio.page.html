@@ -68,7 +68,7 @@
 
         <div> 
          <ion-item>
-          <ion-input formControlName="metriQuadri" label="Metri Quadri" labelPlacement="floating"></ion-input>
+          <ion-input formControlName="metriQuadri" label="Metri Quadri*" labelPlacement="floating"></ion-input>
         </ion-item>
         <ion-note class="ion-padding-start"
         *ngIf="(submitted || addForm.get('metriQuadri')?.touched) && addForm.get('metriQuadri')?.invalid" color="danger">
@@ -229,6 +229,10 @@
 
         <div> <ion-item>
             <ion-input formControlName="zona" labelPlacement="floating" label="Zona"></ion-input>
+          </ion-item></div>
+
+          <div> <ion-item>
+            <ion-input formControlName="classeEnergetica" labelPlacement="floating" label="Classe energetica"></ion-input>
           </ion-item></div>
 
         <div> <ion-item>

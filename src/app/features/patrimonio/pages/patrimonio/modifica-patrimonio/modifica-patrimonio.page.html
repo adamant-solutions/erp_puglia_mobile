@@ -18,6 +18,22 @@
 
         <div>
           <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri"
+              labelPlacement="floating" required pattern="^[0-9]*\.?[0-9]+$" #metriQuadri="ngModel"></ion-input>
+          </ion-item>
+        
+          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri.errors?.['required']" color="danger">
+            Metri quadri è obbligatorio
+          </ion-note>
+          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']"
+            color="danger">
+            Metri quadri non valido
+          </ion-note>        
+        </div>
+
+
+        <div>
+          <ion-item>
             <ion-input [(ngModel)]="patrimonioData.quartiere" name="quartiere" label="Quartiere*" labelPlacement="floating"
               required #quartiere="ngModel" ></ion-input>
           </ion-item>
@@ -49,21 +65,6 @@
           <ion-note class="ion-padding-start" *ngIf="submitted || statoDisponibilita.errors?.['required']" color="danger">
             Stato disponibilità è obbligatorio
           </ion-note>
-        </div>
-
-        <div>
-          <ion-item>
-            <ion-input [(ngModel)]="patrimonioData.metriQuadri" name="metriQuadri" label="Metri Quadri"
-              labelPlacement="floating" required pattern="^[0-9]*\.?[0-9]+$" #metriQuadri="ngModel"></ion-input>
-          </ion-item>
-        
-          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri.errors?.['required']" color="danger">
-            Metri quadri è obbligatorio
-          </ion-note>
-          <ion-note class="ion-padding-start" *ngIf="submitted || metriQuadri?.touched && metriQuadri.errors?.['pattern']"
-            color="danger">
-            Metri quadri non valido
-          </ion-note>        
         </div>
 
         <div>
@@ -182,6 +183,13 @@
         <div>
           <ion-item>
             <ion-input [(ngModel)]="patrimonioData.zona" name="zona" label="Zona" labelPlacement="floating"></ion-input>
+          </ion-item>
+        </div>
+
+        
+        <div>
+          <ion-item>
+            <ion-input [(ngModel)]="patrimonioData.classeEnergetica" name="zona" label="Classe energetica" labelPlacement="floating"></ion-input>
           </ion-item>
         </div>
 

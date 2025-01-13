@@ -1,5 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { Platform } from '@ionic/angular';
 import {Patrimonio} from 'src/app/core/models/patrimonio.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -15,20 +16,29 @@ export class PatrimonioDetailsPage implements OnInit {
   breadCrumbs = [{name: 'Patrimonio', url: '/'}, {name: 'Patrimonio Dettagli', url: []}]
   patrimonioData!: Patrimonio;
   private router = inject(Router);
+  private activeRoute = inject(ActivatedRoute)
+  private platform = inject(Platform);
 
-  constructor(private activeRoute: ActivatedRoute,
-              private msgService: MessagesService,
+  constructor(private msgService: MessagesService,
               private alertService: AlertService,
               private patrimonioSrvc : PatrimonioService,
   ) {
   }
 
   ngOnInit() {
-  
+    if (this.platform.is('hybrid')) {
+      this.getPatrimonioInHybrid()
+    }
+    else {
+      this.getPatrimonio()
+    }
+  }
+
+  getPatrimonio() {
     this.activeRoute.data.subscribe({
       next: (data) => {
         this.patrimonioData = data['patrimonioByIdResolver']
-       /*  console.log(this.patrimonioData) */
+        /*  console.log(this.patrimonioData) */
       },
       error: (err) => {
         console.log(err)
@@ -36,6 +46,18 @@ export class PatrimonioDetailsPage implements OnInit {
     });
   }
 
+  getPatrimonioInHybrid() {
+    this.activeRoute.data.subscribe({
+      next: (data) => {
+        
+         console.log("Details:" , data) 
+        this.patrimonioData = data['patrimonioByIdResolver'].data
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
+  }
 
   trackByDoc(index: number, doc: any): any {
     return doc.id;

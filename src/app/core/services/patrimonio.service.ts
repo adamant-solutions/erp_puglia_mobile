@@ -1,12 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Patrimonio } from '../models/patrimonio.model';
-import { catchError, from, Observable, of, switchMap } from 'rxjs';
+import { catchError, from, Observable } from 'rxjs';
 import { PatrimonioSearchParams } from '../resolvers/patrimonio.resolver';
 import { Platform } from '@ionic/angular';
 import { CapacitorHttp } from '@capacitor/core';
 import { HttpWrapperService } from './http-wrapper.service';
-import { AuthorizationService } from './authorization.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +15,10 @@ export class PatrimonioService {
       private http: HttpClient,
       @Inject('patrimonioUrl') private patrimonioUrl: string,
       private platform: Platform,
-      private httpWrapper: HttpWrapperService,
-      private authService: AuthorizationService
+      private httpWrapper: HttpWrapperService
     ) {}
   
     getPatrimonioData(params: PatrimonioSearchParams): Observable<any> {
-      /* return from(this.authService.ensureTokenIsValid(false)).pipe(
-        switchMap(token => { */
           let httpParams = new HttpParams()
             .set('pagina', (params.pagina || 0).toString());
   
@@ -38,31 +34,31 @@ export class PatrimonioService {
             const options = {
               url: this.patrimonioUrl,
               method: 'GET',
-              /* headers: {
-                'Authorization': `${token.token_type} ${token.access_token}`,
-              }, */
               params: this.convertParams(httpParams)
             };
   
-            return from(this.httpWrapper.request(options));
+            return from(this.httpWrapper.capacitorHttpRequest(options,false));
           } else {
             return this.http.get<Patrimonio[]>(this.patrimonioUrl, {
               params: httpParams,
               observe: 'response'
-               /* headers: {
-                'Authorization': `${token.token_type} ${token.access_token}`
-              }  */
             }).pipe(
               catchError(error => { throw error; })
             );
           }
-       // })
-    //  );
     }  
 
   getPatrimonioById(id: string){
+    if (this.platform.is('hybrid')) {
+      const options = {
+        url: `${this.patrimonioUrl}/${id}`,
+        method: 'GET'
+      };
+      return from(this.httpWrapper.capacitorHttpRequest(options,false));
+    } else {
     return this.http.get<Patrimonio>(`${this.patrimonioUrl}/${id}`).pipe(
       catchError(e => { throw (e) }));
+    }
   }
 
 
@@ -79,17 +75,7 @@ export class PatrimonioService {
         }
       };
 
-      return new Observable((observer) => {
-        CapacitorHttp.post(options)
-          .then(response => {
-            observer.next(response.data);
-            observer.complete();
-          })
-          .catch(error => {
-            console.log("Error: ", error)
-            observer.error(error);
-          });
-      });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.http.post<Patrimonio[]>(`${this.patrimonioUrl}`, patrimonioData).pipe(
@@ -112,19 +98,7 @@ export class PatrimonioService {
         }
       };
       
-        return new Observable((observer) => {
-          /* console.log("Send src:" ,options) */
-          CapacitorHttp.put(options)
-          .then(response => {
-          /*   console.log("Response src:" ,response) */
-            observer.next(response.data);
-            observer.complete(); 
-          })
-          .catch(error => {
-            console.log("Error: " , error)
-            observer.error(error); 
-          });
-        });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.http.put<Patrimonio>(`${this.patrimonioUrl}`, patrimonioData).pipe(
@@ -142,18 +116,7 @@ export class PatrimonioService {
         url: `${this.patrimonioUrl}/${id}`,
         method: 'DELETE'
       };
-
-      return new Observable((observer) => {
-        CapacitorHttp.delete(options)
-        .then(response => {
-          observer.next(response.data);
-          observer.complete(); 
-        })
-        .catch(error => {
-          console.log("Error: " , error)
-          observer.error(error); 
-        });
-      });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.http.delete<Patrimonio>(`${this.patrimonioUrl}/${id}`).pipe(

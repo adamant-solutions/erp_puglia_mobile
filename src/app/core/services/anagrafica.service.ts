@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Anagrafica } from '../models/anagrafica.model';
-import { catchError, Observable } from 'rxjs';
+import { catchError, from } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { AnagraficaSearchParams } from '../resolvers/anagrafica.resolver';
-import { CapacitorHttp } from '@capacitor/core';
+import { HttpWrapperService } from './http-wrapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class AnagraficaService {
   constructor(
     private httpClient: HttpClient,
     @Inject('anagraficaUrl') private anagraficaUrl: string,
+    private httpWrapper: HttpWrapperService,
     private platform: Platform
   ) { }
   
@@ -46,26 +47,13 @@ export class AnagraficaService {
         };
         console.log("is options" , options);
 
-        return CapacitorHttp.get(options)
-            .then(response => {
-             /*  console.log("Roanda" ,response) */
-                return response;
-            })
-            .catch(error => {
-                throw error;
-            }); 
-
+        return from(this.httpWrapper.capacitorHttpRequest(options,false));
     } else {
-        return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}`, { params: httpParams }).pipe(
+        return this.httpClient.get<Anagrafica[]>(`${this.anagraficaUrl}`, { params: httpParams ,observe: 'response'}).pipe(
             catchError(e => { throw e; })
         );
     }
 }
-
-  getAllAnagrafica(){
-    return this.httpClient.get(`${this.anagraficaUrl}/count`).pipe(
-      catchError(e => { throw (e) }));
-  }
   
   getAnagraficaById(id: string){
     if (this.platform.is('hybrid')) {
@@ -75,13 +63,7 @@ export class AnagraficaService {
         method: 'GET'
     };
 
-    return CapacitorHttp.get(options)
-        .then(response => {
-            return response;
-        })
-        .catch(error => {
-            throw error;
-        }); 
+    return from(this.httpWrapper.capacitorHttpRequest(options,false));
 
     }
     else {
@@ -103,17 +85,7 @@ export class AnagraficaService {
         }
       };
 
-      return new Observable((observer) => {
-        CapacitorHttp.post(options)
-          .then(response => {
-            observer.next(response.data);
-            observer.complete();
-          })
-          .catch(error => {
-            console.log("Error: ", error)
-            observer.error(error);
-          });
-      });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, anagraficaData).pipe(
@@ -136,19 +108,7 @@ export class AnagraficaService {
         }
       };
       
-        return new Observable((observer) => {
-          /* console.log("Send src:" ,options) */
-          CapacitorHttp.put(options)
-          .then(response => {
-          /*   console.log("Response src:" ,response) */
-            observer.next(response.data);
-            observer.complete(); 
-          })
-          .catch(error => {
-            console.log("Error: " , error)
-            observer.error(error); 
-          });
-        });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.httpClient.put<Anagrafica>(`${this.anagraficaUrl}`, anagraficaData).pipe(
@@ -167,17 +127,7 @@ export class AnagraficaService {
         method: 'DELETE'
       };
 
-      return new Observable((observer) => {
-        CapacitorHttp.delete(options)
-        .then(response => {
-          observer.next(response.data);
-          observer.complete(); 
-        })
-        .catch(error => {
-          console.log("Error: " , error)
-          observer.error(error); 
-        });
-      });
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
       return this.httpClient.delete<Anagrafica>(`${this.anagraficaUrl}/${id}`).pipe(

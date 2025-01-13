@@ -53,27 +53,37 @@ export class ModificaPatrimonioPage implements OnInit {
   statoDisponibilitas: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private platform = inject(Platform);
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
   
   
   constructor(private alertController: AlertController,
     private datePipe: DatePipe,
-    private platform: Platform,
     private patrimonioSrv: PatrimonioService,
     private msgService: MessagesService) { }
 
   ngOnInit() {
-    this.route.data.subscribe({
-      next: (data) => {
-        this.patrimonioData = data['patrimonioByIdResolver'];
-        this.patrimonioData.createDate = this.datePipe.transform(this.patrimonioData.createDate, 'dd/MM/yyyy')!;
-        this.patrimonioData.lastUpdateDate = this.datePipe.transform(this.patrimonioData.lastUpdateDate, 'dd/MM/yyyy')!;
-        this.patrimonioData.documenti = this.patrimonioData.documenti || [];
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    });
+    
+      this.route.data.subscribe({
+        next: (data) => {
+          if(this.platform.is('hybrid')){
+            this.patrimonioData = data['patrimonioByIdResolver'].data;
+            this.patrimonioData.createDate = this.datePipe.transform(this.patrimonioData.createDate, 'dd/MM/yyyy')!;
+            this.patrimonioData.lastUpdateDate = this.datePipe.transform(this.patrimonioData.lastUpdateDate, 'dd/MM/yyyy')!;
+            this.patrimonioData.documenti = this.patrimonioData.documenti || [];
+          }
+          else{
+          this.patrimonioData = data['patrimonioByIdResolver'];
+          this.patrimonioData.createDate = this.datePipe.transform(this.patrimonioData.createDate, 'dd/MM/yyyy')!;
+          this.patrimonioData.lastUpdateDate = this.datePipe.transform(this.patrimonioData.lastUpdateDate, 'dd/MM/yyyy')!;
+          this.patrimonioData.documenti = this.patrimonioData.documenti || [];
+          }
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
+
   }
 
   addDocumento(){
