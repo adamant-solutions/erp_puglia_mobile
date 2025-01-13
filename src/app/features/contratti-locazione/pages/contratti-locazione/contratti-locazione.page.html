@@ -7,13 +7,87 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!--   <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">{{pageTitle | titlecase}}</ion-title>
-      </ion-toolbar>
-    </ion-header> -->
+<ion-content [fullscreen]="true" class="ion-padding">
 
+  <!-- Add contratti section -->
+  <div class="custom-add-bar ion-padding">
+    <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Contratti"></ion-icon>
+    <ion-text>Aggiungi contratti</ion-text>
+
+    <ion-icon name="chevron-forward-outline" color="primary" [routerLink]="['nuovo-contratti']"></ion-icon>
+  </div>
+
+  <!-- searchBar section -->
+
+  <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"
+    placeholder="Cerca contratti"></ion-searchbar>
+
+  <!--  contratti list section -->
+
+  <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
+    <ion-chip color="primary" *ngIf="chip.value.length">
+      <ion-label>{{chip.value}}</ion-label>
+      <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
+    </ion-chip>
+  </span>
+
+  <div class="center-container ion-padding" *ngIf="!contrattiList.length">
+    <ion-item lines="none" style="width: 60%;">
+      <div style="text-align: center;">
+        <!-- <ion-icon name="warning" color="warning" style="font-size: 21px;"></ion-icon>Nessun dato trovato -->
+        <ion-img src="./assets/svg/no-data.svg" alt="Nessun Dato Trovato" class="img-fluid"></ion-img>
+        <ion-label style="padding: 16px; color: var(--ion-color-secondary); font-weight:600">Nessun Dato
+          Trovato</ion-label>
+      </div>
+    </ion-item>
+  </div>
+
+
+  <ion-card *ngFor="let contratti of contrattiList">
+
+    <ion-card-content style="
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+">
+      <div>
+        <ion-icon name="document-text-outline" style="margin-right: 16px;"></ion-icon>
+      </div>
+      <div>
+        <p>Stato Contratto: {{contratti.statoContratto || '-'}}</p>
+        <p>Canone Mensile: {{contratti.canoneMensile}}</p>
+        <p>Unita Immobiliare: {{contratti.unitaImmobiliare}}</p>
+      </div>
+      <div>
+        <ion-icon name="chevron-forward-outline" color="primary"
+          [routerLink]="[contratti.id,'contratti-details']"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+
+  <div class="custom-pagination" *ngIf="contrattiList.length">
+    <ion-buttons slot="start">
+      <ion-button (click)="previousPage()" [disabled]="currentPage === 0">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        <!--    Precedente -->
+      </ion-button>
+    </ion-buttons>
+
+    <ion-text class="current-page">{{ currentPage + 1 }}</ion-text>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+        <!--   Successivo -->
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary"><!--  (click)="openAdvancedSearch()" -->
+      <ion-icon name="search"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
-
 <app-footer></app-footer>

@@ -23,6 +23,27 @@ export class ContrattiService {
     let httpParams = new HttpParams()
       .set('pagina', (params.pagina || 0).toString());
 
+      if (params.indirizzo) {
+        httpParams = httpParams.set('indirizzo', params.indirizzo);
+      }
+      if (params.canoneMensileMin) {
+        httpParams = httpParams.set('canoneMensileMin', params.canoneMensileMin);
+      }
+      if (params.canoneMensileMax) {
+        httpParams = httpParams.set('canoneMensileMax', params.canoneMensileMax);
+      }
+      if (params.dataInizioFrom) {
+        httpParams = httpParams.set('dataInizioFrom', params.dataInizioFrom);
+      }
+      if (params.dataInizioTo) {
+        httpParams = httpParams.set('dataInizioTo', params.dataInizioTo);
+      }
+      if (params.dataFineTo) {
+        httpParams = httpParams.set('dataFineTo', params.dataFineTo);
+      }
+
+  
+
     if (this.platform.is('hybrid')) {
       const options = {
         url: this.contrattiUrl,

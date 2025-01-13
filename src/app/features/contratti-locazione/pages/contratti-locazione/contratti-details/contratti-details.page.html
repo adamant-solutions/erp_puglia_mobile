@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" defaultHref="/contratti-locazione"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="secondary">Contratti dettagli</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div id="container" class="ion-padding">
+    {{contrattiData | json}}
+  </div>
+</ion-content>

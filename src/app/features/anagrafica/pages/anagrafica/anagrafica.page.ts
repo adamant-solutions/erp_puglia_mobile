@@ -18,7 +18,6 @@ export class AnagraficaPage implements OnInit {
   currentPage = 0;
   totalPages = 1;
   numElements!: number;
-  itemsPerPage = 10;
   searchCFParam = '';
   searchNomeParam = '';
   searchCognomeParam = '';

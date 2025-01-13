@@ -16,7 +16,6 @@ export class PatrimonioPage implements OnInit {
   currentPage = 0;
   totalPages = 1;
   numElements!: number;
-  itemsPerPage = 10;
   searchComuneParam = '';
   searchZonaParam = '';
   searchChips = [
