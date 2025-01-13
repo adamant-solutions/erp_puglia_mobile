@@ -50,5 +50,7 @@ export class ContrattiDetailsPage implements OnInit {
     });
   }
   
-
+  trackByDoc(index: number, doc: any): any {
+    return doc.id;
+  }
 }

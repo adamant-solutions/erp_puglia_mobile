@@ -10,6 +10,351 @@
 
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
-    {{contrattiData | json}}
+
+    <ion-list>
+
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          <ion-label> Informazioni </ion-label>
+        </ion-item-divider>
+        <ion-item>
+          <ion-label>
+            <h4>Stato Contratto</h4>
+            <p>{{ contrattiData.statoContratto }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h4>Data Inizio</h4>
+            <p>{{ contrattiData.dataInizio || '-'}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h4>Data Fine</h4>
+            <p>{{ contrattiData.dataFine || '-'}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h4>Canone Mensile</h4>
+            <p>{{ contrattiData.canoneMensile }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h4>Descrizione</h4>
+            <p>{{ contrattiData.descrizione || '-'}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h4>Data Creato</h4>
+            <p>{{ contrattiData.createDate | date:'dd/MM/yyyy'}} </p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h4>Ultima modifica</h4>
+            <p>{{ contrattiData.lastUpdateDate | date:'dd/MM/yyyy'}} </p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h4>Unita Mobiliare</h4>
+            <p>{{ contrattiData.unitaImmobiliare }}</p>
+          </ion-label>
+        </ion-item>
+
+      </ion-item-group>
+      <ion-item-group>
+
+        <!-- ketu accordion me te dhenat anagrafica -->
+        <ion-accordion-group>
+          <ion-accordion *ngFor="let doc of contrattiData?.intestatariAttuali;let i = index; trackBy: trackByDoc">
+
+            <ion-item slot="header" color="light">
+              <ion-label>Intestatari Attuali</ion-label>
+            </ion-item>
+            <div  slot="content">
+              <ion-item-group>
+                <div class="contratti-titles">
+                  <ion-icon name="person-outline" slot="start"></ion-icon>
+                  <ion-label>Cittadino</ion-label>
+                </div>
+                <ion-item>
+                  <ion-label>
+                    <h4>Id</h4>
+                    <p>{{doc.cittadino.id}} </p>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Nome</h4>
+                    <p>{{doc.cittadino.nome}} </p>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Cognome</h4>
+                    <p>{{doc.cittadino.cognome}} </p>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Codice Fiscale</h4>
+                    <p>{{doc.cittadino.codiceFiscale}} </p>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Data di Nascita</h4>
+                    <p>{{doc.cittadino.dataDiNascita | date}}</p>
+                  </ion-label>
+
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Genere</h4>
+                    <p>{{doc.cittadino.genere}}</p>
+                  </ion-label>
+
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Cittadinanza</h4>
+                    <p>{{doc.cittadino.cittadinanza}}</p>
+                  </ion-label>
+
+                </ion-item>
+
+              </ion-item-group>
+
+              <ion-item-group>
+                <div class="contratti-titles">
+                  <ion-icon name="location-outline" slot="start"></ion-icon>
+                  <ion-label>Luogo nascita</ion-label>
+                </div>
+                <ion-item>
+                  <ion-label>
+                    <h4>Comune</h4>
+                    <p>{{doc.cittadino.luogo_nascita?.comune}}</p>
+
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Provincia</h4>
+                    <p>{{doc.cittadino.luogo_nascita?.provincia}}</p>
+
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Stato</h4>
+                    <p>{{doc.cittadino.luogo_nascita?.stato}}</p>
+
+                  </ion-label>
+                </ion-item>
+              </ion-item-group>
+
+              <ion-item-group>
+                <div class="contratti-titles">
+                  <ion-icon name="pin-outline" slot="start"></ion-icon>
+                  <ion-label>Residenza</ion-label>
+                </div>
+                <ion-item>
+                  <ion-label>
+                    <h4>Indirizzo</h4>
+                    <p>{{doc.cittadino.residenza?.indirizzo || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Civico</h4>
+                    <p>{{doc.cittadino.residenza?.civico || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>CAP</h4>
+                    <p>{{doc.cittadino.residenza?.cap || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Comune Residenza</h4>
+                    <p>{{doc.cittadino.residenza?.comuneResidenza || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Provincia Residenza</h4>
+                    <p>{{doc.cittadino.residenza?.provinciaResidenza || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Stato Residenza</h4>
+                    <p>{{doc.cittadino.residenza?.statoResidenza || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+              </ion-item-group>
+
+              <ion-item-group>
+                <div class="contratti-titles">
+                  <ion-icon name="call-outline" slot="start"></ion-icon>
+                  <ion-label> Contatti</ion-label>
+                </div>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Telefono</h4>
+                    <p>{{doc.cittadino.contatti?.telefono || '-'}}</p>
+
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Cellulare</h4>
+                    <p>{{doc.cittadino.contatti?.cellulare || '-'}}</p>
+
+                  </ion-label>
+
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>
+                    <h4>Email</h4>
+                    <p>{{doc.cittadino.contatti?.email || '-'}}</p>
+
+                  </ion-label>
+
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <h4>Pec</h4>
+                    <p>{{doc.cittadino.contatti?.pec || '-'}}</p>
+
+                  </ion-label>
+
+                </ion-item>
+
+              </ion-item-group>
+
+
+              <ion-item-group>
+                <div class="contratti-titles">
+                  <ion-icon name="documents-outline" slot="start"></ion-icon>
+                  <ion-label> Documenti Identita</ion-label>
+                </div>
+
+                <div *ngIf="!doc.cittadino.documenti_identita!.length">
+                  <ion-item>
+                    Nessun documento
+                  </ion-item>
+                </div>
+
+                <div *ngIf="doc.cittadino.documenti_identita!.length">
+                  <ion-accordion-group expand="inset">
+                    <ion-accordion
+                      *ngFor="let doc of doc.cittadino.documenti_identita; let i = index trackBy: trackByDoc">
+
+                      <ion-item slot="header" color="light">
+                        <ion-label>
+                          <span *ngIf="doc.tipo_documento === 'Carta d\'Identit&agrave;'"><ion-icon name="id-card-outline"></ion-icon>
+                          </span>
+                          <span *ngIf="doc.tipo_documento === 'Passaporto'"><ion-img src="../../../../../../assets/svg/passport-svgrepo-com.svg" alt="Passaporto"  class="documenti-svgs"></ion-img>
+                          </span>
+                          <span *ngIf="doc.tipo_documento === 'Patente'"><ion-img src="../../../../../../assets/svg/license-svgrepo-com.svg" alt="Patente" class="documenti-svgs"></ion-img>
+                          </span> 
+                          {{doc.tipo_documento}}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+
+                        <ion-item>
+                          <ion-label>
+                            <h4>Numero Documento</h4>
+                            <p>{{doc.numero_documento}} </p>
+                          </ion-label>
+                        </ion-item>
+
+                        <ion-item>
+                          <ion-label>
+                            <h4>Data Emissione</h4>
+                            <p> {{doc.data_emissione | date:'dd/MM/yyyy'}} </p>
+                          </ion-label>
+                        </ion-item>
+
+                        <ion-item>
+                          <ion-label>
+                            <h4>Data Scadenza</h4>
+                            <p> {{doc.data_scadenza | date:'dd/MM/yyyy'}} </p>
+                          </ion-label>
+                        </ion-item>
+                        <ion-item>
+                          <ion-label>
+                            <h4>Ente emittente</h4>
+                            <p> {{doc.ente_emittente}} </p>
+                          </ion-label>
+                        </ion-item>
+
+                      </div>
+                    </ion-accordion>
+
+                  </ion-accordion-group>
+                </div>
+              </ion-item-group>
+
+            </div>
+          </ion-accordion>
+
+        </ion-accordion-group>
+
+      </ion-item-group>
+
+      <ion-item-group>
+        <ion-accordion-group>
+          <ion-accordion *ngFor="let doc of contrattiData?.intestatariStorici;let i = index; trackBy: trackByDoc">
+
+            <ion-item slot="header" color="light">
+              <ion-label>Intestatari Storici</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+             <ion-item-group>
+
+              </ion-item-group>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-item-group>
+
+      <ion-item-group>
+        <!-- ketu accordion me te dhenat patrimonio -->
+      </ion-item-group>
+    </ion-list>
+
   </div>
 </ion-content>
+
+<app-footer></app-footer>
