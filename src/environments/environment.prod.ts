@@ -5,5 +5,6 @@ export const environment = {
   production: true,
   accessTokenUrl: API_URL + 'oauth2/token',
   anagraficaUrl: API_URL + 'anagrafica',
-  patrimonioUrl: API_URL + 'patrimonio'
+  patrimonioUrl: API_URL + 'patrimonio',
+  contrattiUrl: API_URL + 'contratti',
 };

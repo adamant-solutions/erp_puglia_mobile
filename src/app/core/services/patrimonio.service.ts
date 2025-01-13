@@ -4,7 +4,6 @@ import { Patrimonio } from '../models/patrimonio.model';
 import { catchError, from, Observable } from 'rxjs';
 import { PatrimonioSearchParams } from '../resolvers/patrimonio.resolver';
 import { Platform } from '@ionic/angular';
-import { CapacitorHttp } from '@capacitor/core';
 import { HttpWrapperService } from './http-wrapper.service';
 
 @Injectable({

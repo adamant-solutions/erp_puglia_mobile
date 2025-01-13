@@ -1,7 +1,11 @@
-export interface LuogoNascita {
-  comune: string;
-  provincia: string;
-  stato: string;
+
+
+
+export interface Anagrafica {
+  id: string;
+  createDate: string
+  lastUpdateDate: string
+  cittadino: Cittadino;
 }
 
 export interface Cittadino {
@@ -19,6 +23,12 @@ export interface Cittadino {
   luogo_nascita?: LuogoNascita
   documenti_identita?: DocumentoIdentita[],
   altri_dettagli?: AltriDettagli;
+}
+
+export interface LuogoNascita {
+  comune: string;
+  provincia: string;
+  stato: string;
 }
 
 export interface Residenza {
@@ -46,22 +56,19 @@ export interface Contatti {
 export type TipoDocumento = "Carta d'Identità" | "Passaporto" | "Patente";
 
 export interface DocumentoIdentita {
-  tipo_documento: TipoDocumento;
-  numero_documento: string;
-  data_emissione: string;
-  data_scadenza: string;
-  ente_emittente: string;
+  id?: number
+  createDate?: string
+  lastUpdateDate?: string
+  nomeFile: any
+  contentType: any
+  tipo_documento: TipoDocumento
+  numero_documento: string
+  data_emissione: string
+  data_scadenza: string
+  ente_emittente: string
 }
 
 export interface AltriDettagli {
   stato_civile: string;
   data_ultimo_aggiornamento: string;
-}
-
-
-export interface Anagrafica {
-  id: string;
-  createDate: string
-  lastUpdateDate: string
-  cittadino: Cittadino;
 }
