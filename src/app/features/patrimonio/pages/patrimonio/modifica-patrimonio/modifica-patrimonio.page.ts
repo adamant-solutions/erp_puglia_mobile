@@ -149,8 +149,8 @@ export class ModificaPatrimonioPage implements OnInit {
 
      const sendData = { 
       ...this.patrimonioData,
-      createDate:  this.datePipe.transform(this.patrimonioData.createDate,'yyyy-MM-ddTHH:mm:ss.SSS')!,/* this.getISODate(this.patrimonioData.createDate),*/
-      lastUpdateDate:this.datePipe.transform(this.patrimonioData.lastUpdateDate,'yyyy-MM-ddTHH:mm:ss.SSS')!
+      createDate:  this.formatDate(this.patrimonioData.createDate)!,/* this.getISODate(this.patrimonioData.createDate),*/
+      lastUpdateDate: this.formatDate(this.patrimonioData.lastUpdateDate)!
     };
       //console.log("SEND ",sendData)
 
@@ -201,6 +201,14 @@ export class ModificaPatrimonioPage implements OnInit {
     }
     this.msgService.error(this.errorMsg);
 
+  }
+
+  formatDate(dateStr: string){
+  
+    const [day, month, year] = dateStr.split('/');
+    const date = new Date(Number(year), Number(month) - 1, Number(day));
+    
+    dateStr = this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.SSS')!;
   }
  
 }
