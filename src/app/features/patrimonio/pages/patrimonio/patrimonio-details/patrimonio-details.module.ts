@@ -8,6 +8,7 @@ import {PatrimonioDetailsPageRoutingModule} from './patrimonio-details-routing.m
 
 import {PatrimonioDetailsPage} from './patrimonio-details.page';
 import {FooterComponent} from 'src/app/shared/footer/footer.component';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {FooterComponent} from 'src/app/shared/footer/footer.component';
     FormsModule,
     IonicModule,
     PatrimonioDetailsPageRoutingModule,
-    FooterComponent
+    FooterComponent,
+    CapitalizePipe
   ],
   declarations: [PatrimonioDetailsPage]
 })

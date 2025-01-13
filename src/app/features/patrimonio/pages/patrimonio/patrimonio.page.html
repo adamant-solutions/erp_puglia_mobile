@@ -11,12 +11,12 @@
   <div id="container" class="ion-padding">
 
      <!-- Add patrimonio section -->
-     <div class="custom-add-bar ion-padding">
+     <div class="custom-add-bar ion-padding" [routerLink]="['nuovo-patrimonio']">
       <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Patrimonio"></ion-icon>
       <ion-text>Aggiungi patrimonio</ion-text>
 
-    <ion-icon name="chevron-forward-outline" color="primary"
-    [routerLink]="['nuovo-patrimonio']"></ion-icon>
+  <!--   <ion-icon name="chevron-forward-outline" color="primary"
+    ></ion-icon> -->
    </div>
 
     <!-- searchBar section -->
@@ -57,6 +57,7 @@
   
 
   <ion-card *ngFor="let p of patrimonioList">
+    <div  [routerLink]="[p.id,'patrimonio-details']">
     <ion-card-header>
   
       <ion-card-title style="
@@ -68,7 +69,7 @@
         <div>
           <ion-icon name="business-outline" style="margin-right: 5px;"></ion-icon>{{p.comune}} - {{p.indirizzo}}
         </div> <ion-icon name="chevron-forward-outline" color="primary"
-          [routerLink]="[p.id,'patrimonio-details']"></ion-icon>
+         ></ion-icon>
       </ion-card-title>
   
     </ion-card-header>
@@ -81,8 +82,9 @@
       </div>
   
     </ion-card-content>
+  </div>     
   </ion-card>
-  
+
   <!-- scroll content -->
   
  <!--  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">

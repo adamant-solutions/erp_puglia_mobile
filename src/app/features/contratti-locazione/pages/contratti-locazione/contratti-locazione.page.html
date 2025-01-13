@@ -10,11 +10,11 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <!-- Add contratti section -->
-  <div class="custom-add-bar ion-padding">
+  <div class="custom-add-bar ion-padding" [routerLink]="['nuovo-contratti']">
     <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Contratti"></ion-icon>
     <ion-text>Aggiungi contratti</ion-text>
 
-    <ion-icon name="chevron-forward-outline" color="primary" [routerLink]="['nuovo-contratti']"></ion-icon>
+   <!--  <ion-icon name="chevron-forward-outline" color="primary"></ion-icon> -->
   </div>
 
   <!-- searchBar section -->
@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-">
+"    [routerLink]="[contratti.id,'contratti-details']">
       <div>
         <ion-icon name="document-text-outline" style="margin-right: 16px;"></ion-icon>
       </div>
@@ -59,8 +59,7 @@
         <p>Unita Immobiliare: {{contratti.unitaImmobiliare}}</p>
       </div>
       <div>
-        <ion-icon name="chevron-forward-outline" color="primary"
-          [routerLink]="[contratti.id,'contratti-details']"></ion-icon>
+        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
       </div>
     </ion-card-content>
   </ion-card>

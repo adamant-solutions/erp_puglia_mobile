@@ -179,7 +179,7 @@
               <ion-accordion  *ngFor="let doc of patrimonioData?.documenti;let i = index; trackBy: trackByDoc">
               
                 <ion-item slot="header" color="light">
-                  <ion-label>{{doc.tipoDocumento}}</ion-label>
+                  <ion-label>{{doc.tipoDocumento | capitalize}}</ion-label>
                 </ion-item>
                 <div class="ion-padding" slot="content">
                   <ion-item>

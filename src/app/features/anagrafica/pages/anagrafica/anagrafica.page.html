@@ -10,12 +10,12 @@
 <ion-content [fullscreen]="true">
   <div id="container" class="ion-padding">
     <!-- Add anagrafica section -->
-     <div class="custom-add-bar ion-padding">
+     <div class="custom-add-bar ion-padding"  [routerLink]="['nuova-anagrafica']">
         <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Anagrafica"></ion-icon>
         <ion-text>Aggiungi anagrafica</ion-text>
 
-      <ion-icon name="chevron-forward-outline" color="primary"
-      [routerLink]="['nuova-anagrafica']"></ion-icon>
+    <!--   <ion-icon name="chevron-forward-outline" color="primary"
+     ></ion-icon> -->
      </div>
 
     <!-- searchBar section -->
@@ -51,12 +51,12 @@
       </ion-item>
       </div>
 
-     <ion-item *ngFor="let a of anagraficaList" role="article">
+     <ion-item *ngFor="let a of anagraficaList" role="article"  [routerLink]="['anagrafica-details',a.id]">
+
         <ion-icon name="document-outline"></ion-icon>
         <ion-label class="list-item-name">{{ a.cittadino.codiceFiscale }}</ion-label>
-        <ion-icon name="chevron-forward-outline" color="primary"
-                  [routerLink]="['anagrafica-details',a.id]"></ion-icon>
-
+        <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
+          
       </ion-item> 
     </ion-list>
 
