@@ -8,12 +8,14 @@ import { ModificaPatrimonioPageRoutingModule } from './modifica-patrimonio-routi
 
 import { ModificaPatrimonioPage } from './modifica-patrimonio.page';
 import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    FooterComponent,
     ModificaPatrimonioPageRoutingModule,
     CapitalizePipe
   ],

@@ -8,6 +8,7 @@ import { NuovoPatrimonioPageRoutingModule } from './nuovo-patrimonio-routing.mod
 
 import { NuovoPatrimonioPage } from './nuovo-patrimonio.page';
 import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    FooterComponent,
     NuovoPatrimonioPageRoutingModule,
     CapitalizePipe
   ],
