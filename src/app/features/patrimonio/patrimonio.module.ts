@@ -6,6 +6,7 @@ import {PatrimonioPage} from './pages/patrimonio/patrimonio.page';
 import {FooterComponent} from 'src/app/shared/footer/footer.component';
 import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { environment } from 'src/environments/environment';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     IonicModule,
     PatrimonioRoutingModule,
-    FooterComponent
+    FooterComponent,
+    CapitalizePipe
   ],
   providers: [
       PatrimonioService,

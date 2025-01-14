@@ -16,9 +16,16 @@
   </ion-item>
   
   <ion-item>
-    <ion-label  position="stacked">Zona</ion-label>
-     <ion-icon slot="start" name="locate-outline" alt="Zona" style="margin-right: 16px;"></ion-icon> 
-    <ion-input [(ngModel)]="zona" type="text" [clearInput]="true"></ion-input>
+    <ion-label position="stacked">Indirizzo</ion-label>
+     <ion-icon slot="start" name="locate-outline" alt="Indirizzo" style="margin-right: 16px;"></ion-icon> 
+    <ion-input [(ngModel)]="indirizzo" type="text" [clearInput]="true"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select [(ngModel)]="statoDisponibilita" name="statoDisponibilita" label="Stato Disponibilità"
+    labelPlacement="stacked" (ionChange)="selectStato($event)" #stato="ngModel">
+    <ion-select-option *ngFor="let tipo of statoDisponibilitas" [value]="tipo">{{tipo | capitalize}}</ion-select-option>
+  </ion-select>
   </ion-item>
   
   <div class="ion-padding-top">

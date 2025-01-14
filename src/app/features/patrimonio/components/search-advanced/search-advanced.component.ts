@@ -1,30 +1,47 @@
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { StatoDisponibilita } from 'src/app/core/models/patrimonio.model';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
+import { PatrimonioSearchParams } from 'src/app/core/resolvers/patrimonio.resolver';
+
 
 @Component({
   selector: 'app-search-advanced',
   templateUrl: './search-advanced.component.html',
   styleUrls: ['./search-advanced.component.scss'],
   standalone: true,
-  imports: [IonicModule,FormsModule]
+  imports: [IonicModule,FormsModule,NgFor,CapitalizePipe]
 })
 export class SearchAdvancedComponent  implements OnInit {
 
+  searchParams: PatrimonioSearchParams = {};
+
+
   comune = '';
-  zona = '';
+  indirizzo = '';
+  statoDisponibilita = '';
+  statoDisponibilitas: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
+  
+  constructor(private modalController: ModalController,private route: ActivatedRoute) { }
 
-  constructor(private modalController: ModalController) { }
-
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   search() {
-    const searchParams = {
+    this.searchParams = {
       comune: this.comune,
-      zona: this.zona,
+      indirizzo: this.indirizzo,
+      statoDisponibilita: this.statoDisponibilita
     };
 
-    this.modalController.dismiss(searchParams);
+    this.modalController.dismiss(this.searchParams);
+  }
+
+  selectStato(event: any){
+      this.statoDisponibilita = event.detail.value;
   }
 
   dismiss() {

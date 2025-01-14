@@ -17,10 +17,13 @@ export class PatrimonioPage implements OnInit {
   totalPages = 1;
   numElements!: number;
   searchComuneParam = '';
-  searchZonaParam = '';
+  searchIndirizzoParam = '';
+  searchStatoDisponibilitaParam = '';
+  
   searchChips = [
     { name: 'searchComuneParam', value: this.searchComuneParam},
-    { name: 'searchZonaParam', value: this.searchZonaParam }
+    { name: 'searchIndirizzoParam', value: this.searchIndirizzoParam },
+    { name: 'searchStatoDisponibilitaParam', value: this.searchStatoDisponibilitaParam}
   ]
 
 
@@ -36,10 +39,12 @@ export class PatrimonioPage implements OnInit {
     this.route.params.subscribe(params => {
       this.currentPage = +params['pagina'] || 0;
       this.searchComuneParam = params['comune'] || '';
-      this.searchZonaParam = params['zona'] || '';
+      this.searchIndirizzoParam = params['indirizzo'] || '';
+      this.searchStatoDisponibilitaParam = params['statoDisponibilita'] || '';
       this.searchChips = [
         { name: 'searchComuneParam', value: this.searchComuneParam},
-        { name: 'searchZonaParam', value: this.searchZonaParam }
+        { name: 'searchIndirizzoParam', value: this.searchIndirizzoParam },
+        { name: 'searchStatoDisponibilitaParam', value: this.searchStatoDisponibilitaParam}
       ]
   
       if (this.platform.is('hybrid')) {
@@ -121,15 +126,18 @@ export class PatrimonioPage implements OnInit {
     if(param.name === 'searchComuneParam'){
       this.searchComuneParam = ""
     }
-    else if(param.name === 'searchZonaParam'){
-      this.searchZonaParam = ""
+    else if(param.name === 'searchIndirizzoParam'){
+      this.searchIndirizzoParam = ""
+    }else if(param.name === 'searchStatoDisponibilitaParam'){
+      this.searchStatoDisponibilitaParam = ""
     }
 
     this.router.navigate(['/patrimonio', {
       ...searchParams,
       pagina: 0,
       comune: this.searchComuneParam,
-      zona: this.searchZonaParam
+      indirizzo: this.searchIndirizzoParam,
+      statoDisponibilita: this.searchStatoDisponibilitaParam
     }]); 
   }
   
@@ -167,7 +175,8 @@ export class PatrimonioPage implements OnInit {
       component: SearchAdvancedComponent,
       componentProps: {
         comune: this.searchComuneParam,
-        zona: this.searchZonaParam,
+        indirizzo: this.searchIndirizzoParam,
+        statoDisponibilita: this.searchStatoDisponibilitaParam
       }
     });
 
@@ -178,8 +187,9 @@ export class PatrimonioPage implements OnInit {
           ...currentParams,
           pagina: 0,
           comune: result.data.comune,
-          zona: result.data.zona,
-        }]);
+          indirizzo: result.data.indirizzo,
+          statoDisponibilita: result.data.statoDisponibilita
+        }]); 
       }
     });
 

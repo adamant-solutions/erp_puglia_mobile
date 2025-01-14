@@ -1,12 +1,14 @@
 import {ResolveFn} from '@angular/router';
 import {PatrimonioService} from '../services/patrimonio.service';
 import {inject} from '@angular/core';
+import { StatoDisponibilita } from '../models/patrimonio.model';
 
 
 export interface PatrimonioSearchParams {
   pagina?: number;
-  zona?: string;
+  indirizzo?: string;
   comune?: string;
+  statoDisponibilita?: StatoDisponibilita | string
   //params ... 
 }
 
@@ -15,8 +17,9 @@ export const patrimonioResolver: ResolveFn<any> = (route, state, patrimonioServi
   
   const searchParams: PatrimonioSearchParams = {
     pagina: route.params['pagina'] ? +route.params['pagina'] : 0,
-    zona: route.params['zona'] || '',
-    comune: route.params['comune'] || ''
+    indirizzo: route.params['indirizzo'] || '',
+    comune: route.params['comune'] || '',
+    statoDisponibilita: route.params['statoDisponibilita'] || '',
   };
 
   return patrimonioService.getPatrimonioData(searchParams)

@@ -40,7 +40,7 @@
  
       <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
         <ion-chip color="primary" *ngIf="chip.value.length">
-          <ion-label>{{chip.value}}</ion-label>
+          <ion-label>{{chip.value | capitalize}}</ion-label>
           <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
         </ion-chip>
       </span>

@@ -17,17 +17,21 @@ export class PatrimonioService {
       private httpWrapper: HttpWrapperService
     ) {}
   
+
     getPatrimonioData(params: PatrimonioSearchParams): Observable<any> {
           let httpParams = new HttpParams()
             .set('pagina', (params.pagina || 0).toString());
   
-          if (params.zona) {
-            httpParams = httpParams.set('zona', params.zona);
-          }
-
           if (params.comune) {
             httpParams = httpParams.set('comune', params.comune);
           }
+          if (params.indirizzo) {
+            httpParams = httpParams.set('indirizzo', params.indirizzo);
+          }
+          if(params.statoDisponibilita){
+            httpParams = httpParams.set('statoDisponibilita', params.statoDisponibilita);
+          }
+
   
           if (this.platform.is('hybrid')) {
             const options = {
