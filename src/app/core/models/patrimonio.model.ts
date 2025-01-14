@@ -31,6 +31,8 @@ export interface Documenti {
   id?: number
   createDate?: string
   lastUpdateDate?: string
+  nomeFile?: any;
+  contentType?: any;
   tipoDocumento: TipoDocumento;
   dataDocumento: string
   percorsoFile: string
