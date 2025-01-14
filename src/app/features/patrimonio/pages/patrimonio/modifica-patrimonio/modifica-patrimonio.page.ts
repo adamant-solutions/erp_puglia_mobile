@@ -70,14 +70,18 @@ export class ModificaPatrimonioPage implements OnInit {
             this.patrimonioData = data['patrimonioByIdResolver'].data;
             this.patrimonioData.createDate = this.datePipe.transform(this.patrimonioData.createDate, 'dd/MM/yyyy')!;
             this.patrimonioData.lastUpdateDate = this.datePipe.transform(this.patrimonioData.lastUpdateDate, 'dd/MM/yyyy')!;
-            this.patrimonioData.documenti = this.patrimonioData.documenti || [];
+         //   this.patrimonioData.documenti = this.patrimonioData.documenti || [];
           }
           else{
           this.patrimonioData = data['patrimonioByIdResolver'];
           this.patrimonioData.createDate = this.datePipe.transform(this.patrimonioData.createDate, 'dd/MM/yyyy')!;
           this.patrimonioData.lastUpdateDate = this.datePipe.transform(this.patrimonioData.lastUpdateDate, 'dd/MM/yyyy')!;
-          this.patrimonioData.documenti = this.patrimonioData.documenti || [];
+          
+      //    this.patrimonioData.documenti = this.patrimonioData.documenti || [];
           }
+          this.formData = JSON.parse(JSON.stringify(this.patrimonioData)); 
+        /*   console.log(this.formData) */
+          
         },
         error: (err) => {
           console.log(err)
@@ -129,9 +133,7 @@ export class ModificaPatrimonioPage implements OnInit {
           text: 'Sì',
           role: 'confirm',
           handler: () => {
-            //this.patrimonioForm.reset();
-           // console.log(this.patrimonioData)
-           //this.patrimonioForm.resetForm(this.patrimonioData);
+          this.patrimonioData = JSON.parse(JSON.stringify(this.formData));
             
           }
         }
