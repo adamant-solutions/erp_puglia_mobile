@@ -22,6 +22,7 @@
   </ion-item>
 
   <ion-item>
+    <ion-icon name="home-outline" alt="Stato Disponibilità" style="margin-right: 16px;"></ion-icon>
     <ion-select [(ngModel)]="statoDisponibilita" name="statoDisponibilita" label="Stato Disponibilità"
     labelPlacement="stacked" (ionChange)="selectStato($event)" #stato="ngModel">
     <ion-select-option *ngFor="let tipo of statoDisponibilitas" [value]="tipo">{{tipo | capitalize}}</ion-select-option>
