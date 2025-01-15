@@ -35,6 +35,8 @@ export class NuovoPatrimonioPage implements OnInit {
   tipoAmministrazione: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
   statoDisponibilita: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
   tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETO" , "ATTO_PROVENIENZA" , "ALTRO"];
+  documentiFiles: any[] =[];
+  fileName: string[] = []
 
   ngOnInit() {
     this.initializeForm();
@@ -150,6 +152,18 @@ export class NuovoPatrimonioPage implements OnInit {
     await alert.present();
   }
 
+
+  
+  onFileSelected(event: any, index: number) {
+     
+    const file = event.target.files[0];
+    if (file) {
+      this.fileName[index] = file.name
+      this.documentiFiles[index] = file;
+    }
+  }
+
+  
   onSubmit() {
     this.submitted = true;
     const patrimonioData = this.addForm.value;
@@ -176,7 +190,7 @@ export class NuovoPatrimonioPage implements OnInit {
         'Sei sicuro di voler aggiungere questo patrimonio? Questa azione non può essere annullata.'
       ).subscribe(confirmed => {
         if (confirmed) {
-          this.patrimonioSvc.addPatrimonio(sendData).subscribe({
+          this.patrimonioSvc.addPatrimonio(sendData,this.documentiFiles).subscribe({
             next: (response) => {
               /*   console.log("Response: ", response) */
               this.msgService.success('Dati salvati con successo!');

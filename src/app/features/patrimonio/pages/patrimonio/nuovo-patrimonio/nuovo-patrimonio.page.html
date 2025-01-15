@@ -318,8 +318,20 @@
               </div>
 
               <div> <ion-item>
-                  <ion-input formControlName="percorsoFile" labelPlacement="floating"
-                    label="Percorso File*"></ion-input>
+                <!--   <ion-input formControlName="percorsoFile" labelPlacement="floating"
+                    label="Percorso File*"></ion-input> -->
+                    <ion-icon name="document-attach-outline" slot="end"></ion-icon>
+                    <ion-label>
+                      Percorso File
+                      <span>{{fileName[i]}}</span>
+                    </ion-label>
+                    <input 
+                    type="file" 
+                    formControlName="percorsoFile" 
+                    (change)="onFileSelected($event, i)" 
+                    accept=".pdf" 
+                  />
+
                 </ion-item>
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('percorsoFile')?.touched) && doc.get('percorsoFile')?.invalid" color="danger">
                   <span *ngIf="doc.get('percorsoFile')?.errors?.['required']">
@@ -327,6 +339,22 @@
                   </span>
                 </ion-note>
               </div>
+
+              <!--   <div>
+                <ion-item  lines="none" class="documenti-attach">
+                  <ion-label positing="floating">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    <span style="color: var(--ion-color-secondary);">Carica&nbsp;</span> 
+                    <span>{{fileName[i]}}</span>
+                  </ion-label>
+                  <input 
+                    type="file" 
+                    (change)="onFileSelected($event, i)" 
+                    accept=".pdf" 
+                  />
+                </ion-item>
+
+              </div> -->
               <div> <ion-item>
                   <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
                 </ion-item></div>
