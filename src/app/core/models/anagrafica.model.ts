@@ -59,8 +59,8 @@ export interface DocumentoIdentita {
   id?: number
   createDate?: string
   lastUpdateDate?: string
-  nomeFile: any
-  contentType: any
+  nomeFile: string
+  contentType: string
   tipo_documento: TipoDocumento
   numero_documento: string
   data_emissione: string

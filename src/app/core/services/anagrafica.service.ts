@@ -73,12 +73,37 @@ export class AnagraficaService {
     }
   }
   
-  addAnagrafica(anagraficaData: Anagrafica) {
+  addAnagrafica(anagraficaData: Anagrafica, documentiFiles: File[]) {
+    const formData = new FormData();
+    const anagraficaCopy = { ...anagraficaData };
+  
+    if (!anagraficaCopy.cittadino.documenti_identita) {
+      anagraficaCopy.cittadino.documenti_identita = [];
+    }
+
+    anagraficaCopy.cittadino.documenti_identita.forEach((documento, index) => {
+      const file = documentiFiles[index];
+      if (file) {
+        documento.nomeFile = file.name;
+        documento.contentType = file.type;
+      }
+    });
+
+    const anagraficaBlob = new Blob([JSON.stringify(anagraficaCopy)], {
+      type: 'application/json'
+    });
+    
+    formData.append('anagrafica', anagraficaBlob, 'anagrafica.json');
+
+    documentiFiles.forEach(file => {
+      formData.append('documenti', file);
+    });
+
     if (this.platform.is('hybrid')) {
       const options = {
         url: `${this.anagraficaUrl}`,
         method: 'POST',
-        data: anagraficaData,
+        data: formData,
         headers: {
           'Accept': 'application/json',
           'Content-Type': "application/json"
@@ -88,7 +113,7 @@ export class AnagraficaService {
       return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
-      return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, anagraficaData).pipe(
+      return this.httpClient.post<Anagrafica[]>(`${this.anagraficaUrl}`, formData).pipe(
         catchError(e => { throw (e) })
       );
     }

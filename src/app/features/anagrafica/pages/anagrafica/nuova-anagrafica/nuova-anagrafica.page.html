@@ -185,7 +185,7 @@
             </div>
             <div>
               <ion-item>
-                <ion-input label="CAP*" labelPlacement="floating" formControlName="cap"></ion-input>
+                <ion-input label="CAP*" labelPlacement="floating" formControlName="cap"  maxlength="5"></ion-input>
               </ion-item>
               <ion-note class="ion-padding-start" *ngIf="(submitted || addForm.get('cittadino.residenza.cap')?.touched) && addForm.get('cittadino.residenza.cap')?.invalid"
                 color="danger">
@@ -307,7 +307,7 @@
             <div class="ion-padding">
               <ion-button (click)="addDocumentiGroup()" size="small" [disabled]="documentiIdentitaForms.length === tipoDocuments.length">
                 <ion-icon name="add-circle-outline"></ion-icon>
-                Aggiungi Documenti Identita</ion-button>
+                Aggiungi Documenti</ion-button>
             </div>
             <ion-card *ngFor="let doc of documentiIdentitaForms; let i = index" [formGroupName]="i">
               <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
@@ -401,9 +401,20 @@
                   </span>
                 </ion-note>
               </div>
+              <div>
+                <ion-item>
+                  <ion-label positing="floating">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    <span>Carica file </span>{{fileName[i]}}
+                  </ion-label>
+                  <input 
+                    type="file" 
+                    (change)="onFileSelected($event, i)" 
+                    accept=".pdf" 
+                  />
+                </ion-item>
 
-              <!--  
-                      <ion-button  >Elimina Documenti Identita</ion-button> -->
+              </div>
                     </ion-card-content>
             </ion-card>
           </div>

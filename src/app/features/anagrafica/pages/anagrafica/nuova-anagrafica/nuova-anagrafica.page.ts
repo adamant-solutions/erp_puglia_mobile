@@ -19,6 +19,8 @@ export class NuovaAnagraficaPage implements OnInit {
   submitted = false;
   errorMsg: string = '';
   tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
+  documentiFiles: any[] =[];
+  fileName: string[] = []
 
   constructor(private fb: FormBuilder,
     private anagraficaSvc: AnagraficaService,
@@ -169,6 +171,15 @@ export class NuovaAnagraficaPage implements OnInit {
       return `${day}-${month}-${year}`;
     }
 
+    onFileSelected(event: any, index: number) {
+     
+      const file = event.target.files[0];
+      if (file) {
+        this.fileName[index] = file.name
+        this.documentiFiles[index] = file;
+      }
+    }
+
     
   onSubmit(){
     this.submitted = true;
@@ -184,7 +195,7 @@ export class NuovaAnagraficaPage implements OnInit {
       'Sei sicuro di voler aggiungere questa anagrafica? Questa azione non può essere annullata.'
     ).subscribe(confirmed => {
       if (confirmed) {
-        this.anagraficaSvc.addAnagrafica(anagraficaData).subscribe({
+        this.anagraficaSvc.addAnagrafica(anagraficaData,this.documentiFiles).subscribe({
           next: (response) => {
           /*   console.log("Response: ", response) */
             this.msgService.success('Dati salvati con successo!');
@@ -198,6 +209,9 @@ export class NuovaAnagraficaPage implements OnInit {
             }
             else if(err.status === 422){
               this.errorMsg = 'Campi di input non validi o contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
+            }
+             else if(err.status === 415){
+              this.errorMsg = "Tipo di media non supportato. Controlla il formato del file o della richiesta.";
             }
             else{
               this.errorMsg = "Error!" + err.message;

@@ -31,13 +31,13 @@ export interface Documenti {
   id?: number
   createDate?: string
   lastUpdateDate?: string
-  nomeFile?: any;
   contentType?: any;
   tipoDocumento: TipoDocumento;
   dataDocumento: string
   percorsoFile: string
   descrizione: string
 }
+
 
 export type TipoAmministrazione = "DIRETTA" | "INDIRETTA" | "MISTA";
 export type StatoDisponibilita = "DISPONIBILE" | "OCCUPATO" | "IN_MANUTENZIONE" | "SFITTO" | "NON_DISPONIBILE";
