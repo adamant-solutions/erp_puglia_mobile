@@ -191,8 +191,6 @@ ion-item-divider ion-icon{
   }
 }
 
-
-
 .documenti-svgs{
   display: inline-block;
   width: 1em;
@@ -201,4 +199,20 @@ ion-item-divider ion-icon{
   fill: currentColor;
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important;
+}
+
+
+input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.documenti-attach ion-icon{
+  color: var(--ion-color-secondary);
+  margin-inline-end: 8px;
+  font-size: 21px;
 }

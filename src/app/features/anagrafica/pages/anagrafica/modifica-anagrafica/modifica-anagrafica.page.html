@@ -475,10 +475,31 @@
                           Ente emittente è obbligatoria
                         </ion-text>
                       </ion-note>
-                    </div>
-                  </div>
-                </div>
-             <!--  </ion-card> -->
+                      </div>
+                      
+                     <div> <ion-item>
+                      <ion-icon name="document-attach-outline" slot="start" style="
+                        margin-inline-end: 5px;
+                        margin-bottom: 0;
+                        color: var(--ion-color-secondary);
+                    "></ion-icon>
+                          <ion-input  [readonly]="true" label="File"  labelPlacement="floating" [value]="doc.nomeFile"></ion-input>
+                        </ion-item>
+                      </div>
+                      <div>
+                        <ion-item lines="none" class="documenti-attach">
+                          <div style="display: flex;">
+                            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+                              <span>Carica&nbsp;</span>
+                              {{fileName[i]}}
+                              <input type="file" (change)="onFileSelected($event, i)" accept=".pdf" />
+                          </div>
+                        </ion-item>
+                      
+                      </div>
+                      </div>
+                      </div>
+                      <!--  </ion-card> -->
                 </ion-item-group>
 
               </ng-container>

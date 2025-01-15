@@ -402,10 +402,11 @@
                 </ion-note>
               </div>
               <div>
-                <ion-item>
+                <ion-item  lines="none" class="documenti-attach">
                   <ion-label positing="floating">
                     <ion-icon name="document-attach-outline"></ion-icon>
-                    <span>Carica file </span>{{fileName[i]}}
+                    <span style="color: var(--ion-color-secondary);">Carica&nbsp;</span> 
+                    <span>{{fileName[i]}}</span>
                   </ion-label>
                   <input 
                     type="file" 

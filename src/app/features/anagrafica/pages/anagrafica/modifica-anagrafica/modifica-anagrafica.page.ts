@@ -23,6 +23,8 @@ export class ModificaAnagraficaPage implements OnInit {
   //tipoDocuments = Object.values(TipoDocumento);
   tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
   maxDocuments!: number;
+  documentiFiles: any[] =[];
+  fileName: string[] = [];
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -313,6 +315,16 @@ export class ModificaAnagraficaPage implements OnInit {
       return newDate.toISOString().split('T')[0];
     }
 
+    onFileSelected(event: any, index: number) {
+     
+      const file = event.target.files[0];
+      if (file) {
+        this.fileName[index] = file.name
+        this.documentiFiles[index] = file;
+      }
+    }
+
+
   onSubmit() {  
     if (this.anagraficaForm.valid) {
    /* 
@@ -337,7 +349,7 @@ export class ModificaAnagraficaPage implements OnInit {
 
        if(this.platform.is('hybrid')){
       
-        this.anagraficaSrv.editAnagrafica(sendAnagraficaData)?.subscribe({
+        this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles)?.subscribe({
           next: (res: any) => {
             if (res.error) {
               this.handleError(res);
@@ -353,7 +365,7 @@ export class ModificaAnagraficaPage implements OnInit {
         }) 
       }
       else {       
-       this.anagraficaSrv.editAnagrafica(sendAnagraficaData).subscribe({
+       this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles).subscribe({
           next: (res) => {
             this.msgService.success("Dati salvati con successo!"); 
             console.log(res);
