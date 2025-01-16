@@ -115,13 +115,40 @@ export class PatrimonioService {
 
   }
 
-  editPatrimonio(patrimonioData: Patrimonio){
+  editPatrimonio(patrimonioData: Patrimonio, documentiFiles: File[]){
+
+    const formData = new FormData();
+    const patrimonioCopy = { ...patrimonioData };
+  
+    if (!patrimonioCopy.documenti) {
+      patrimonioCopy.documenti = [];
+    }
+
+    patrimonioCopy.documenti.forEach((documento, index) => {
+      const file = documentiFiles[index];
+      if (file) {
+        documento.percorsoFile = file.name;
+        documento.contentType = file.type;
+      }
+    });
+
+    const patrimonioBlob = new Blob([JSON.stringify(patrimonioCopy)], {
+      type: 'application/json'
+    });
+    
+    formData.append('unitaImmobiliare', patrimonioBlob, 'patrimonio.json');
+
+    documentiFiles.forEach(file => {
+      formData.append('documenti', file);
+    });
+
+
     if (this.platform.is('hybrid')) {
       
       const options = {
         url: `${this.patrimonioUrl}`,
         method: 'PUT',
-        data: patrimonioData,
+        data: formData,
         headers: {
           'Accept': 'application/json',
           'Content-Type' : "application/json"
@@ -131,7 +158,7 @@ export class PatrimonioService {
       return from(this.httpWrapper.capacitorHttpRequest(options,true));
     }
     else {
-      return this.http.put<Patrimonio>(`${this.patrimonioUrl}`, patrimonioData).pipe(
+      return this.http.put<Patrimonio>(`${this.patrimonioUrl}`, formData).pipe(
         catchError(e => { throw (e) })
       );
     }

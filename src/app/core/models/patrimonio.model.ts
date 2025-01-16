@@ -34,7 +34,7 @@ export interface Documenti {
   contentType?: any;
   tipoDocumento: TipoDocumento;
   dataDocumento: string
-  percorsoFile: string
+  percorsoFile: any
   descrizione: string
 }
 

@@ -307,15 +307,25 @@
 
           <div>
             <ion-item>
-              <ion-input [(ngModel)]="document.percorsoFile" name="percorsoFile{{i}}" labelPlacement="floating"
-                label="File*" #percorsoFile="ngModel"></ion-input>
+              <ion-label>
+                File*
+                <br>
+                <span>{{document.percorsoFile}}</span> <!--document.percorsoFile  -->
+              </ion-label>
+
+              <input #fileInput type="file" name="percorsoFile{{i}}" (change)="onFileSelected($event,i)" accept=".pdf"
+                style="display: none;" />
+              <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon>
             </ion-item>
-            <ion-note class="ion-padding-start" *ngIf="(submitted || percorsoFile?.touched) && percorsoFile?.invalid" color="danger">
-              <span *ngIf="percorsoFile?.errors?.['required']">
+          
+            <ion-note class="ion-padding-start" *ngIf="submitted && !fileName[i]" color="danger">
+              <span *ngIf="!fileName[i]">
                 Il file è obbligatorio
               </span>
             </ion-note>
           </div>
+
+
           <div>
             <ion-item>
               <ion-input [(ngModel)]="document.descrizione" name="descrizione{{i}}" labelPlacement="floating"

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { Patrimonio, StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/core/models/patrimonio.model';
@@ -55,6 +55,8 @@ export class ModificaPatrimonioPage implements OnInit {
   private route = inject(ActivatedRoute);
   private platform = inject(Platform);
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
+  documentiFiles: any[] =[];
+  fileName: string[] = []
   
   
   constructor(private alertController: AlertController,
@@ -100,6 +102,8 @@ export class ModificaPatrimonioPage implements OnInit {
   }
 
   removeDocumento(index: number){
+    this.fileName = this.fileName.filter((_, i) => i !== index);
+    this.documentiFiles = this.documentiFiles.filter((_, i) => i !== index);
     this.patrimonioData.documenti.splice(index, 1);
    // this.documenti.splice(index, 1);
   }
@@ -113,11 +117,13 @@ export class ModificaPatrimonioPage implements OnInit {
   }
   */
 
-  onDataDocumentoChange(selectedDate: any, index: number) {
-    //console.log(selectedDate)
-    if (!selectedDate) return;
-    this.patrimonioData.documenti[index].dataDocumento = selectedDate;
-  }
+
+    onDataDocumentoChange(selectedDate: any, index: number) {
+      //console.log(selectedDate)
+      if (!selectedDate) return;
+      this.patrimonioData.documenti[index].dataDocumento = this.datePipe.transform(selectedDate,'yyyy-MM-dd')!;
+    }
+
  
   async cancelModifiedInputs() {
     const alert = await this.alertController.create({
@@ -144,6 +150,19 @@ export class ModificaPatrimonioPage implements OnInit {
     await alert.present();
   }
 
+
+  onFileSelected(event: any, index: number) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileName[index] = file.name
+     this.patrimonioData.documenti[index].percorsoFile = file.name;
+
+    } 
+      this.documentiFiles[index] = file;
+
+  }
+
+  
   onSubmit() {  
 
     /* console.log(this.patrimonioForm.value) */
@@ -158,7 +177,7 @@ export class ModificaPatrimonioPage implements OnInit {
 
        if(this.platform.is('hybrid')){
       
-        this.patrimonioSrv.editPatrimonio(sendData)?.subscribe({
+        this.patrimonioSrv.editPatrimonio(sendData,this.documentiFiles)?.subscribe({
           next: (res: any) => {
             if (res.error) {
               this.handleError(res);
@@ -174,7 +193,7 @@ export class ModificaPatrimonioPage implements OnInit {
         }) 
       }
       else {       
-       this.patrimonioSrv.editPatrimonio(sendData).subscribe({
+       this.patrimonioSrv.editPatrimonio(sendData,this.documentiFiles).subscribe({
           next: (res) => {
             this.msgService.success("Dati salvati con successo!"); 
             console.log(res);
@@ -197,6 +216,9 @@ export class ModificaPatrimonioPage implements OnInit {
       this.errorMsg = "Errore interno del server!";
     } else if (err.status === 400) {
       this.errorMsg = "Si è verificato un errore durante l'invio dei dati. Controllare nuovamente i dati inseriti.";//Compila tutti i campi obbligatori
+    }
+    else if (err.status === 409) {
+      this.errorMsg = "Error! " + err.error.message;
     }
     else {
       this.errorMsg = "Error! " + err.message;

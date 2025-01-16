@@ -208,7 +208,7 @@ export class NuovoPatrimonioPage implements OnInit {
                 this.errorMsg = 'Contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
               }
               else {
-                this.errorMsg = "Error!" + err.error.message;
+                this.errorMsg = "Error! " + err.error.message;
                // console.log(err)
               }
               this.msgService.error(this.errorMsg);
