@@ -344,7 +344,7 @@
                     <ion-label>
                       File*
                       <br>
-                      <span>{{fileName[i]}}</span>
+                      <span>{{fileName[i]}}</span><!-- {{doc.get('percorsoFile')?.value}} -->
                     </ion-label>
 
                     <input #fileInput type="file" formControlName="percorsoFile" (change)="onFileSelected($event,i)" accept=".pdf"

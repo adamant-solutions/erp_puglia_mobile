@@ -84,6 +84,8 @@ export class NuovoPatrimonioPage implements OnInit {
   }
 
   removeDocument(index: number) {
+    this.fileName = this.fileName.filter((_, i) => i !== index);
+    this.documentiFiles = this.documentiFiles.filter((_, i) => i !== index);
     this.documenti.removeAt(index);
   }
 
@@ -155,10 +157,10 @@ export class NuovoPatrimonioPage implements OnInit {
 
   
   onFileSelected(event: any, index: number) {
-     
     const file = event.target.files[0];
     if (file) {
       this.fileName[index] = file.name
+      //console.log("Filename:" ,this.fileName)
       this.documentiFiles[index] = file;
     }
   }
@@ -203,10 +205,11 @@ export class NuovoPatrimonioPage implements OnInit {
                 this.errorMsg = 'Compila tutti i campi obbligatori';
               }
               else if (err.status === 422) {
-                this.errorMsg = 'Campi di input non validi o contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
+                this.errorMsg = 'Contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
               }
               else {
-                this.errorMsg = "Error!" + err.message;
+                this.errorMsg = "Error!" + err.error.message;
+               // console.log(err)
               }
               this.msgService.error(this.errorMsg);
             },
@@ -219,36 +222,3 @@ export class NuovoPatrimonioPage implements OnInit {
     }
   }
 }
-/*
-
-  {
-  "metriQuadri": 120.5,  // Float, should match model
-  "quartiere": "Murat",  // String, required
-  "tipoAmministrazione": "DIRETTA",  // String, Enum, required
-  "statoDisponibilita": "DISPONIBILE",  // String, Enum, required
-  "comune": "Bari",  // String, required
-  "provincia": "BA",  // String (2 char), required
-  "indirizzo": "Via Sparano",  // String, required
-  "sezioneUrbana": "A",  // String (max 3 char), required
-  "foglio": "125",  // String (max 4 char), required
-  "particella": "1234",  // String (max 5 char), required
-  "categoriaCatastale": "A2",  // String (max 3 char), required
-  "classeCatastale": "3",  // String (max 2 char), required
-  "renditaCatastale": 750.50,  // Float, required
-  "consistenzaCatastale": 120.5,  // Float, required
-  "zona": "Centro",  // Optional string
-  "classeEnergetica": "A+",  // Optional string
-  "descrizione": "Appartamento luminoso al terzo piano con vista mare",  // Optional string
-  "civico": "45",  // String, optional
-  "subalterno": "12",  // String, optional
-  "piano": "3",  // String, optional
-  "documenti": [  // Array of documents
-    {
-      "tipoDocumento": "CATASTALE",  // String, required
-      "dataDocumento": "2024-03-20",  // Date string, required
-      "percorsoFile": "/documenti/catasto/doc123.pdf",  // String, required
-      "descrizione": "Planimetria catastale"  // Optional string
-    }
-  ]
-}
-   */
