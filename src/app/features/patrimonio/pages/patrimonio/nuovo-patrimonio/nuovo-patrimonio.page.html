@@ -310,58 +310,64 @@
 
                 </ion-item>
                 
-                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('dataDocumento')?.touched) && doc.get('dataDocumento')?.invalid" color="danger">
+                <ion-note class="ion-padding-start"
+                  *ngIf="(submitted || doc.get('dataDocumento')?.touched) && doc.get('dataDocumento')?.invalid" color="danger">
                   <span *ngIf="doc.get('dataDocumento')?.errors?.['required']">
                     Data del documento è obbligatoria
                   </span>
                 </ion-note>
-              </div>
-
-              <div> <ion-item>
-                <!--   <ion-input formControlName="percorsoFile" labelPlacement="floating"
-                    label="Percorso File*"></ion-input> -->
-                    <ion-icon name="document-attach-outline" slot="end"></ion-icon>
+                </div>
+                <!--  <div>
+                                 <ion-item>
+                  
+                                    <ion-icon name="document-attach-outline" slot="end"></ion-icon>
+                                    <ion-label>
+                                      Percorso File
+                                      <span>{{fileName[i]}}</span>
+                                    </ion-label>
+                                    <input 
+                                    type="file" 
+                                    formControlName="percorsoFile" 
+                                    (change)="onFileSelected($event, i)" 
+                                    accept=".pdf" 
+                                  />
+                
+                                </ion-item>
+                                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('percorsoFile')?.touched) && doc.get('percorsoFile')?.invalid" color="danger">
+                                  <span *ngIf="doc.get('percorsoFile')?.errors?.['required']">
+                                    Percorso del file è obbligatorio
+                                  </span>
+                                </ion-note>
+                              </div> -->
+                <div>
+                  <ion-item>
                     <ion-label>
-                      Percorso File
+                      File*
+                      <br>
                       <span>{{fileName[i]}}</span>
                     </ion-label>
-                    <input 
-                    type="file" 
-                    formControlName="percorsoFile" 
-                    (change)="onFileSelected($event, i)" 
-                    accept=".pdf" 
-                  />
 
-                </ion-item>
-                <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('percorsoFile')?.touched) && doc.get('percorsoFile')?.invalid" color="danger">
-                  <span *ngIf="doc.get('percorsoFile')?.errors?.['required']">
-                    Percorso del file è obbligatorio
-                  </span>
-                </ion-note>
-              </div>
-
-              <!--   <div>
-                <ion-item  lines="none" class="documenti-attach">
-                  <ion-label positing="floating">
-                    <ion-icon name="document-attach-outline"></ion-icon>
-                    <span style="color: var(--ion-color-secondary);">Carica&nbsp;</span> 
-                    <span>{{fileName[i]}}</span>
-                  </ion-label>
-                  <input 
-                    type="file" 
-                    (change)="onFileSelected($event, i)" 
-                    accept=".pdf" 
-                  />
-                </ion-item>
-
-              </div> -->
-              <div> <ion-item>
-                  <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
-                </ion-item></div>
-
-            </ion-card-content>
-          </ion-card>
-        </div>
+                    <input #fileInput type="file" formControlName="percorsoFile" (change)="onFileSelected($event,i)" accept=".pdf"
+                      style="display: none;" />
+                    <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon>
+                  </ion-item>
+                
+                  <ion-note class="ion-padding-start"
+                    *ngIf="(submitted || doc.get('percorsoFile')?.touched) && doc.get('percorsoFile')?.invalid" color="danger">
+                    <span *ngIf="doc.get('percorsoFile')?.errors?.['required']">
+                      Il file è obbligatorio
+                    </span>
+                  </ion-note>
+                
+                </div>
+                
+                <div> <ion-item>
+                    <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
+                  </ion-item></div>
+                
+                </ion-card-content>
+                </ion-card>
+                </div>
 
       </ion-item-group>
 

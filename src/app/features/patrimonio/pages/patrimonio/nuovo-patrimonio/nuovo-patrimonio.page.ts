@@ -34,7 +34,7 @@ export class NuovoPatrimonioPage implements OnInit {
   provincia: Provincia[] = provinciaList;
   tipoAmministrazione: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
   statoDisponibilita: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
-  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETO" , "ATTO_PROVENIENZA" , "ALTRO"];
+  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETTO" , "ATTO_PROVENIENZA" , "ALTRO"];
   documentiFiles: any[] =[];
   fileName: string[] = []
 

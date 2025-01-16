@@ -48,7 +48,7 @@ export class ModificaPatrimonioPage implements OnInit {
   };
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
-  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETO" , "ATTO_PROVENIENZA" , "ALTRO"];
+  tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETTO" , "ATTO_PROVENIENZA" , "ALTRO"];
   tipoAmministraziones: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
   statoDisponibilitas: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
   private router = inject(Router);

@@ -401,7 +401,7 @@
                   </span>
                 </ion-note>
               </div>
-              <div>
+          <!--     <div>
                 <ion-item  lines="none" class="documenti-attach">
                   <ion-label positing="floating">
                     <ion-icon name="document-attach-outline"></ion-icon>
@@ -415,7 +415,30 @@
                   />
                 </ion-item>
 
+              </div> -->
+
+              <div>
+                <ion-item>
+                  <ion-label>
+                    File*
+                    <br>
+                    <span>{{fileName[i]}}</span>
+                  </ion-label>
+
+                  <input #fileInput type="file" formControlName="nomeFile" (change)="onFileSelected($event,i)" accept=".pdf"
+                    style="display: none;" />
+                  <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon>
+                </ion-item>
+              
+                <ion-note class="ion-padding-start"
+                  *ngIf="(submitted || doc.get('nomeFile')?.touched) && doc.get('nomeFile')?.invalid" color="danger">
+                  <span *ngIf="doc.get('nomeFile')?.errors?.['required']">
+                    Nome del file è obbligatorio
+                  </span>
+                </ion-note>
+              
               </div>
+              
                     </ion-card-content>
             </ion-card>
           </div>

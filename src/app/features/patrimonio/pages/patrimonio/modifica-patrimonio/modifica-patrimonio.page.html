@@ -308,11 +308,11 @@
           <div>
             <ion-item>
               <ion-input [(ngModel)]="document.percorsoFile" name="percorsoFile{{i}}" labelPlacement="floating"
-                label="Percorso file*" #percorsoFile="ngModel"></ion-input>
+                label="File*" #percorsoFile="ngModel"></ion-input>
             </ion-item>
             <ion-note class="ion-padding-start" *ngIf="(submitted || percorsoFile?.touched) && percorsoFile?.invalid" color="danger">
               <span *ngIf="percorsoFile?.errors?.['required']">
-                Percorso del file è obbligatorio
+                Il file è obbligatorio
               </span>
             </ion-note>
           </div>

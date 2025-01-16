@@ -86,7 +86,8 @@ export class NuovaAnagraficaPage implements OnInit {
       numero_documento: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]+$')]],
       data_emissione: ['', [Validators.required]],
       data_scadenza: ['', [Validators.required]],
-      ente_emittente: ['', [Validators.required]]
+      ente_emittente: ['', [Validators.required]],
+      nomeFile: [null, [Validators.required]]
     });
 
     if(this.addForm.get('cittadino.documenti_identita')?.value.length < MAX_LENGTH){

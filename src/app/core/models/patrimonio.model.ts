@@ -41,4 +41,4 @@ export interface Documenti {
 
 export type TipoAmministrazione = "DIRETTA" | "INDIRETTA" | "MISTA";
 export type StatoDisponibilita = "DISPONIBILE" | "OCCUPATO" | "IN_MANUTENZIONE" | "SFITTO" | "NON_DISPONIBILE";
-export type TipoDocumento = 'CATASTALE' | "CERTIFICAZIONE_ENERGETICA" | "TAVOLA_PROGETO" | "ATTO_PROVENIENZA" | "ALTRO";
+export type TipoDocumento = 'CATASTALE' | "CERTIFICAZIONE_ENERGETICA" | "TAVOLA_PROGETTO" | "ATTO_PROVENIENZA" | "ALTRO";
