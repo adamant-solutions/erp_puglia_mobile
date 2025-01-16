@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Anagrafica } from '../models/anagrafica.model';
-import { catchError, from } from 'rxjs';
+import { catchError, from, map, Observable, throwError } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { AnagraficaSearchParams } from '../resolvers/anagrafica.resolver';
 import { HttpWrapperService } from './http-wrapper.service';
@@ -171,7 +171,7 @@ export class AnagraficaService {
   }
 
   
-  eliminaAnagrafica(id: string) {
+  eliminaAnagrafica(id: number) {
     if (this.platform.is('hybrid')) {
 
       const options = {
@@ -186,5 +186,42 @@ export class AnagraficaService {
         catchError(e => { throw (e) })
       );
     }
+  }
+
+  downloadDocument(anagraficaId: number, documentoId: number): Observable<Blob> {
+
+    if (this.platform.is('hybrid')) {
+
+      const options = {
+        url: `${this.anagraficaUrl}/${anagraficaId}/documenti/${documentoId}/download`,
+        headers: {
+          responseType: 'blob',
+          observe: 'response'
+        },
+        method: 'GET'
+      };
+
+    return from(this.httpWrapper.capacitorHttpRequest(options,false));
+
+    }
+    else {
+      return this.httpClient.get(
+        `${this.anagraficaUrl}/${anagraficaId}/documenti/${documentoId}/download`,
+        {
+          responseType: 'blob',
+          observe: 'response'
+        }
+      ).pipe(
+        map(response => {
+          const contentType = response.headers.get('content-type') || 'application/octet-stream';
+          return new Blob([response.body as BlobPart], { type: contentType });
+        }),
+        catchError(error => {
+          console.error('Download error:', error);
+          return throwError(() => new Error('Failed to download document'));
+        })
+      );
+    }
+
   }
 }

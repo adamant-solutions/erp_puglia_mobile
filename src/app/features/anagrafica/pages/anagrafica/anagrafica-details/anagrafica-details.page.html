@@ -227,7 +227,8 @@
               </span>
               <span *ngIf="doc.tipo_documento === 'Patente'"><ion-img src="../../../../../../assets/svg/license-svgrepo-com.svg" alt="Patente" class="documenti-svgs"></ion-img>
               </span> 
-              {{doc.tipo_documento | uppercase}}</ion-card-title>
+              {{doc.tipo_documento | uppercase}} <ion-icon name="download-outline" style="color: var(--ion-color-secondary);" (click)="downloadDocument(doc)"></ion-icon>
+            </ion-card-title> 
           </ion-card-header>
           <!--  <ion-text class="ion-padding">{{doc.tipo_documento | uppercase}}</ion-text> -->
           <!--style="font-weight: 600;text-decoration: underline;" Documento {{i+1}}  -->

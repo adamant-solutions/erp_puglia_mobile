@@ -53,9 +53,32 @@ export class AnagraficaDetailsPage implements OnInit {
       });
       /* console.log(this.userData); */
     }
-   
-
   }
+
+  
+  downloadDocument(selectedDocument: any) {
+/*   
+  console.log("perpara download ", selectedDocument ) */
+    this.anagraficaSrvc.downloadDocument(this.userData.id, selectedDocument.id)
+      .subscribe({
+        next: (blob: Blob) => {
+          console.log('Download response received', blob);
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.style.display = 'none';
+          link.href = url;
+          link.download = selectedDocument.nomeFile || `document-${selectedDocument.id}.pdf`;
+          
+          document.body.appendChild(link);
+          link.click();
+        },
+        error: (err) => {
+          this.msgService.error(err.message)
+        }
+      });
+  }
+
+
 
   onDeleteClick() {
     this.alertService.showConfirmation(

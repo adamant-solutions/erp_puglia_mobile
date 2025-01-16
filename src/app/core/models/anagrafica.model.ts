@@ -2,7 +2,7 @@
 
 
 export interface Anagrafica {
-  id: string;
+  id: number;
   createDate: string
   lastUpdateDate: string
   cittadino: Cittadino;
