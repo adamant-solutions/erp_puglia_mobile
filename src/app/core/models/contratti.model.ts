@@ -5,15 +5,22 @@ export interface Contratti {
   createDate: string
   lastUpdateDate: string
   dataInizio: string
-  dataFine: any
+  dataFine: string
   canoneMensile: number
-  statoContratto: string
+  statoContratto: StatoContratto;
   descrizione: string
-  unitaImmobiliare: number
+  unitaImmobiliare: {
+    id: number;
+  };
   intestatari: Intestatari[]
   intestatariAttuali: IntestatariAttuali[]
   intestatariStorici: any[]
+  documenti: any[] //documenti contratti
 }
+
+
+export type StatoContratto = 'ATTIVO' | 'SCADUTO' | 'DISDETTO' | 'ANNULLATO';
+
 
 export interface Intestatari {
   id: number

@@ -1,0 +1,171 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" defaultHref="/anagrafica"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div id="container" class="ion-padding">
+
+
+    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+
+
+      <ion-item-group>
+
+        <!-- data -->
+        <div>
+          <ion-item>
+            <ion-input formControlName="dataInizio" id="dataInizio" label="Data Inizio*" labelPlacement="floating"
+              [value]="formatDisplayInizioDate()" #dataInizio></ion-input>
+            <ion-icon name="calendar-outline"></ion-icon>
+
+            <ion-modal [keepContentsMounted]="true" [trigger]="'dataInizio'" [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]">
+              <ng-template>
+                <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                  presentation="date" size="cover" (ionChange)="onDataInizioChange($event.detail.value)">
+                  <span slot="title">Seleziona Data Inizio</span>
+                </ion-datetime>
+              </ng-template>
+            </ion-modal>
+
+          </ion-item>
+
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('dataInizio')?.touched) && addForm.get('dataInizio')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('dataInizio')?.errors?.['required']">
+              Data inizio è obbligatoria
+            </span>
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-input formControlName="dataFine" id="dataFine" label="Data Fine" labelPlacement="floating"
+              [value]="formatDisplayFineDate()" #dataFine></ion-input>
+            <ion-icon name="calendar-outline"></ion-icon>
+
+            <ion-modal [keepContentsMounted]="true" [trigger]="'dataFine'" [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]">
+              <ng-template>
+                <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                  presentation="date" size="cover" (ionChange)="onDataFineChange($event.detail.value)">
+                  <span slot="title">Seleziona Data Finw</span>
+                </ion-datetime>
+              </ng-template>
+            </ion-modal>
+
+          </ion-item>
+
+        </div>
+
+        <!-- canone mensile -->
+        <div>
+          <ion-item>
+            <ion-input formControlName="canoneMensile" label="Canone Mensile*" labelPlacement="floating"></ion-input>
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('canoneMensile')?.touched) && addForm.get('canoneMensile')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('canoneMensile')?.errors?.['required']">
+              Canone mensile è obbligatoria
+            </span>
+          </ion-note>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('canoneMensile')?.touched) && addForm.get('canoneMensile')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('canoneMensile')?.errors?.['pattern']">
+              Canone mensile non valido
+            </span>
+          </ion-note>
+        </div>
+
+
+        <!-- select -->
+        <div>
+          <ion-item>
+            <ion-select label="Stato Contratto*" labelPlacement="floating" placeholder="Seleziona stato contratto"
+              formControlName="statoContratto">
+              <ion-select-option *ngFor="let stato of statoContratti" [value]="stato">
+                {{stato | capitalize}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('statoContratto')?.touched) && addForm.get('statoContratto')?.invalid"
+            color="danger">
+            <span *ngIf="addForm.get('statoContratto')?.errors?.['required']">
+              Tipo amministrazione è obbligatoria
+            </span>
+          </ion-note>
+        </div>
+
+
+        <div> <ion-item>
+            <ion-input formControlName="descrizione" labelPlacement="floating" label="Descrizione"></ion-input>
+          </ion-item></div>
+
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-icon name="business-outline" slot="start"></ion-icon>
+      <ion-label> Unita Immobiliare </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-item>
+        <ion-select placeholder="Seleziona unita immobiliare"
+          formControlName="unitaImmobiliare">
+          
+          <ion-select-option
+            *ngFor="let patrimonio of filteredPatrimonioList"
+            [value]="patrimonio">
+            {{ patrimonio.comune }} - {{ patrimonio.id }}
+          </ion-select-option>
+
+         <!--  <div class="search-container">
+            <ion-searchbar
+              placeholder="Cerca per comune"
+              (ionChange)="filterPatrimonio($event)">
+            </ion-searchbar>
+          </div> -->
+        </ion-select>      
+      </ion-item>
+
+      <ion-note class="ion-padding-start"
+        *ngIf="(submitted || addForm.get('unitaImmobiliare')?.touched) && addForm.get('unitaImmobiliare')?.invalid"
+        color="danger">
+        <span *ngIf="addForm.get('unitaImmobiliare')?.errors?.['required']">
+          Unita immobiliare è obbligatoria
+        </span>
+      </ion-note>
+    </div>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-icon name="people-outline" slot="start"></ion-icon>
+      <ion-label> Intestatari </ion-label>
+    </ion-item-divider>
+    <div formArrayName="intestatari">
+      <ion-item>
+      </ion-item>
+    </div>
+  </ion-item-group>
+
+  <div class="ion-padding">
+    <ion-button fill="outline" (click)="cancelInputs()">Annulla</ion-button>
+    <ion-button type="submit">Invia</ion-button>
+  </div>
+
+  </form>
+  </div>
+</ion-content>
+
+<app-footer></app-footer>

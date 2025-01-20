@@ -8,7 +8,12 @@ const routes: Routes = [
   {
     path: ':id/contratti-details',
     loadChildren: () => import('./pages/contratti-locazione/contratti-details/contratti-details.module').then( m => m.ContrattiDetailsPageModule)
+  },
+  {
+    path: 'nuovo-contratto',
+    loadChildren: () => import('./pages/contratti-locazione/contratti-new/contratti-new.module').then( m => m.ContrattiNewPageModule)
   }
+
 
 ];
 

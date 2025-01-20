@@ -387,7 +387,7 @@ export class ModificaAnagraficaPage implements OnInit {
     if (err.status === 500) {
       this.errorMsg = "Errore interno del server!";
     } else if (err.status === 400) {
-      this.errorMsg = "Si è verificato un errore durante l'invio dei dati. Controllare nuovamente i dati inseriti.";//Compila tutti i campi obbligatori
+      this.errorMsg = err.error.message;
     } else if(err.status === 415){
       this.errorMsg = "Tipo di media non supportato. Controlla il formato del file o della richiesta.";
     }

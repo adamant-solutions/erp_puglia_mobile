@@ -11,6 +11,8 @@ import { DatePipe } from '@angular/common';
 import { httpsInterceptor } from './core/interceptors/https.interceptor';
 import { AuthorizationService } from './core/services/authorization.service';
 import { environment } from 'src/environments/environment';
+import { PatrimonioService } from './core/services/patrimonio.service';
+import { AnagraficaService } from './core/services/anagrafica.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,11 @@ import { environment } from 'src/environments/environment';
     DatePipe,
     provideHttpClient(withInterceptors([httpsInterceptor])),
     AuthorizationService,
+    PatrimonioService,
+    AnagraficaService,
     { provide: 'accessTokenUrl', useValue: environment.accessTokenUrl },
+    { provide: 'patrimonioUrl', useValue: environment.patrimonioUrl },
+    { provide: 'anagraficaUrl', useValue: environment.anagraficaUrl },
   ],
   bootstrap: [AppComponent],
 })
