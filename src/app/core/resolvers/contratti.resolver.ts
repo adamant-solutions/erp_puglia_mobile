@@ -18,12 +18,12 @@ export const contrattiResolver: ResolveFn<any> = (route, state, contrattiService
   
   const searchParams: ContrattiSearchParams = {
     pagina: route.params['pagina'] ? +route.params['pagina'] : 0,
-     indirizzo : route.queryParams['indirizzo'] || '',
-     canoneMensileMin : route.queryParams['canoneMensileMin'] || '',
-     canoneMensileMax : route.queryParams['canoneMensileMax'] || '',
-     dataInizioFrom:  route.queryParams['dataInizioFrom'] || '',
-     dataInizioTo:  route.queryParams['dataInizioTo'] || '',
-     dataFineTo:  route.queryParams['dataFineTo'] || '',
+     indirizzo : route.params['indirizzo'] || '',
+     canoneMensileMin : route.params['canoneMensileMin'] || '',
+     canoneMensileMax : route.params['canoneMensileMax'] || '',
+     dataInizioFrom:  route.params['dataInizioFrom'] || '',
+     dataInizioTo:  route.params['dataInizioTo'] || '',
+     dataFineTo:  route.params['dataFineTo'] || '',
   };
   return contrattiService.getContrattiData(searchParams)
 }

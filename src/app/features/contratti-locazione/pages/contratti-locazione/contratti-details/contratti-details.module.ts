@@ -8,6 +8,7 @@ import { ContrattiDetailsPageRoutingModule } from './contratti-details-routing.m
 
 import { ContrattiDetailsPage } from './contratti-details.page';
 import { FooterComponent } from 'src/app/shared/footer/footer.component';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { FooterComponent } from 'src/app/shared/footer/footer.component';
     FormsModule,
     IonicModule,
     ContrattiDetailsPageRoutingModule,
-    FooterComponent
+    FooterComponent,
+    CapitalizePipe
   ],
   declarations: [ContrattiDetailsPage]
 })

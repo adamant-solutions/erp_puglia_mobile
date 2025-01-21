@@ -13,6 +13,7 @@ import { AuthorizationService } from './core/services/authorization.service';
 import { environment } from 'src/environments/environment';
 import { PatrimonioService } from './core/services/patrimonio.service';
 import { AnagraficaService } from './core/services/anagrafica.service';
+import { ContrattiService } from './core/services/contratti.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,9 +25,11 @@ import { AnagraficaService } from './core/services/anagrafica.service';
     AuthorizationService,
     PatrimonioService,
     AnagraficaService,
+    ContrattiService,
     { provide: 'accessTokenUrl', useValue: environment.accessTokenUrl },
     { provide: 'patrimonioUrl', useValue: environment.patrimonioUrl },
     { provide: 'anagraficaUrl', useValue: environment.anagraficaUrl },
+    { provide: 'contrattiUrl', useValue: environment.contrattiUrl },
   ],
   bootstrap: [AppComponent],
 })

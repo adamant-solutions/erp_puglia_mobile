@@ -25,12 +25,14 @@
     <ion-list role="feed">
     <!--  <ion-list-header>  style="color: var(--ion-color-tertiary); font-size: 1rem;" -->
     <!--     <ion-label *ngIf="anagraficaList.length">Anagrafica</ion-label> -->
-         <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
-          <ion-chip color="primary" *ngIf="chip.value.length">
+    <div *ngFor="let chip of searchChips; let i = index" style="display: inline-block;">
+      <span  *ngIf="chip.value.length">
+        <ion-chip color="primary">
             <ion-label>{{chip.value}}</ion-label>
             <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
           </ion-chip>
         </span>
+    </div>
        
       <!-- </ion-list-header> -->
   <!--   <ion-item *ngIf="!anagraficaList.length">

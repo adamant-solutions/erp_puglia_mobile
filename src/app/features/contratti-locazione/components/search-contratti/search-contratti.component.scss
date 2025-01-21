@@ -1,0 +1,37 @@
+ion-item-divider.md {
+    color: var(--ion-color-secondary);
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: none;
+    line-height: 24px;
+}
+
+ion-item-divider.ios {
+    --background: none;
+    color: var(--ion-color-secondary);
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    line-height: 24px;
+}
+
+.bottom-modal {
+    --height: 60%;
+    --border-radius: 16px 16px 0 0;
+}
+
+@media screen and (max-height: 850px) {
+    .bottom-modal {
+        --height: 70%;
+    }
+}
+
+@media screen and (max-height: 730px) {
+    .bottom-modal {
+        --height: 80%;
+    }
+}
+
+
+ion-datetime {
+    height: -webkit-fill-available;
+}

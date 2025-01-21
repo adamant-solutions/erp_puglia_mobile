@@ -13,28 +13,27 @@
   <div class="custom-add-bar ion-padding" [routerLink]="['nuovo-contratto']">
     <ion-icon name="add-circle-outline" color="primary" aria-label="Aggiungi Contratti"></ion-icon>
     <ion-text>Aggiungi contratto</ion-text>
-
-   <!--  <ion-icon name="chevron-forward-outline" color="primary"></ion-icon> -->
   </div>
 
   <!-- searchBar section -->
 
-  <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"
+  <!-- <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" class="custom-search-bar"
     placeholder="Cerca contratti"></ion-searchbar>
-
+ -->
   <!--  contratti list section -->
 
-  <span *ngFor="let chip of searchChips; let i = index" style="padding-inline-start: 8px;">
-    <ion-chip color="primary" *ngIf="chip.value.length">
+  <div *ngFor="let chip of searchChips; let i = index" style="display: inline-block;">
+    <span  *ngIf="chip.value.length">
+      <ion-chip color="primary">
       <ion-label>{{chip.value}}</ion-label>
       <ion-icon name="close" (click)="clearInput(chip)"></ion-icon>
-    </ion-chip>
-  </span>
+    </ion-chip></span>
+  
+  </div>
 
   <div class="center-container ion-padding" *ngIf="!contrattiList.length">
     <ion-item lines="none" style="width: 60%;">
       <div style="text-align: center;">
-        <!-- <ion-icon name="warning" color="warning" style="font-size: 21px;"></ion-icon>Nessun dato trovato -->
         <ion-img src="./assets/svg/no-data.svg" alt="Nessun Dato Trovato" class="img-fluid"></ion-img>
         <ion-label style="padding: 16px; color: var(--ion-color-secondary); font-weight:600">Nessun Dato
           Trovato</ion-label>
@@ -54,9 +53,11 @@
         <ion-icon name="document-text-outline" style="margin-right: 16px;"></ion-icon>
       </div>
       <div>
-        <p>Stato Contratto: {{contratti.statoContratto || '-'}}</p>
+        <p>Stato Contratto: {{(contratti.statoContratto | capitalize) || '-'}}</p>
         <p>Canone Mensile: {{contratti.canoneMensile}}</p>
         <p>Unita Immobiliare: {{contratti.unitaImmobiliare}}</p>
+    <!--     <p>Data Inizio: {{contratti.dataInizio | date :'dd/MM/yyyy'}}</p>
+        <p>Data Fine: {{contratti.dataFine || '-'}}</p> -->
       </div>
       <div>
         <ion-icon name="chevron-forward-outline" color="primary"></ion-icon>
@@ -84,7 +85,7 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary"><!--  (click)="openAdvancedSearch()" -->
+    <ion-fab-button color="primary"  (click)="openAdvancedSearch()">
       <ion-icon name="search"></ion-icon>
     </ion-fab-button>
   </ion-fab>

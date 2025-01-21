@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { Contratti } from 'src/app/core/models/contratti.model';
+import { SearchContrattiComponent } from '../../components/search-contratti/search-contratti.component';
 
 @Component({
   selector: 'app-contratti-locazione',
@@ -41,6 +42,21 @@ export class ContrattiLocazionePage implements OnInit {
 
     this.route.params.subscribe(params => {
       this.currentPage = +params['pagina'] || 0;
+        this.searchIndirizzoParam = params['indirizzo'] || '';
+        this.searchCanoneMensileMinParam = params['canoneMensileMin'] || '';
+        this.searchCanoneMensileMaxParam = params['canoneMensileMax'] || '';
+        this.searchDataInizioFromParam = params['dataInizioFrom'] || '';
+        this.searchDataInizioToParam = params['dataInizioTo'] || '';
+        this.searchDataFineToParam = params['dataFineTo'] || '';
+
+        this.searchChips = [
+          { name: 'indirizzoParam', value: this.searchIndirizzoParam},
+          { name: 'canoneMensileMinParam', value: this.searchCanoneMensileMinParam },
+          { name: 'canoneMensileMaxParam', value: this.searchCanoneMensileMaxParam},
+          { name: 'dataInizioFromParam', value: this.searchDataInizioFromParam },
+          { name: 'dataInizioToParam', value: this.searchDataInizioToParam},
+          { name: 'dataFineToParam', value: this.searchDataFineToParam },
+        ]
   
       if (this.platform.is('hybrid')) {
         this.getListInNative();
@@ -89,11 +105,51 @@ export class ContrattiLocazionePage implements OnInit {
   }
 
   handleInput(event: any){
-
+    const searchTerm = event.target.value.toLowerCase();
+    this.searchCanoneMensileMinParam = searchTerm;
+    const searchParams = { ...this.route.snapshot.params };
+    
+    this.router.navigate(['/contratti-locazione', {
+      ...searchParams,
+      pagina: 0,
+      canoneMensileMin: searchTerm
+    }]);
   }
 
-  
-  
+
+  async openAdvancedSearch() {
+    const modal = await this.modalController.create({
+      component: SearchContrattiComponent, 
+      componentProps: {
+        indirizzo: this.searchIndirizzoParam,
+        canoneMensileMin: this.searchCanoneMensileMinParam,
+        canoneMensileMax: this.searchCanoneMensileMaxParam,
+        dataInizioFrom: this.searchDataInizioFromParam,
+        dataInizioTo: this.searchDataInizioToParam,
+        dataFineTo: this.searchDataFineToParam,
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        const currentParams = { ...this.route.snapshot.params };
+        this.router.navigate(['/contratti-locazione', {
+          ...currentParams,
+          pagina: 0,
+          indirizzo: result.data.indirizzo,
+          canoneMensileMin: result.data.canoneMensileMin,
+          canoneMensileMax: result.data.canoneMensileMax,
+          dataInizioFrom: result.data.dataInizioFrom,
+          dataInizioTo: result.data.dataInizioTo,
+          dataFineTo: result.data.dataFineTo,
+        }]);
+      }
+    });
+
+    return await modal.present();
+  }
+
+
   clearInput(param: any){
 
     const searchParams = { ...this.route.snapshot.params };

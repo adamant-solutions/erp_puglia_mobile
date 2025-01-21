@@ -5,8 +5,7 @@ import {ContrattiLocazioneRoutingModule} from './contratti-locazione-routing.mod
 import {IonicModule} from '@ionic/angular';
 import {ContrattiLocazionePage} from './pages/contratti-locazione/contratti-locazione.page';
 import {FooterComponent} from 'src/app/shared/footer/footer.component';
-import { ContrattiService } from 'src/app/core/services/contratti.service';
-import { environment } from 'src/environments/environment';
+import { CapitalizePipe } from 'src/app/core/pipes/capitalize.pipe';
 
 
 @NgModule({
@@ -15,12 +14,10 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     IonicModule,
     ContrattiLocazioneRoutingModule,
-    FooterComponent
+    FooterComponent,
+    CapitalizePipe
   ],
-  providers: [
-      ContrattiService,
-    { provide: 'contrattiUrl', useValue: environment.contrattiUrl },
-  ]
+  providers: []
 })
 export class ContrattiLocazioneModule {
 }

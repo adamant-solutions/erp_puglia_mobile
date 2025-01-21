@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="secondary">Ricerca Avanzata</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" color="primary">Chiudi</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Indirizzo</ion-label>
+    <ion-icon slot="start" name="location-outline" alt="Indirizzo"></ion-icon>
+    <ion-input [(ngModel)]="indirizzo" type="text"  [clearInput]="true"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Canone Mensile Min</ion-label>
+    <ion-icon slot="start" name="wallet-outline" alt="Canone Mensile Min"></ion-icon>
+    <ion-input [(ngModel)]="canoneMensileMin" type="number"
+    inputmode="numeric" [clearInput]="true"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Canone Mensile Max</ion-label>
+    <ion-icon slot="start" name="wallet-outline" alt="Canone Mensile Max"></ion-icon>
+    <ion-input [(ngModel)]="canoneMensileMax"  type="number"
+    inputmode="numeric" [clearInput]="true"></ion-input>
+  </ion-item>
+
+  <ion-item-group>
+    <ion-item-divider  style="padding-top: 16px;padding-inline-start: 72px;">
+      Data Inizio
+    </ion-item-divider>
+    <ion-item lines="inset">
+      <ion-label position="stacked">Da</ion-label>
+      <ion-icon slot="start" name="calendar-outline" alt="Data Inizio Da"></ion-icon> 
+          <ion-input name="dataInizioFrom"
+            id="dataInizioFrom" [(ngModel)]="dataInizioFrom" #dataInizioF="ngModel" [clearInput]="true"></ion-input>
+        
+          <ion-modal [keepContentsMounted]="true" trigger="dataInizioFrom" [initialBreakpoint]="1" [breakpoints]="[0, 1]"
+            [cssClass]="'bottom-modal'">
+            <ng-template>
+          
+              <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma" cancelText="Annulla" #dataInizioF
+                presentation="date" size="cover" [max]="dataInizioTo" (ionChange)="ondataInizioFromChange(dataInizioF.value)">
+                <span slot="title">Seleziona Data Inizio Da</span></ion-datetime>
+          
+            </ng-template>
+          </ion-modal>
+  
+    </ion-item>
+  
+    <ion-item lines="inset">
+      <ion-label position="stacked">A</ion-label>
+      <ion-icon slot="start" name="calendar-outline" alt="Data Inizio A"></ion-icon>
+      <ion-input name="dataInizioTo"
+      id="dataInizioTo" [(ngModel)]="dataInizioTo" #dataInizioT="ngModel" [clearInput]="true"></ion-input>
+  
+    <ion-modal [keepContentsMounted]="true" trigger="dataInizioTo" [initialBreakpoint]="1" [breakpoints]="[0, 1]"
+      [cssClass]="'bottom-modal'">
+      <ng-template>
+    
+        <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma" cancelText="Annulla" #dataInizioT
+          presentation="date" size="cover" [min]="dataInizioFrom" (ionChange)="ondataInizioToChange(dataInizioT.value)">
+          <span slot="title">Seleziona Data Inizio A</span></ion-datetime>
+    
+      </ng-template>
+    </ion-modal>
+  
+  
+    </ion-item>
+  
+  </ion-item-group>
+  
+  <ion-item-group>
+    <ion-item-divider  style="padding-top: 16px;padding-inline-start: 72px;">
+      Data Fine
+    </ion-item-divider>
+    <ion-item lines="inset">
+
+    <ion-label position="stacked">A</ion-label>
+    <ion-icon slot="start" name="calendar-outline" alt="Data Fine A"></ion-icon>
+    <ion-input name="dataFineTo"
+    id="dataFineTo" [(ngModel)]="dataFineTo" #dataFine="ngModel" [clearInput]="true"></ion-input>
+
+  <ion-modal [keepContentsMounted]="true" trigger="dataFineTo" [initialBreakpoint]="1" [breakpoints]="[0, 1]"
+    [cssClass]="'bottom-modal'">
+    <ng-template>
+  
+      <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma" cancelText="Annulla" #dataFine
+        presentation="date" size="cover" (ionChange)="ondataFineToChange(dataFine.value)">
+        <span slot="title">Seleziona Data Fine</span></ion-datetime>
+  
+    </ng-template>
+  </ion-modal>
+
+  </ion-item>
+  </ion-item-group>
+  
+  <div class="ion-padding-top">
+    <ion-button expand="block" (click)="search()">Cerca</ion-button>
+  </div>
+</ion-content>
+
