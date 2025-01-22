@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, from, catchError } from 'rxjs';
-import { Contratti } from '../models/contratti.model';
+import { Contratti, StatoContratto } from '../models/contratti.model';
 
 import { HttpWrapperService } from './http-wrapper.service';
 import { ContrattiSearchParams } from '../resolvers/contratti.resolver';
@@ -73,6 +73,26 @@ export class ContrattiService {
       return this.http.get<Contratti>(`${this.contrattiUrl}/${id}`).pipe(
         catchError(e => { throw (e) }));
     }
+  }
+
+
+  update(id: number, contratto: Contratti): Observable<Contratti> {
+    return this.http.put<Contratti>(`${this.contrattiUrl}/${id}`, contratto);
+  }
+
+  /**
+   * Terminate a Contratti by ID
+   */
+  terminaContratto(id: number, motivoFine: string): Observable<void> {
+    const params = new HttpParams().set('motivoFine', motivoFine);
+    return this.http.put<void>(`${this.contrattiUrl}/${id}/termina`, null, { params });
+  }
+
+  /**
+   * Update the state of a Contratti
+  */
+  updateStato(id: number, statoContratto: StatoContratto): Observable<Contratti> {
+    return this.http.patch<Contratti>(`${this.contrattiUrl}/${id}/stato`, statoContratto);
   }
 
 

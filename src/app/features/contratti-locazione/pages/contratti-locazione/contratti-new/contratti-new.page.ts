@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, Platform, PopoverController } from '@ionic/angular';
+import { AlertController, IonModal, Platform, PopoverController } from '@ionic/angular';
 import { StatoContratto } from 'src/app/core/models/contratti.model';
 import { Patrimonio } from 'src/app/core/models/patrimonio.model';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -30,6 +30,7 @@ export class ContrattiNewPage implements OnInit {
   
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  @ViewChild('modal') modal!: IonModal;
   
   constructor(
     private contrattiSvc: ContrattiService,
@@ -52,6 +53,42 @@ export class ContrattiNewPage implements OnInit {
     }
     this.filteredPatrimonioList = [...this.patrimonioList];
 }
+
+
+
+openModal() {
+  this.modal.present();
+}
+
+filterItems(event: any) {
+  const searchTerm = event.target.value.toLowerCase();
+  
+  if (!searchTerm) {
+    this.filteredPatrimonioList = [...this.patrimonioList];
+    return;
+  }
+
+  this.filteredPatrimonioList = this.patrimonioList.filter(item => 
+    item.comune.toLowerCase().includes(searchTerm) ||
+    item.id.toString().includes(searchTerm)
+  );
+}
+
+selectItem(item: any) {
+  this.addForm.get('unitaImmobiliare')?.setValue(item);
+  this.modal.dismiss();
+}
+
+isSelected(item: any): boolean {
+  const currentValue = this.addForm.get('unitaImmobiliare')?.value;
+  return currentValue && currentValue.id === item.id;
+}
+
+getDisplayValue(): string {
+  const value = this.addForm.get('unitaImmobiliare')?.value;
+  return value ? `${value.comune} - ${value.id}` : '';
+}
+
 
 getList(){
   this.route.data.subscribe({

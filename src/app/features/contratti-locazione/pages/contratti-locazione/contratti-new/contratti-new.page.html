@@ -25,7 +25,7 @@
             <ion-icon name="calendar-outline"></ion-icon>
 
             <ion-modal [keepContentsMounted]="true" [trigger]="'dataInizio'" [initialBreakpoint]="1"
-              [breakpoints]="[0, 1]">
+              [breakpoints]="[0, 1]"  [cssClass]="'bottom-modal'">
               <ng-template>
                 <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                   presentation="date" size="cover" (ionChange)="onDataInizioChange($event.detail.value)">
@@ -52,7 +52,7 @@
             <ion-icon name="calendar-outline"></ion-icon>
 
             <ion-modal [keepContentsMounted]="true" [trigger]="'dataFine'" [initialBreakpoint]="1"
-              [breakpoints]="[0, 1]">
+              [breakpoints]="[0, 1]"  [cssClass]="'bottom-modal'">
               <ng-template>
                 <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                   presentation="date" size="cover" (ionChange)="onDataFineChange($event.detail.value)">
@@ -68,7 +68,8 @@
         <!-- canone mensile -->
         <div>
           <ion-item>
-            <ion-input formControlName="canoneMensile" label="Canone Mensile*" labelPlacement="floating"></ion-input>
+            <ion-input formControlName="canoneMensile" label="Canone Mensile*" labelPlacement="floating" type="number"
+            inputmode="numeric"></ion-input>
           </ion-item>
           <ion-note class="ion-padding-start"
             *ngIf="(submitted || addForm.get('canoneMensile')?.touched) && addForm.get('canoneMensile')?.invalid"
@@ -76,14 +77,13 @@
             <span *ngIf="addForm.get('canoneMensile')?.errors?.['required']">
               Canone mensile è obbligatoria
             </span>
-          </ion-note>
-          <ion-note class="ion-padding-start"
-            *ngIf="(submitted || addForm.get('canoneMensile')?.touched) && addForm.get('canoneMensile')?.invalid"
-            color="danger">
+            
             <span *ngIf="addForm.get('canoneMensile')?.errors?.['pattern']">
               Canone mensile non valido
             </span>
+          
           </ion-note>
+
         </div>
 
 
@@ -120,23 +120,16 @@
     </ion-item-divider>
     <div>
       <ion-item>
-        <ion-select placeholder="Seleziona unita immobiliare"
-          formControlName="unitaImmobiliare">
-          
-          <ion-select-option
-            *ngFor="let patrimonio of filteredPatrimonioList"
-            [value]="patrimonio">
-            {{ patrimonio.comune }} - {{ patrimonio.id }}
-          </ion-select-option>
-
-         <!--  <div class="search-container">
-            <ion-searchbar
-              placeholder="Cerca per comune"
-              (ionChange)="filterPatrimonio($event)">
-            </ion-searchbar>
-          </div> -->
-        </ion-select>      
-      </ion-item>
+          <ion-input
+            readonly
+            [value]="getDisplayValue()"
+            (click)="openModal()"
+            id="open-modal"
+            placeholder="Seleziona unità immobiliare">
+            <ion-icon name="caret-down-outline" slot="end"></ion-icon>
+          </ion-input>
+        
+        </ion-item>
 
       <ion-note class="ion-padding-start"
         *ngIf="(submitted || addForm.get('unitaImmobiliare')?.touched) && addForm.get('unitaImmobiliare')?.invalid"
@@ -169,3 +162,43 @@
 </ion-content>
 
 <app-footer></app-footer>
+
+<ion-modal #modal trigger="open-modal" [breakpoints]="[0, 1]" [initialBreakpoint]="1">
+  <ng-template>
+<div>
+      <ion-toolbar>
+        <ion-title>Seleziona Unità Immobiliare</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()"><ion-icon name="close-outline"></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-toolbar>
+        <ion-searchbar
+          class="custom-search-bar"
+          placeholder="Cerca per comune"
+          (ionInput)="filterItems($event)"
+          [debounce]="300">
+        </ion-searchbar>
+      </ion-toolbar>
+    </div>
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-item 
+          *ngFor="let patrimonio of filteredPatrimonioList"
+          (click)="selectItem(patrimonio)"
+          [class.selected]="isSelected(patrimonio)"
+          button>
+          <ion-label>
+            {{ patrimonio.comune }} - {{ patrimonio.id }}
+          </ion-label>
+          <ion-icon 
+            *ngIf="isSelected(patrimonio)"
+            name="checkmark" 
+            slot="end" 
+            color="primary">
+          </ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

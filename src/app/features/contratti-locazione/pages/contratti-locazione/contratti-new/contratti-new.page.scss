@@ -22,6 +22,14 @@ ion-input{
  ion-input.input-wrapper{
     --color: var(--ion-color-primary)
 }
-ion-modal {
-    --height: auto;
-}
+
+.selected {
+    --background: var(--ion-color-light);
+  }
+  ion-searchbar {
+    --background: #ffffff;
+    padding: 0 8px;
+  }
+  ion-modal ion-content {
+    --background: var(--ion-background-color);
+  }
