@@ -213,3 +213,26 @@ input[type="file"] {
   margin-inline-end: 8px;
   font-size: 24px;
 }
+
+
+.bottom-modal {
+  --height: 60%;
+  --border-radius: 16px 16px 0 0;
+}
+
+@media screen and (max-height: 850px) {
+  .bottom-modal {
+      --height: 70%;
+  }
+}
+
+@media screen and (max-height: 730px) {
+  .bottom-modal {
+      --height: 80%;
+  }
+}
+
+
+ion-datetime {
+  height: -webkit-fill-available;
+}
