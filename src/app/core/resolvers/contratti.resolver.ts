@@ -33,3 +33,13 @@ export const contrattiByIdResolver: ResolveFn<any> =
   const ID  = route.params['id'];
   return contrattiService.getContrattiById(ID)
 };
+
+export const unitaImmobiliareResolver: ResolveFn<any> = 
+(route, state, contrattiService: ContrattiService = inject(ContrattiService)) => {
+  return contrattiService.getUnitaImmobiliare()
+};
+
+export const intestatariResolver: ResolveFn<any> = 
+(route, state, contrattiService: ContrattiService = inject(ContrattiService)) => {
+  return contrattiService.getIntestatari()
+};

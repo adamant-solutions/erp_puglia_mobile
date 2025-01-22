@@ -6,6 +6,7 @@ import { Contratti, StatoContratto } from '../models/contratti.model';
 
 import { HttpWrapperService } from './http-wrapper.service';
 import { ContrattiSearchParams } from '../resolvers/contratti.resolver';
+import { ModelLight } from '../models/model-light.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class ContrattiService {
   constructor(
     private http: HttpClient,
     @Inject('contrattiUrl') private contrattiUrl: string,
+    @Inject('anagraficaUrl') private anagraficaUrl: string,
+    @Inject('patrimonioUrl') private patrimonioUrl: string,
     private platform: Platform,
     private httpWrapper: HttpWrapperService
   ) { }
@@ -75,6 +78,32 @@ export class ContrattiService {
     }
   }
 
+
+  getUnitaImmobiliare(){
+    if (this.platform.is('hybrid')) {
+      const options = {
+        url: `${this.patrimonioUrl}/light`,
+        method: 'GET'
+      };
+      return from(this.httpWrapper.capacitorHttpRequest(options, false));
+    } else {
+      return this.http.get<ModelLight>(`${this.patrimonioUrl}/light`,{ observe: 'response'}).pipe(
+        catchError(e => { throw (e) }));
+    }
+  }
+
+  getIntestatari(){
+    if (this.platform.is('hybrid')) {
+      const options = {
+        url: `${this.anagraficaUrl}/light`,
+        method: 'GET'
+      };
+      return from(this.httpWrapper.capacitorHttpRequest(options, false));
+    } else {
+      return this.http.get<ModelLight>(`${this.anagraficaUrl}/light`,{ observe: 'response'}).pipe(
+        catchError(e => { throw (e) }));
+    }
+  }
 
   update(id: number, contratto: Contratti): Observable<Contratti> {
     return this.http.put<Contratti>(`${this.contrattiUrl}/${id}`, contratto);
