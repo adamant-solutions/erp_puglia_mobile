@@ -105,6 +105,52 @@ export class ContrattiService {
     }
   }
 
+  addContratti(contrattiData: any){
+    const formData = new FormData();
+    const contrattoCopy = { ...contrattiData };
+  
+    if (!contrattoCopy.documenti) {
+      contrattoCopy.documenti = [];
+    }
+/* 
+    contrattoCopy.documenti.forEach((documento, index) => {
+      const file = documentiFiles[index];
+      if (file) {
+        documento.nomeFile = file.name;
+        documento.contentType = file.type;
+      }
+    }); */
+
+    const contrattoBlob = new Blob([JSON.stringify(contrattoCopy)], {
+      type: 'application/json'
+    });
+    
+    formData.append('contratto', contrattoBlob, 'contratto.json');
+
+  /*   documentiFiles.forEach(file => {
+      formData.append('documenti', file);
+    }); */
+
+    if (this.platform.is('hybrid')) {
+      const options = {
+        url: `${this.contrattiUrl}`,
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': "application/json"
+        }
+      };
+
+      return from(this.httpWrapper.capacitorHttpRequest(options,true));
+    }
+    else {
+      return this.http.post(`${this.contrattiUrl}`, formData).pipe(
+        catchError(e => { throw (e) })
+      );
+    }
+  }
+
   update(id: number, contratto: Contratti): Observable<Contratti> {
     return this.http.put<Contratti>(`${this.contrattiUrl}/${id}`, contratto);
   }

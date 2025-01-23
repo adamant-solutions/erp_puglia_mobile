@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button color="secondary" defaultHref="/anagrafica"></ion-back-button>
+      <ion-back-button color="secondary" defaultHref="/contratti-locazione"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -123,7 +123,6 @@
           <ion-input
             readonly
             [value]="getDisplayValue()"
-            (click)="openModal()"
             id="open-modal"
             placeholder="Seleziona unità immobiliare">
             <ion-icon name="caret-down-outline" slot="end"></ion-icon>
@@ -141,15 +140,104 @@
     </div>
   </ion-item-group>
 
-  <ion-item-group>
+  <ion-item-group formArrayName="intestatari">
     <ion-item-divider>
       <ion-icon name="people-outline" slot="start"></ion-icon>
       <ion-label> Intestatari </ion-label>
     </ion-item-divider>
-    <div formArrayName="intestatari">
-      <ion-item>
-      </ion-item>
+    <div class="ion-padding">
+      <ion-button (click)="addIntestatario()" size="small">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Aggiungi Intestatario</ion-button>
     </div>
+  
+      <div *ngFor="let intestatario of intestatari.controls; let i = index" [formGroupName]="i">
+  
+        <ion-card>
+          <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
+        
+            <ion-item lines="none" style="justify-self: right;">
+              <ion-icon name="close-circle-outline" (click)="removeIntestatario(i)" color="danger"></ion-icon>
+            </ion-item>
+            
+    
+          <div formGroupName="intestatario">
+            <ion-item lines="inset">
+              <ion-input readonly formControlName="id" id="intestatari{{i}}" label="Seleziona Intestatario*" labelPlacement="floating"
+                 #intestatarilist></ion-input>
+              <ion-icon name="caret-down-outline" slot="end"></ion-icon>
+    
+              <ion-modal [keepContentsMounted]="true"  [trigger]="'intestatari' + i"  [initialBreakpoint]="1"
+                [breakpoints]="[0, 1]"  [cssClass]="'bottom-modal'">
+                <ng-template>
+                  <ion-header>
+                    <ion-toolbar>
+                      <ion-title>Seleziona Intestatario</ion-title>
+                      <ion-buttons slot="end">
+                        <ion-button (click)="dismissModal()">
+                          <ion-icon name="close-outline"></ion-icon>
+                        </ion-button>
+                      </ion-buttons>
+                    </ion-toolbar>
+                    <ion-toolbar>
+                      <ion-searchbar
+                        placeholder="Cerca"
+                        (ionInput)="filterItemsAnagrafica($event)"
+                        [debounce]="300">
+                      </ion-searchbar>
+                    </ion-toolbar>
+                  </ion-header>
+                  
+                  <ion-content>
+                    <ion-list>
+                      <ion-item
+                        *ngFor="let item of filteredIntestatariList"
+                        (click)="selectItemIntestatari(item,i)">
+                        <ion-label>{{ item.descrizione }}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ion-content>
+                    
+                </ng-template>
+              </ion-modal>
+    
+            </ion-item>
+</div>    
+          
+            
+           
+
+    <div>
+        <ion-item lines="inset">
+          <ion-input formControlName="dataInizio" id="dataInizioIntestatari{{i}}" label="Data Inizio*" labelPlacement="floating"
+            [value]="formatDisplayInizioIntestatariDate(i)" #dataInizioIntestatari></ion-input>
+          <ion-icon name="calendar-outline"></ion-icon>
+
+          <ion-modal [keepContentsMounted]="true"  [trigger]="'dataInizioIntestatari' + i"  [initialBreakpoint]="1"
+            [breakpoints]="[0, 1]"  [cssClass]="'bottom-modal'">
+            <ng-template>
+              <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
+                presentation="date" size="cover" (ionChange)="onDataInizioIntestatariChange($event.detail.value,i)">
+                <span slot="title">Seleziona Data Inizio</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
+
+        </ion-item>
+
+        <ion-note class="ion-padding-start"
+          *ngIf="(submitted || addForm.get('dataInizio')?.touched) && addForm.get('dataInizio')?.invalid"
+          color="danger">
+          <span *ngIf="addForm.get('dataInizio')?.errors?.['required']">
+            Data inizio è obbligatoria
+          </span>
+        </ion-note>
+    </div>
+
+          </ion-card-content>
+  </ion-card>
+    </div>
+
   </ion-item-group>
 
   <div class="ion-padding">
@@ -176,7 +264,7 @@
         <ion-searchbar
           class="custom-search-bar"
           placeholder="Cerca per comune"
-          (ionInput)="filterItems($event)"
+          (ionInput)="filterItemsPatrimonio($event)"
           [debounce]="300">
         </ion-searchbar>
       </ion-toolbar>
@@ -189,7 +277,7 @@
           [class.selected]="isSelected(patrimonio)"
           button>
           <ion-label>
-            {{ patrimonio.comune }} - {{ patrimonio.id }}
+            {{ patrimonio.descrizione }} 
           </ion-label>
           <ion-icon 
             *ngIf="isSelected(patrimonio)"

@@ -19,12 +19,17 @@ export class AlertService {
   showConfirmation(
     header: string, 
     message: string, 
+    alertInputs?: any,
     cssClass: string = 'custom-alert' 
   ): Observable<boolean> {
     const alert = this.alertController.create({
       header: header,
       message: message,
+      inputs: alertInputs,
       cssClass: cssClass,
+      htmlAttributes: {
+        'aria-label': 'alert dialog',
+      },
       buttons: [
         {
           text: 'Annulla',
