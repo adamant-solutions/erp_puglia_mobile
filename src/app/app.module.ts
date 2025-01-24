@@ -15,7 +15,7 @@ import { PatrimonioService } from './core/services/patrimonio.service';
 import { AnagraficaService } from './core/services/anagrafica.service';
 import { ContrattiService } from './core/services/contratti.service';
 
-@NgModule({
+@NgModule({  
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
