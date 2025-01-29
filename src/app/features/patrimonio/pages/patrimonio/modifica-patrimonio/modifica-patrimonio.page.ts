@@ -8,6 +8,7 @@ import { Provincia, provinciaList } from '../../../data/provincia';
 import { DatePipe } from '@angular/common';
 import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
 
 @Component({
   selector: 'app-modifica-patrimonio',
@@ -150,61 +151,99 @@ export class ModificaPatrimonioPage implements OnInit {
     await alert.present();
   }
 
-
-  onFileSelected(event: any, index: number) {
-    const file = event.target.files[0];
-    if (file) {
-      this.fileName[index] = file.name
-     this.patrimonioData.documenti[index].percorsoFile = file.name;
-
-    } 
-      this.documentiFiles[index] = file;
-
+  async onFileSelected(event: any, index: number) {
+    if (this.platform.is('hybrid')) {
+      try {
+        const result = await this.pickFiles();
+        if (result && result.length > 0) {
+          const file = result[0]; // Get first file since picker can return multiple
+          this.fileName[index] = file.name;
+          if (this.patrimonioData.documenti[index]) {
+            this.patrimonioData.documenti[index].percorsoFile = file.name;
+          }
+          this.documentiFiles[index] = file;
+         // console.log("in ts: " ,file ,this.fileName,this.patrimonioData.documenti)
+        }
+      } catch (error) {
+        console.error('Error picking file:', error);
+        this.msgService.error("Errore durante la selezione del file");
+      }
+    } else {
+      const file = event.target.files[0];
+      if (file) {
+        this.fileName[index] = file.name;
+        if (this.patrimonioData.documenti[index]) {
+          this.patrimonioData.documenti[index].percorsoFile = file.name;
+        }
+        // Convert file to format as mobile files
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64Data = reader.result as string;
+          this.documentiFiles[index] = {
+            name: file.name,
+            data: base64Data.split(',')[1], // Remove data:application/pdf;base64,
+            type: file.type || 'application/pdf'
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
-
   
-  onSubmit() {  
+  async pickFiles() {
+    try {
+      const result = await FilePicker.pickFiles({
+        readData: true,
+        types: ['application/pdf'],
+      });
+      
+      if (result && result.files && result.files.length > 0) {
+        return result.files.map(file => ({
+          name: file.name,
+          data: file.data, // base64 data
+          type: file.mimeType || 'application/pdf',
+        }));
+      }
+      return [];
+    } catch (error) {
+      console.error('Error picking files:', error);
+      throw error;
+    }
+  }
+ 
 
+  onSubmit() {  
+    
     /* console.log(this.patrimonioForm.value) */
     if (this.patrimonioForm.valid) {
-
+    
      const sendData = { 
       ...this.patrimonioData,
-      createDate:  this.formatDate(this.patrimonioData.createDate)!,/* this.getISODate(this.patrimonioData.createDate),*/
+      createDate:  this.formatDate(this.patrimonioData.createDate)!,// this.getISODate(this.patrimonioData.createDate),
       lastUpdateDate: this.formatDate(this.patrimonioData.lastUpdateDate)!
     };
-      //console.log("SEND ",sendData)
+      console.log("SEND ",sendData)
 
        if(this.platform.is('hybrid')){
       
-        this.patrimonioSrv.editPatrimonio(sendData,this.documentiFiles)?.subscribe({
-          next: (res: any) => {
-            if (res.error) {
-              this.handleError(res);
-             /*  console.log("is error: " ,res); */
-            } else {
-              this.msgService.success("Dati salvati con successo!");
-              console.log(res);
-            }
-          },
-        complete: ()=> {
-          this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])
+       this.patrimonioSrv.editPatrimonio(sendData, this.documentiFiles).then( (e) => {
+        e.subscribe((res: any) => { console.log(res)
+        if(res.status !== 200){
+          console.log("ERROR: " ,res)
+          this.msgService.error(res.data.message);
         }
-        }) 
+        else{
+          this.msgService.success("Dati salvati con successo!"); 
+          console.log("SUCCESS :" ,res);
+          setTimeout(()=>{
+            this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])
+          },2000)
+        }
       }
-      else {       
-       this.patrimonioSrv.editPatrimonio(sendData,this.documentiFiles).subscribe({
-          next: (res) => {
-            this.msgService.success("Dati salvati con successo!"); 
-            console.log(res);
-          },
-          error: (err) => {
-            this.handleError(err);
-          },
-        complete: ()=> {
-          this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])
-        }
-        });
+      
+      )
+       }
+      );
       }
     } else {
       return;
@@ -232,7 +271,7 @@ export class ModificaPatrimonioPage implements OnInit {
     const [day, month, year] = dateStr.split('/');
     const date = new Date(Number(year), Number(month) - 1, Number(day));
     
-    dateStr = this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.SSS')!;
+    return this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.SSS')!;
   }
  
 }

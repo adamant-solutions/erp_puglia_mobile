@@ -315,7 +315,7 @@
 
               <input #fileInput type="file" name="percorsoFile{{i}}" (change)="onFileSelected($event,i)" accept=".pdf"
                 style="display: none;" />
-              <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon>
+              <ion-icon name="document-attach-outline" (click)="onFileSelected(null, i)" slot="end"></ion-icon> <!--  -->
             </ion-item>
           
             <ion-note class="ion-padding-start" *ngIf="submitted && !fileName[i]" color="danger">

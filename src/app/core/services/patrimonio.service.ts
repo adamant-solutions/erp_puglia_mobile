@@ -66,114 +66,105 @@ export class PatrimonioService {
 
 
    
-  addPatrimonio(patrimonioData: Patrimonio, documentiFiles: File[]) {
+  async addPatrimonio(patrimonioData: Patrimonio, documentiFiles: any[]): Promise<any>  {
 
-    const formData = new FormData();
-    const patrimonioCopy = { ...patrimonioData };
-  
-    if (!patrimonioCopy.documenti) {
-      patrimonioCopy.documenti = [];
-    }
-
-    patrimonioCopy.documenti.forEach((documento, index) => {
-      const file = documentiFiles[index];
-      if (file) {
-        documento.percorsoFile = file.name;
-        documento.contentType = file.type;
-      }
-    });
-
-    const patrimonioBlob = new Blob([JSON.stringify(patrimonioCopy)], {
-      type: 'application/json'
-    });
+      const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+      let body = '';
     
-    formData.append('unitaImmobiliare', patrimonioBlob, 'patrimonio.json');
-
-    documentiFiles.forEach(file => {
-      formData.append('documenti', file);
-    });
-
-
-    if (this.platform.is('hybrid')) {
+      body += `--${boundary}\r\n`;
+      body += 'Content-Disposition: form-data; name="unitaImmobiliare"; filename="patrimonio.json"\r\n';
+      body += 'Content-Type: application/json\r\n\r\n';
+      body += JSON.stringify(patrimonioData) + '\r\n';
+    
+      if (documentiFiles?.length) {
+        for (const file of documentiFiles) {
+          try {
+            // base64 to binary string (Capacitor expects Uint8Array for binary data)
+            const byteString = atob(file.data);
+            const arrayBuffer = new ArrayBuffer(byteString.length);
+            const uint8Array = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < byteString.length; i++) {
+              uint8Array[i] = byteString.charCodeAt(i);
+            }
+    
+            // file
+            body += `--${boundary}\r\n`;
+            body += `Content-Disposition: form-data; name="documenti"; filename="${file.name}"\r\n`;
+            body += `Content-Type: ${file.type}\r\n\r\n`;
+            body += uint8Array + '\r\n'; // Capacitor handles Uint8Array as binary
+          } catch (error) {
+            console.error(`Error processing file ${file.name}:`, error);
+            throw new Error(`Failed to process file ${file.name}: ${error}`);
+          }
+        }
+      }
+    
+      body += `--${boundary}--\r\n`;
       const options = {
         url: `${this.patrimonioUrl}`,
         method: 'POST',
-        data: formData,
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': "application/json"
-        }
+          'Content-Type': `multipart/form-data; boundary=${boundary}`,
+        },
+        data: body
       };
-
-      return from(this.httpWrapper.capacitorHttpRequest(options,true));
-    }
-    else {
-      return this.http.post<Patrimonio[]>(`${this.patrimonioUrl}`, formData).pipe(
-        catchError(e => { throw (e) })
-      );
-    }
-
+      return from(this.httpWrapper.capacitorHttpRequest(options, true));
   }
 
-  editPatrimonio(patrimonioData: Patrimonio, documentiFiles: File[]){
 
-    const formData = new FormData();
-    const patrimonioCopy = { ...patrimonioData };
+  async editPatrimonio(patrimonioData: Patrimonio, updatedDocumentiFiles: any[]): Promise<any> {
+    const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+    let body = '';
   
-    if (!patrimonioCopy.documenti) {
-      patrimonioCopy.documenti = [];
-    }
+    // UnitaImmobiliare 
+    body += `--${boundary}\r\n`;
+    body += 'Content-Disposition: form-data; name="unitaImmobiliare"; filename="patrimonio.json"\r\n';
+    body += 'Content-Type: application/json\r\n\r\n';
+    body += JSON.stringify(patrimonioData) + '\r\n';
+  
+    if (this.platform.is('hybrid') && updatedDocumentiFiles?.length) {
+      for (const file of updatedDocumentiFiles) {
+        try {
 
-    patrimonioCopy.documenti.forEach((documento, index) => {
-      const file = documentiFiles[index];
-      if (file) {
-        documento.percorsoFile = file.name;
-        documento.contentType = file.type;
+          const byteString = atob(file.data);
+          const arrayBuffer = new ArrayBuffer(byteString.length);
+          const uint8Array = new Uint8Array(arrayBuffer);
+          for (let i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+          }
+  
+          body += `--${boundary}\r\n`;
+          body += `Content-Disposition: form-data; name="documenti"; filename="${file.name}"\r\n`;
+          body += `Content-Type: ${file.type}\r\n\r\n`;
+          body += uint8Array + '\r\n'; 
+        } catch (error) {
+          console.error(`Error processing file ${file.name}:`, error);
+          throw new Error(`Failed to process file ${file.name}: ${error}`);
+        }
       }
-    });
-
-    const patrimonioBlob = new Blob([JSON.stringify(patrimonioCopy)], {
-      type: 'application/json'
-    });
-    
-    formData.append('unitaImmobiliare', patrimonioBlob, 'patrimonio.json');
-
-    documentiFiles.forEach(file => {
-      formData.append('documenti', file);
-    });
-
-
-    if (this.platform.is('hybrid')) {
-      
-      const options = {
-        url: `${this.patrimonioUrl}`,
-        method: 'PUT',
-        data: formData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type' : "application/json"
-        }
-      };
-      
-      return from(this.httpWrapper.capacitorHttpRequest(options,true));
-    }
-    else {
-      return this.http.put<Patrimonio>(`${this.patrimonioUrl}`, formData).pipe(
-        catchError(e => { throw (e) })
-      );
     }
 
+    body += `--${boundary}--\r\n`;
+  
+    const options = {
+      url: `${this.patrimonioUrl}`,
+      method: 'PUT',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${boundary}`,
+      },
+      data: body
+    };
+    return from(this.httpWrapper.capacitorHttpRequest(options, true));
   }
 
-  
-  eliminaPatrimonio(id: number) {
+    eliminaPatrimonio(id: number) {
     if (this.platform.is('hybrid')) {
 
       const options = {
         url: `${this.patrimonioUrl}/${id}`,
         method: 'DELETE'
       };
-      return from(this.httpWrapper.capacitorHttpRequest(options,true));
+      return from(this.httpWrapper.capacitorHttpRequest(options,false));
     }
     else {
       return this.http.delete<Patrimonio>(`${this.patrimonioUrl}/${id}`).pipe(
@@ -189,4 +180,5 @@ export class PatrimonioService {
       return acc;
     }, {} as Record<string, string>);
   }
+
 }

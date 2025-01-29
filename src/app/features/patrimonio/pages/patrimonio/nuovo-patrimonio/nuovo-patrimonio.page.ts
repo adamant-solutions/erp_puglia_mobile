@@ -169,9 +169,9 @@ export class NuovoPatrimonioPage implements OnInit {
   onSubmit() {
     this.submitted = true;
     const patrimonioData = this.addForm.value;
-    /*
-       console.log("Send: ", sendData)
-      console.log(this.addForm.value) */ 
+     /* 
+       console.log("Send: ", patrimonioData)
+    console.log(this.addForm.value) */ 
     if (!this.addForm.valid) {
       // console.log('Form is invalid');
       return;
@@ -192,31 +192,24 @@ export class NuovoPatrimonioPage implements OnInit {
         'Sei sicuro di voler aggiungere questo patrimonio? Questa azione non può essere annullata.'
       ).subscribe(confirmed => {
         if (confirmed) {
-          this.patrimonioSvc.addPatrimonio(sendData,this.documentiFiles).subscribe({
-            next: (response) => {
-              /*   console.log("Response: ", response) */
-              this.msgService.success('Dati salvati con successo!');
-            },
-            error: (err) => {
-              if (err.status === 500) {
-                this.errorMsg = "Errore interno del server!"
-              }
-              else if (err.status === 400) {
-                this.errorMsg = 'Compila tutti i campi obbligatori';
-              }
-              else if (err.status === 422) {
-                this.errorMsg = 'Contenuto esistente inviato! Controlla nuovamente i tuoi dati!';
-              }
-              else {
-                this.errorMsg = "Error! " + err.error.message;
-               // console.log(err)
-              }
-              this.msgService.error(this.errorMsg);
-            },
-            complete: () => {
-              this.router.navigate(['/patrimonio'])
+          this.patrimonioSvc.addPatrimonio(sendData, this.documentiFiles).then( (e) => {
+            e.subscribe((res: any) => { console.log(res)
+            if(res.status !== 200){
+              console.log("ERROR: " ,res)
+              this.msgService.error(res.data.message);
             }
-          })
+            else{
+              this.msgService.success("Dati salvati con successo!"); 
+              console.log("SUCCESS :" ,res);
+              setTimeout(()=>{
+                this.router.navigate([`/patrimonio`])
+              },2000)
+            }
+          }
+          
+          )
+           })
+          
         }
       });
     }
