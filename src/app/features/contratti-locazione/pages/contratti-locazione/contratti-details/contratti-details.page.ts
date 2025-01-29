@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Contratti } from 'src/app/core/models/contratti.model';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-contratti-details',
@@ -15,7 +16,7 @@ export class ContrattiDetailsPage implements OnInit {
   private platform = inject(Platform);
   contrattiData!: Contratti;
   
-  constructor() { }
+  constructor(private alertService: AlertService) { }
   ngOnInit() {
     if (this.platform.is('hybrid')) {
       this.getContrattiInHybrid()
@@ -52,5 +53,26 @@ export class ContrattiDetailsPage implements OnInit {
   
   trackByDoc(index: number, doc: any): any {
     return doc.id;
+  }
+
+  openAlert() {
+    this.alertService.showConfirmation(
+      'Conferma Terminazione', 
+      'Sei sicuro di voler terminare questo contratto? Questa azione non può essere annullata.',
+      [
+      {
+        type: 'textarea',
+        placeholder: 'Inserisci motivo ...',
+      }
+    ]
+    ).subscribe(confirmed => {
+      if (confirmed) {
+        this.termina();
+      }
+    });
+  }
+
+  termina(){
+
   }
 }

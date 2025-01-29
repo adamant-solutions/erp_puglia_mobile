@@ -73,6 +73,55 @@
         </ion-item>
 
       </ion-item-group>
+
+      <ion-item-group>
+     <!--    <ion-item-divider>
+          <ion-icon name="documents-outline" slot="start"></ion-icon>
+          <ion-label> Documenti </ion-label>
+        </ion-item-divider> -->
+      
+          <ion-accordion-group>
+            <ion-accordion  *ngFor="let doc of contrattiData?.documenti;let i = index; trackBy: trackByDoc">
+            
+              <ion-item slot="header" color="light">
+                <ion-label>Documenti</ion-label>
+              </ion-item>
+
+    
+              <div class="ion-padding" slot="content">
+
+                <ion-item>
+                  <ion-label  class="documenti-icons">
+                    <h4><ion-icon name="document-outline"></ion-icon>Tipo documento</h4>
+                    <p> {{doc.tipoDocumento | capitalize}}</p>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label  class="documenti-icons">
+                    <h4><ion-icon name="calendar-outline"></ion-icon>Data del documento</h4>
+                    <p> {{doc.dataDocumento | date:'dd/MM/yyyy'}} </p>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label  class="documenti-icons">
+                    <h4><ion-icon name="document-text-outline"></ion-icon>Descrizione</h4>
+                    <p>{{doc.descrizione || '-'}}  </p>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label  class="documenti-icons">
+                     <h4><ion-icon name="document-attach-outline"></ion-icon>File</h4>
+                    <p>{{doc.percorsoFile}}  </p>
+                  </ion-label>
+                </ion-item>
+              </div>
+            </ion-accordion>
+    
+          </ion-accordion-group>
+
+        </ion-item-group>
       <ion-item-group>
 
         <!-- ketu accordion me te dhenat anagrafica -->
@@ -353,6 +402,14 @@
         <!-- ketu accordion me te dhenat patrimonio -->
       </ion-item-group>
     </ion-list>
+
+    <div class="ion-padding">
+      <ion-button [routerLink]="['/contratti-locazione/modifica-contratto',contrattiData.id]">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Modifica</ion-button>
+      <ion-button color="danger" (click)="openAlert()">
+        Termina</ion-button>
+    </div>
 
   </div>
 </ion-content>
