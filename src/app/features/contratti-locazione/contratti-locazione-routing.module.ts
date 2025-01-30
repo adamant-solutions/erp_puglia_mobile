@@ -12,7 +12,12 @@ const routes: Routes = [
   {
     path: 'nuovo-contratto',
     loadChildren: () => import('./pages/contratti-locazione/contratti-new/contratti-new.module').then( m => m.ContrattiNewPageModule)
+  },
+  {
+    path: 'modifica-contratto/:id',
+    loadChildren: () => import('./pages/contratti-locazione/contratti-edit/contratti-edit.module').then( m => m.ContrattiEditPageModule)
   }
+
 
 
 ];

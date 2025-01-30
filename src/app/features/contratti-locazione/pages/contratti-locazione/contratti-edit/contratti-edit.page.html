@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title color="secondary">{{ pageTitle | titlecase }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" defaultHref="/contratti-locazione"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" class="ion-padding">
+    <form #contrattoForm="ngForm" (ngSubmit)="onSubmit()">
+
+
+<div class="ion-padding">
+  <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+  <ion-button type="submit">Invia</ion-button>
+</div>
+</form>
+</div>
+</ion-content>
+
+<app-footer></app-footer>

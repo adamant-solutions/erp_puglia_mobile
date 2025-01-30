@@ -55,7 +55,7 @@
       <div>
         <p>Stato Contratto: {{(contratti.statoContratto | capitalize) || '-'}}</p>
         <p>Canone Mensile: {{contratti.canoneMensile}}</p>
-        <p>Unita Immobiliare: {{contratti.unitaImmobiliare}}</p>
+        <p>Data Inizio: {{contratti.dataInizio | date :'dd/MM/yyyy'}}</p>
     <!--     <p>Data Inizio: {{contratti.dataInizio | date :'dd/MM/yyyy'}}</p>
         <p>Data Fine: {{contratti.dataFine || '-'}}</p> -->
       </div>
