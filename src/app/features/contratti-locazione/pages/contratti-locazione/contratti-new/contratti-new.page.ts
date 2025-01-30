@@ -30,7 +30,7 @@ export class ContrattiNewPage implements OnInit {
   @ViewChild('modal') modal!: IonModal;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  selectedItem: any;
+  selectedItem: string = '';
 
   constructor(
     private contrattiSvc: ContrattiService,
@@ -94,27 +94,12 @@ export class ContrattiNewPage implements OnInit {
     });
 
     this.intestatari.push(intestatarioGroup);
-    //  console.log(this.intestatari)
+     console.log(this.intestatari.controls)
   }
 
   removeIntestatario(index: number): void {
     this.intestatari.removeAt(index);
   }
-
-  getSelectedItem(index: number) {
-    const intArray = this.addForm.get('intestatari') as FormArray;
-    //console.log(intArray.at(index)?.get('intestatario')?.get('id'))
-    intArray.at(index)?.get('intestatario')?.get('id')?.setValue(this.selectedItem);
-  }
-
-
-  selectItemIntestatari(item: any, index: number) {
-    const intArray = this.addForm.get('intestatari') as FormArray;
-    intArray.at(index)?.get('intestatario')?.get('id')?.setValue(item.id);
-    //console.log("roi",intArray.at(index)?.get('intestatario')?.get('id')?.value)
-    this.modalController.dismiss();
-  }
-
 
   dismissModal() {
     this.modalController.dismiss();
@@ -161,10 +146,17 @@ export class ContrattiNewPage implements OnInit {
     return value ? `${value.descrizione}` : '';
   }
 
-  getDisplayValueIntestatari(): string {
-    const value = this.addForm.get('intetastari')?.value;
+    getIntestatariValue(index: number) {
+    const intArray = this.addForm.get('intestatari') as FormArray;
+    //console.log(intArray.at(index)?.get('intestatario')?.get('id'))
+    const value = intArray.at(index)?.get('intestatario')?.get('id')?.value;
     return value ? `${value.descrizione}` : '';
+  }
 
+  selectItemIntestatari(item: ModelLight, index: number) {
+    const intArray = this.addForm.get('intestatari') as FormArray;
+    intArray.at(index)?.get('intestatario')?.get('id')?.setValue(item); 
+    this.modalController.dismiss();
   }
 
   onDataInizioChange(event: any) {
@@ -229,18 +221,42 @@ export class ContrattiNewPage implements OnInit {
   onSubmit() {
     this.submitted = true;
     const sendContratto = this.addForm.getRawValue();
-    console.log(this.addForm.getRawValue())
+
+    const unitaImmobiliareID = this.addForm.get('unitaImmobiliare')?.getRawValue()?.id
+    
+    const sendIntestatari = sendContratto.intestatari?.map((intestatario: any) => ({
+      intestatario: {
+        id: intestatario.intestatario.id.id 
+      },
+      dataInizio: this.datePipe.transform(intestatario.dataInizio, 'yyyy-MM-dd')
+    })) || [];
+  
+    const sendData = {
+      ...sendContratto,
+      dataInizio: this.datePipe.transform(sendContratto.dataInizio, 'yyyy-MM-dd'),
+      dataFine: this.datePipe.transform(sendContratto.dataFine!, 'yyyy-MM-dd'),
+      unitaImmobiliare: { id: unitaImmobiliareID },
+      intestatari: sendIntestatari
+    };
+
+/*     console.log(sendData) */
     if (this.addForm.valid) {
 
+ 
       this.alertService.showConfirmation(
         'Conferma azione',
         'Sei sicuro di voler aggiungere questo contratto? Questa azione non può essere annullata.'
       ).subscribe(confirmed => {
         if (confirmed) {
-          this.contrattiSvc.addContratti(sendContratto).subscribe({
+          this.contrattiSvc.addContratti(sendData).subscribe({ //sendData
             next: (response) => {
               /*   console.log("Response: ", response) */
               this.msgService.success('Dati salvati con successo!');
+
+              setTimeout(()=>{
+                this.router.navigate([`/contratti-locazione`])
+              },2000)
+
             },
             error: (err) => {
               if (err.status === 500) {
@@ -261,7 +277,7 @@ export class ContrattiNewPage implements OnInit {
               this.msgService.error(this.errorMsg);
             },
             complete: () => {
-              this.router.navigate(['/anagrafica'])
+              /* this.router.navigate(['/contratti-locazione']) */
             }
           })
         }

@@ -56,7 +56,7 @@
               <ng-template>
                 <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Finito" cancelText="Annulla"
                   presentation="date" size="cover" (ionChange)="onDataFineChange($event.detail.value)">
-                  <span slot="title">Seleziona Data Finw</span>
+                  <span slot="title">Seleziona Data Fine</span>
                 </ion-datetime>
               </ng-template>
             </ion-modal>
@@ -162,11 +162,13 @@
             
     
           <div formGroupName="intestatario">
+            <div>
             <ion-item lines="inset">
-              <ion-input readonly formControlName="id" id="intestatari{{i}}" label="Seleziona Intestatario*" labelPlacement="floating"
+             
+              <ion-input readonly [value]="getIntestatariValue(i)" id="intestatari{{i}}" label="Seleziona Intestatario*" labelPlacement="floating"
                  #intestatarilist></ion-input>
               <ion-icon name="caret-down-outline" slot="end"></ion-icon>
-    
+
               <ion-modal [keepContentsMounted]="true"  [trigger]="'intestatari' + i"  [initialBreakpoint]="1"
                 [breakpoints]="[0, 1]"  [cssClass]="'bottom-modal'">
                 <ng-template>
@@ -192,6 +194,8 @@
                     <ion-list>
                       <ion-item
                         *ngFor="let item of filteredIntestatariList"
+                      
+                        [class.selected]="isSelected(item)"
                         (click)="selectItemIntestatari(item,i)">
                         <ion-label>{{ item.descrizione }}</ion-label>
                       </ion-item>
@@ -202,6 +206,16 @@
               </ion-modal>
     
             </ion-item>
+  
+            <ion-note class="ion-padding-start"
+            *ngIf="(submitted || intestatario?.get('intestatario.id')?.touched) &&  intestatario?.get('intestatario.id')?.invalid"
+            color="danger">
+            <span *ngIf="intestatario?.get('intestatario.id')?.errors?.['required']">
+              Intestatario è obbligatorio
+            </span>
+          </ion-note>
+
+            </div>
 </div>    
           
             
@@ -226,9 +240,9 @@
         </ion-item>
 
         <ion-note class="ion-padding-start"
-          *ngIf="(submitted || addForm.get('dataInizio')?.touched) && addForm.get('dataInizio')?.invalid"
+          *ngIf="(submitted || intestatario?.get('dataInizio')?.touched) &&  intestatario?.get('dataInizio')?.invalid"
           color="danger">
-          <span *ngIf="addForm.get('dataInizio')?.errors?.['required']">
+          <span *ngIf="intestatario?.get('dataInizio')?.errors?.['required']">
             Data inizio è obbligatoria
           </span>
         </ion-note>
@@ -277,7 +291,7 @@
           [class.selected]="isSelected(patrimonio)"
           button>
           <ion-label>
-            {{ patrimonio.descrizione }} 
+            {{ patrimonio.descrizione }}
           </ion-label>
           <ion-icon 
             *ngIf="isSelected(patrimonio)"
