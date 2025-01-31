@@ -17,7 +17,7 @@
             <ion-input formControlName="dataInizio" label="Data Inizio*" labelPlacement="floating"
                       [value]="contrattoForm.get('dataInizio')?.value" readonly
                       id="dataInizio"></ion-input>
-            <ion-modal [keepContentsMounted]="true" [trigger]="'dataInizio'" [initialBreakpoint]="1"
+          <!--   <ion-modal [keepContentsMounted]="true" [trigger]="'dataInizio'" [initialBreakpoint]="1"
             [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
               <ng-template>
                 <ion-datetime locale="it-IT" presentation="date" 
@@ -25,7 +25,7 @@
                             (ionChange)="updateDate('dataInizio', $event)">
                             <span slot="title">Seleziona Data Inizio</span></ion-datetime>
               </ng-template>
-            </ion-modal>
+            </ion-modal> -->
           </ion-item>
         </div>
 
@@ -34,7 +34,7 @@
             <ion-input formControlName="dataFine" label="Data Fine" labelPlacement="floating"
                       [value]="contrattoForm.get('dataFine')?.value" readonly
                       id="dataFine"></ion-input>
-            <ion-modal [keepContentsMounted]="true" [trigger]="'dataFine'"  [initialBreakpoint]="1"
+           <!--  <ion-modal [keepContentsMounted]="true" [trigger]="'dataFine'"  [initialBreakpoint]="1"
             [breakpoints]="[0, 1]" [cssClass]="'bottom-modal'">
               <ng-template>
                 <ion-datetime locale="it-IT" presentation="date"
@@ -42,7 +42,7 @@
                             (ionChange)="updateDate('dataFine', $event)">
                             <span slot="title">Seleziona Data Fine</span></ion-datetime>
               </ng-template>
-            </ion-modal>
+            </ion-modal> -->
           </ion-item>
         </div>
 
@@ -98,13 +98,14 @@
             <ion-icon name="business-outline" slot="start"></ion-icon>
             <ion-label>Unità Immobiliare</ion-label>
           </ion-item-divider>
-          <ion-item>
+          <ion-item lines="inset">
           
             <ion-input [value]="selectedPatrimonio" 
                       placeholder="Seleziona unità immobiliare"
                       readonly
                       id="open-patrimonio-modal">
-                      <ion-icon name="caret-down-outline" slot="end"  style="color : var(--ion-color-step-500, var(--ion-text-color-step-500, gray))"></ion-icon></ion-input>
+                    </ion-input>
+            <!--           <ion-icon name="caret-down-outline" slot="end"  style="color : var(--ion-color-step-500, var(--ion-text-color-step-500, gray))"></ion-icon>
             <ion-modal [keepContentsMounted]="true" [trigger]="'open-patrimonio-modal'">
               <ng-template>
                 <ion-header>
@@ -127,11 +128,11 @@
                   </ion-list>
                 </ion-content>
               </ng-template>
-            </ion-modal>
+            </ion-modal> -->
           </ion-item>
         </ion-item-group>
 
-        <!-- Contract Holders formArrayName="intestatari" -->
+        <!-- Contract Holders  -->
      
   <ion-item-group formArrayName="intestatari">
     <ion-item-divider>
@@ -139,9 +140,9 @@
       <ion-label> Intestatari </ion-label>
     </ion-item-divider>
     <div class="ion-padding">
-      <ion-button (click)="addIntestatario()" size="small">
+    <!--   <ion-button (click)="addIntestatario()" size="small">
         <ion-icon name="add-circle-outline"></ion-icon>
-        Aggiungi Intestatario</ion-button>
+        Aggiungi Intestatario</ion-button> -->
     </div>
         <div *ngFor="let intestatarioGroup of intestatari?.controls; let i = index" 
                [formGroupName]="i"
@@ -152,7 +153,7 @@
                 align-items: center;">
                 <ion-card-title>Intestatario Attuali {{i + 1}}</ion-card-title>
                 <ion-item lines="none" style="justify-self: right;">
-                  <ion-icon name="close-circle-outline" (click)="removeIntestatario(i)" color="danger"></ion-icon>
+            <!--       <ion-icon name="close-circle-outline" (click)="removeIntestatario(i)" color="danger"></ion-icon> -->
                 </ion-item>
                 
               </ion-card-header>
@@ -164,9 +165,10 @@
                   <ion-input [value]="getIntestatarioDisplay(i)" 
                             placeholder="Seleziona Intestatario"
                             readonly
-                            [id]="'intestatario-'+i">
-                            <ion-icon name="caret-down-outline" slot="end" style="color : var(--ion-color-step-500, var(--ion-text-color-step-500, gray))"></ion-icon></ion-input>
-                  <ion-modal [keepContentsMounted]="true" [trigger]="'intestatario-'+i">
+                            [id]="'intestatario-'+i"
+                            [disabled]="true">
+                         </ion-input>
+       <!--    <ion-icon name="caret-down-outline" slot="end" style="color : var(--ion-color-step-500, var(--ion-text-color-step-500, gray))"></ion-icon>           <ion-modal [keepContentsMounted]="true" [trigger]="'intestatario-'+i">
                     <ng-template>
                       <ion-header>
                         <ion-toolbar>
@@ -183,14 +185,13 @@
                           <ion-item *ngFor="let item of filteredIntestatariList" 
                                     (click)="selectIntestatario(item, i)">
                             {{ item.descrizione }}
-     <!--   {{isSelectedIntestatari(item,i)}} -->
                             <ion-icon *ngIf="isSelectedIntestatari(item,i)" 
                             name="checkmark" slot="end" color="primary"></ion-icon>
                           </ion-item>
                         </ion-list>
                       </ion-content>
                     </ng-template>
-                  </ion-modal>
+                  </ion-modal> -->
                 </ion-item>
                 </div>
                 <ion-item lines="inset">
@@ -219,7 +220,7 @@
       
       <div class="ion-padding">
         <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
-        <ion-button type="submit">Invia</ion-button>
+        <ion-button type="button" (click)="updateState()">Aggiorna</ion-button>
       </div>
     </form>
 

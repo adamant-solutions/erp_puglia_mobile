@@ -94,37 +94,33 @@ getList(){
 }
 
 private initForm() {
-  this.contrattoForm= this.fb.group({
-    dataInizio: this.contrattoData.dataInizio,
-    dataFine: this.contrattoData.dataFine,
-    canoneMensile: this.contrattoData.canoneMensile,
-    statoContratto: this.contrattoData.statoContratto,
-    descrizione: this.contrattoData.descrizione,
-    unitaImmobiliare: { id: this.contrattoData.unitaImmobiliare },
+  this.contrattoForm = this.fb.group({
+    dataInizio: [{ value: this.contrattoData.dataInizio, disabled: true }],
+    dataFine: [{ value: this.contrattoData.dataFine, disabled: true }],
+    canoneMensile: [{ value: this.contrattoData.canoneMensile, disabled: true }],
+    statoContratto: [this.contrattoData.statoContratto], 
+    descrizione: [{ value: this.contrattoData.descrizione, disabled: true }],
+    unitaImmobiliare: this.fb.group({
+      id: [{ value: this.contrattoData.unitaImmobiliare, disabled: true }]
+    }),
     intestatari: this.fb.array([]),
     documenti: this.fb.array([]),
-  /*   intestatari: {
-      intestatario : {
-        id: 
-      }
-    } */
   });
+
   const intestatariArray = this.contrattoForm.get('intestatari') as FormArray;
   this.contrattoData.intestatari.forEach((intestatario: any) => {
     intestatariArray.push(this.createIntestatarioGroup(intestatario));
   });
-   //console.log(intestatariArray.controls)
 }
 
-  private createIntestatarioGroup(intestatario?: any): FormGroup {
-    return this.fb.group({
-      //id: [intestatario?.id || null],
-      intestatario: this.fb.group({
-        id: [intestatario?.intestatario || null, Validators.required]
-      }),
-      dataInizio: [intestatario?.dataInizio || null, Validators.required]
-    });
-  } 
+private createIntestatarioGroup(intestatario?: any): FormGroup {
+  return this.fb.group({
+    intestatario: this.fb.group({
+      id: [{ value: intestatario?.intestatario || null, disabled: true }, Validators.required]
+    }),
+    dataInizio: [{ value: intestatario?.dataInizio || null, disabled: true }, Validators.required]
+  });
+}
 
   get intestatari(): FormArray {
     return this.contrattoForm.get('intestatari') as FormArray;
@@ -205,6 +201,39 @@ private initForm() {
   }
 
   cancelModifiedInputs(){}
+
+  updateState(){
+    const sendContratto = this.contrattoForm.getRawValue();
+
+    const unitaImmobiliareID = this.contrattoForm.get('unitaImmobiliare')?.getRawValue()?.id
+    
+    const sendIntestatari = sendContratto.intestatari?.map((intestatario: any) => ({
+      intestatario: {
+        id: intestatario.intestatario.id
+      },
+      dataInizio: this.datePipe.transform(intestatario.dataInizio, 'yyyy-MM-dd')
+    })) || [];
+  
+    const sendData = {
+      ...sendContratto,
+      dataInizio: this.datePipe.transform(sendContratto.dataInizio, 'yyyy-MM-dd'),
+      dataFine: this.datePipe.transform(sendContratto.dataFine!, 'yyyy-MM-dd'),
+      unitaImmobiliare: { id: unitaImmobiliareID },
+      intestatari: sendIntestatari
+    };
+
+    console.log(sendData)
+
+  this.contrattiSrv.updateStato(this.contrattoData.id,sendData.statoContratto).subscribe({
+    next: (res) => {
+      this.msgService.success("Aggiornato con successo!")
+      this.router.navigate(['/contratti-locazione/'+this.contrattoData.id+'/contratti-details']);
+    },
+    error: (err) => {
+      this.msgService.error(err.message)
+    }
+  })
+  }
 
   onSubmit() {
 

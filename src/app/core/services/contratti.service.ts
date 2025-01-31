@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, from, catchError } from 'rxjs';
@@ -215,7 +215,12 @@ export class ContrattiService {
    * Update the state of a Contratti
   */
   updateStato(id: number, statoContratto: StatoContratto): Observable<Contratti> {
-    return this.http.patch<Contratti>(`${this.contrattiUrl}/${id}/stato`, statoContratto);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.patch<Contratti>(`${this.contrattiUrl}/${id}/stato`,
+      JSON.stringify(statoContratto),
+      { headers: headers });
   }
 
 
