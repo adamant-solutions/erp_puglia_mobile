@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Patrimonio } from '../models/patrimonio.model';
-import { catchError, from, Observable } from 'rxjs';
+import { catchError, from, map, Observable, throwError } from 'rxjs';
 import { PatrimonioSearchParams } from '../resolvers/patrimonio.resolver';
 import { Platform } from '@ionic/angular';
 import { HttpWrapperService } from './http-wrapper.service';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Injectable({
   providedIn: 'root'
@@ -66,20 +67,20 @@ export class PatrimonioService {
 
 
    
-  async addPatrimonio(patrimonioData: Patrimonio, documentiFiles: any[]): Promise<any>  {
-
+  async addPatrimonio(patrimonioData: Patrimonio, updatedDocumentiFiles: any[]): Promise<any>  {
       const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
       let body = '';
     
+      // UnitaImmobiliare 
       body += `--${boundary}\r\n`;
       body += 'Content-Disposition: form-data; name="unitaImmobiliare"; filename="patrimonio.json"\r\n';
       body += 'Content-Type: application/json\r\n\r\n';
       body += JSON.stringify(patrimonioData) + '\r\n';
     
-      if (documentiFiles?.length) {
-        for (const file of documentiFiles) {
+      if (this.platform.is('hybrid') && updatedDocumentiFiles?.length) {
+        for (const file of updatedDocumentiFiles) {
           try {
-            // base64 to binary string (Capacitor expects Uint8Array for binary data)
+  
             const byteString = atob(file.data);
             const arrayBuffer = new ArrayBuffer(byteString.length);
             const uint8Array = new Uint8Array(arrayBuffer);
@@ -87,19 +88,19 @@ export class PatrimonioService {
               uint8Array[i] = byteString.charCodeAt(i);
             }
     
-            // file
             body += `--${boundary}\r\n`;
             body += `Content-Disposition: form-data; name="documenti"; filename="${file.name}"\r\n`;
             body += `Content-Type: ${file.type}\r\n\r\n`;
-            body += uint8Array + '\r\n'; // Capacitor handles Uint8Array as binary
+            body += uint8Array + '\r\n'; 
           } catch (error) {
             console.error(`Error processing file ${file.name}:`, error);
             throw new Error(`Failed to process file ${file.name}: ${error}`);
           }
         }
       }
-    
+  
       body += `--${boundary}--\r\n`;
+    
       const options = {
         url: `${this.patrimonioUrl}`,
         method: 'POST',
@@ -109,7 +110,7 @@ export class PatrimonioService {
         data: body
       };
       return from(this.httpWrapper.capacitorHttpRequest(options, true));
-  }
+    }
 
 
   async editPatrimonio(patrimonioData: Patrimonio, updatedDocumentiFiles: any[]): Promise<any> {
@@ -156,6 +157,67 @@ export class PatrimonioService {
     };
     return from(this.httpWrapper.capacitorHttpRequest(options, true));
   }
+  
+  downloadDocument(patrimonioId: number, documentoId: number) {
+    const options = {
+      url: `${this.patrimonioUrl}/${patrimonioId}/documenti/${documentoId}/download`,
+      method: 'GET',
+      responseType: 'blob'
+    };
+
+    return from(this.httpWrapper.capacitorHttpRequest(options, false)).pipe(
+      map(async (response: any) => {
+        const base64Data = response.data;
+        
+        const fileName = this.getFileNameFromResponse(response) || `document_${new Date().getTime()}.pdf`;
+        
+        try {
+     
+          const savedFile = await Filesystem.writeFile({
+            path: `Download/${fileName}`, 
+            data: base64Data,
+            directory: Directory.Documents,
+            recursive: true // Create directories if they don't exist
+          });
+
+          console.log('File saved:', savedFile);
+
+          const filePath = await Filesystem.getUri({
+            directory: Directory.Documents,
+            path: `Download/${fileName}`
+          });
+
+          console.log('File path:', filePath.uri);
+
+          return filePath.uri;
+        } catch (error) {
+          console.error('Error saving file:', error);
+          throw new Error(`Failed to save document: ${error}`);
+        }
+      }),
+      catchError(error => {
+        console.error('Download error:', error);
+        return throwError(() => new Error(`Failed to download document: ${error.message}`));
+      })
+    );
+}
+
+
+private getFileNameFromResponse(response: any): string {
+  try {
+      const contentDisposition = response.headers['content-disposition'];
+      if (contentDisposition) {
+          const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
+          if (matches != null && matches[1]) {
+              return matches[1].replace(/['"]/g, '');
+          }
+      }
+      return `document_${new Date().getTime()}.pdf`;
+  } catch (error) {
+      return `document_${new Date().getTime()}.pdf`;
+  }
+}
+  
 
     eliminaPatrimonio(id: number) {
     if (this.platform.is('hybrid')) {

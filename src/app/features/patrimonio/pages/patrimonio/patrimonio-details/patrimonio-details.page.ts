@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import {Patrimonio} from 'src/app/core/models/patrimonio.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -84,6 +85,20 @@ export class PatrimonioDetailsPage implements OnInit {
         this.msgService.error(err.message)
       }
     })
+  }
+
+   
+  async downloadDocument(selectedDocument: any) {
+    try {
+      const filePath = await firstValueFrom(
+        this.patrimonioSrvc.downloadDocument(this.patrimonioData.id, selectedDocument.id)
+      );
+      this.msgService.success("File scaricato con successo!")
+      console.log('File downloaded successfully:', filePath);
+    } catch (error : any) {
+      this.msgService.error(error.message)
+      console.error('Error downloading file:', error );
+    }
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
@@ -56,29 +57,18 @@ export class AnagraficaDetailsPage implements OnInit {
   }
 
   
-  downloadDocument(selectedDocument: any) {
-/*   
-  console.log("perpara download ", selectedDocument ) */
-    this.anagraficaSrvc.downloadDocument(this.userData.id, selectedDocument.id)
-      .subscribe({
-        next: (blob: Blob) => {
-          console.log('Download response received', blob);
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.style.display = 'none';
-          link.href = url;
-          link.download = selectedDocument.nomeFile || `document-${selectedDocument.id}.pdf`;
-          
-          document.body.appendChild(link);
-          link.click();
-        },
-        error: (err) => {
-          this.msgService.error(err.message)
-        }
-      });
-  }
-
-
+  async downloadDocument(selectedDocument: any) {
+      try {
+        const filePath = await firstValueFrom(
+          this.anagraficaSrvc.downloadDocument(this.userData.id, selectedDocument.id)
+        );
+        this.msgService.success("File scaricato con successo!")
+        console.log('File downloaded successfully:', filePath);
+      } catch (error: any) {
+        this.msgService.error(error.message)
+        console.error('Error downloading file:', error );
+      }
+    }
 
   onDeleteClick() {
     this.alertService.showConfirmation(

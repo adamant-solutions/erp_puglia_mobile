@@ -198,7 +198,8 @@
                   <ion-item>
                     <ion-label  class="documenti-icons">
                        <h4><ion-icon name="document-attach-outline"></ion-icon>File</h4>
-                      <p>{{doc.percorsoFile}}  </p>
+                      <p>{{doc.percorsoFile}}  <ion-icon name="download-outline" style="color: var(--ion-color-secondary);" (click)="downloadDocument(doc)"></ion-icon> </p>
+                     
                     </ion-label>
                   </ion-item>
                 </div>
