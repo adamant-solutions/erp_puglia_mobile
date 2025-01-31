@@ -74,7 +74,7 @@ getList(){
         this.anagraficaList = data['intestatariResolver'].data;
         this.contrattoData.createDate = this.datePipe.transform(this.contrattoData.createDate, 'dd/MM/yyyy')!;
         this.contrattoData.lastUpdateDate = this.datePipe.transform(this.contrattoData.lastUpdateDate, 'dd/MM/yyyy')!;
-       this.contrattoData.documenti = this.contrattoData.documenti || [];
+      
       }
       else{
       this.contrattoData = data['contrattiByIdResolver'];
@@ -82,8 +82,7 @@ getList(){
       this.anagraficaList = data['intestatariResolver'].body;
       this.contrattoData.createDate = this.datePipe.transform(this.contrattoData.createDate, 'dd/MM/yyyy')!;
       this.contrattoData.lastUpdateDate = this.datePipe.transform(this.contrattoData.lastUpdateDate, 'dd/MM/yyyy')!;
-      
-      this.contrattoData.documenti = this.contrattoData.documenti || [];
+ 
       }
 
     },
@@ -102,7 +101,8 @@ private initForm() {
     statoContratto: this.contrattoData.statoContratto,
     descrizione: this.contrattoData.descrizione,
     unitaImmobiliare: { id: this.contrattoData.unitaImmobiliare },
-    intestatari: this.fb.array([])
+    intestatari: this.fb.array([]),
+    documenti: this.fb.array([]),
   /*   intestatari: {
       intestatario : {
         id: 
@@ -205,7 +205,7 @@ private initForm() {
   }
 
   cancelModifiedInputs(){}
-  
+
   onSubmit() {
 
     const sendContratto = this.contrattoForm.getRawValue();
