@@ -1,9 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
+import { from, map } from 'rxjs';
 import { Contratti } from 'src/app/core/models/contratti.model';
 import { ModelLight } from 'src/app/core/models/model-light.model';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { ContrattiService } from 'src/app/core/services/contratti.service';
 
 @Component({
   selector: 'app-contratti-details',
@@ -18,7 +20,7 @@ export class ContrattiDetailsPage implements OnInit {
   contrattiData!: Contratti;
   patrimonio: ModelLight[] = [];
   
-  constructor(private alertService: AlertService) { }
+  constructor(private contrattiService: ContrattiService,private alertController: AlertController) { }
   ngOnInit() {
     if (this.platform.is('hybrid')) {
       this.getContrattiInHybrid()
@@ -66,24 +68,57 @@ export class ContrattiDetailsPage implements OnInit {
     return doc.id;
   }
 
-  openAlert() {
-    this.alertService.showConfirmation(
-      'Conferma Terminazione', 
-      'Sei sicuro di voler terminare questo contratto? Questa azione non può essere annullata.',
-      [
-      {
-        type: 'textarea',
-        placeholder: 'Inserisci motivo ...',
-      }
-    ]
-    ).subscribe(confirmed => {
-      if (confirmed) {
-        this.termina();
-      }
+   async openAlert() {
+    const alert = await this.alertController.create({
+      header: 'Conferma Terminazione',
+      message: 'Sei sicuro di voler terminare questo contratto? Questa azione non può essere annullata.',
+      inputs: [
+        {
+          type: 'textarea',
+          name: 'motivoFine',
+          placeholder: 'Inserisci motivo ...',
+        }
+      ],
+      cssClass : 'custom-alert',
+      htmlAttributes: {
+        'aria-label': 'alert dialog',
+      },
+      buttons: [
+        {
+          text: 'Annulla',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel',
+          handler: () => false
+        },
+        {
+          text: 'Conferma',
+          cssClass: 'alert-button-confirm',
+          handler: (data: any) => {
+            this.termina(data.motivoFine);
+          }
+        }
+      ],
+      backdropDismiss: false,
     });
+  
+    await alert.present();
+  
+    return from(alert.onDidDismiss()).pipe(
+      map((result: any) => result.role !== 'cancel')
+    );
   }
-
-  termina(){
-
-  }
+    termina(motivoFine: string) {
+      if (motivoFine) {
+        this.contrattiService.terminaContratto(this.contrattiData.id, motivoFine).subscribe({
+          next: () => {
+            this.router.navigate(['/contratti-locazione']);
+          },
+          error: (error: any) => {  
+            console.error('Errore nella terminazione del contratto:', error);
+          }
+        });
+      }
+    }
 }
+
+
