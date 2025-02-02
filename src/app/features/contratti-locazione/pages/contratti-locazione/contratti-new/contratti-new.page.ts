@@ -59,8 +59,10 @@ export class ContrattiNewPage implements OnInit {
           this.patrimonioList = patrimonioData.data
           this.intestatariList = intestatariData.data
         }
-        this.patrimonioList = patrimonioData.body
-        this.intestatariList = intestatariData.body
+        else{
+          this.patrimonioList = patrimonioData.body
+          this.intestatariList = intestatariData.body
+        }
       },
       error: (err) => {
         console.log(err)
@@ -77,6 +79,7 @@ export class ContrattiNewPage implements OnInit {
       descrizione: new FormControl(null),
       unitaImmobiliare: new FormControl(null, Validators.required),
       intestatari: new FormArray([]),
+      documenti: new FormArray([]),
     })
 
   }
@@ -338,3 +341,21 @@ export class ContrattiNewPage implements OnInit {
 ]
 }
  */
+/*
+{
+  "dataInizio": "2025-01-15",
+    "dataFine": null,
+      "canoneMensile": 900,
+        "statoContratto": "ATTIVO",
+          "descrizione": "test45",
+            "unitaImmobiliare":
+  { "id": 44 },
+  "intestatari":
+  [
+    {
+      "intestatario": { "id": 121 },
+      "dataInizio": "2025-01-15"
+    }
+  ],
+    "documenti": []
+}*/

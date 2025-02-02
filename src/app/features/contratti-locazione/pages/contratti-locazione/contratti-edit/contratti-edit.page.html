@@ -14,7 +14,7 @@
         <!-- Contract Dates -->
         <div>
           <ion-item>
-            <ion-input formControlName="dataInizio" label="Data Inizio*" labelPlacement="floating"
+            <ion-input formControlName="dataInizio" label="Data Inizio" labelPlacement="floating"
                       [value]="contrattoForm.get('dataInizio')?.value" readonly
                       id="dataInizio"></ion-input>
           <!--   <ion-modal [keepContentsMounted]="true" [trigger]="'dataInizio'" [initialBreakpoint]="1"
@@ -49,7 +49,7 @@
                <!-- canone mensile -->
                <div>
                 <ion-item>
-                  <ion-input formControlName="canoneMensile" label="Canone Mensile*" labelPlacement="floating" type="number"
+                  <ion-input formControlName="canoneMensile" label="Canone Mensile" labelPlacement="floating" type="number"
                   inputmode="numeric"></ion-input>
                 </ion-item>
                 <ion-note class="ion-padding-start"
@@ -139,11 +139,11 @@
       <ion-icon name="people-outline" slot="start"></ion-icon>
       <ion-label> Intestatari </ion-label>
     </ion-item-divider>
-    <div class="ion-padding">
-    <!--   <ion-button (click)="addIntestatario()" size="small">
+   <!-- <div class="ion-padding">
+       <ion-button (click)="addIntestatario()" size="small">
         <ion-icon name="add-circle-outline"></ion-icon>
-        Aggiungi Intestatario</ion-button> -->
-    </div>
+        Aggiungi Intestatario</ion-button> 
+    </div>-->
         <div *ngFor="let intestatarioGroup of intestatari?.controls; let i = index" 
                [formGroupName]="i"
                class="ion-margin-bottom">
@@ -158,7 +158,7 @@
                 
               </ion-card-header>
 
-              <ion-card-content class="ion-no-padding" style="padding-top: 16px; padding-bottom: 16px;">
+              <ion-card-content class="ion-no-padding" style="padding-bottom: 16px;">
 
                 <div formGroupName="intestatario">
                 <ion-item>
@@ -196,7 +196,7 @@
                 </div>
                 <ion-item lines="inset">
                   <ion-input formControlName="dataInizio" 
-                            label="Data Inizio*"
+                            label="Data Inizio"
                             [value]="intestatarioGroup.get('dataInizio')?.value"
                             readonly
                             [id]="'data-inizio-'+i"></ion-input>
@@ -219,7 +219,7 @@
       </ion-item-group>
       
       <div class="ion-padding">
-        <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button>
+    <!--     <ion-button fill="outline" (click)="cancelModifiedInputs()">Annulla</ion-button> -->
         <ion-button type="button" (click)="updateState()">Aggiorna</ion-button>
       </div>
     </form>

@@ -19,7 +19,7 @@
 
         <!-- data -->
         <div>
-          <ion-item>
+          <ion-item lines="inset">
             <ion-input formControlName="dataInizio" id="dataInizio" label="Data Inizio*" labelPlacement="floating"
               [value]="formatDisplayInizioDate()" #dataInizio></ion-input>
             <ion-icon name="calendar-outline"></ion-icon>
@@ -46,7 +46,7 @@
         </div>
 
         <div>
-          <ion-item>
+          <ion-item lines="inset">
             <ion-input formControlName="dataFine" id="dataFine" label="Data Fine" labelPlacement="floating"
               [value]="formatDisplayFineDate()" #dataFine></ion-input>
             <ion-icon name="calendar-outline"></ion-icon>
