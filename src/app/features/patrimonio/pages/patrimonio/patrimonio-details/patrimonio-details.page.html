@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button color="secondary" defaultHref="/patrimonio"></ion-back-button>
     </ion-buttons>
-    <ion-title color="secondary">Patrimonio dettagli</ion-title>
+    <ion-title color="secondary">Dettagli Unità Immobiliare</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -214,7 +214,7 @@
         <ion-button [routerLink]="['/patrimonio/modifica-patrimonio',patrimonioData.id]">
           <ion-icon slot="start" name="create-outline"></ion-icon>
           Modifica</ion-button>
-        <ion-button color="danger" (click)="onDeleteClick()">
+        <ion-button color="danger" (click)="onDeleteClick(patrimonioData)">
           <ion-icon slot="start" name="trash-outline"></ion-icon>
           Elimina</ion-button>
       </div>

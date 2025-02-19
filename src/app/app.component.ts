@@ -10,14 +10,14 @@ import {MenuController} from '@ionic/angular';
 export class AppComponent {
 
   public appPages = [
-    {title: 'Patrimonio', url: 'patrimonio'}, //Heritage/Assets
-    {title: 'Contabilità', url: 'contabilita'}, //Accounting
-    {title: 'Anagrafica', url: 'anagrafica'},  //Personal data / Registry
-    {title: 'Contratti locazione', url: 'contratti-locazione'}, //Rental contracts
-    {title: 'Manutenzione', url: 'manutenzione'}, //Maintenance
-    {title: 'Ripartizione spese', url: 'ripartizione-spese'}, //Cost distribution
-    {title: 'Morosità', url: 'morosità'},  //Default
-    {title: 'Ciclo passivo', url: 'ciclo-passivo'} // Passive cycle
+    { title: 'Anagrafica', url: 'anagrafica' },  //Personal data / Registry
+    { title: 'Unità immobiliare', url: 'patrimonio' }, //Heritage/Assets
+    { title: 'Contratti locazione', url: 'contratti-locazione' }, //Rental contracts
+    { title: 'Manutenzione', url: 'manutenzione' }, //Maintenance
+    { title: 'Ripartizione spese', url: 'ripartizione-spese' }, //Cost distribution
+    { title: 'Morosità', url: 'morosità' },  //Default
+    { title: 'Contabilità', url: 'contabilita' }, //Accounting
+    { title: 'Ciclo passivo', url: 'ciclo-passivo' } // Passive cycle
   ];
 
   constructor(public menuController: MenuController,

@@ -11,7 +11,7 @@ import { SearchAdvancedComponent } from '../../components/search-advanced/search
 })
 export class PatrimonioPage implements OnInit {
 
-  pageTitle: string = "patrimonio";
+  pageTitle: string = "Unità Immobiliare";
   patrimonioList : Patrimonio[] = [];
   currentPage = 0;
   totalPages = 1;

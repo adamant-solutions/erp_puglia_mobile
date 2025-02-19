@@ -64,10 +64,16 @@ export class PatrimonioDetailsPage implements OnInit {
     return doc.id;
   }
 
-  onDeleteClick() {
+  onDeleteClick(unita : Patrimonio) {
+    
+    const patrimonioIndirizzo = unita.indirizzo;
+    const patrimonioCivico = unita.civico;
+    const patrimonioComune = unita.comune;
+/*  ${patrimonioIndirizzo} - ${patrimonioCivico} - ${patrimonioComune} */
     this.alertService.showConfirmation(
       'Conferma Eliminazione', 
-      'Sei sicuro di voler eliminare questo patrimonio? Questa azione non può essere annullata.'
+      `Sei sicuro di voler eliminare questa unità immobiliare?
+       Questa azione non può essere annullata!`
     ).subscribe(confirmed => {
       if (confirmed) {
         this.elimina();
