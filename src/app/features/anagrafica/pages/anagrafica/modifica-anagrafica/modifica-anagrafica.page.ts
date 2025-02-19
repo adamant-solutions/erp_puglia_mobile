@@ -369,7 +369,7 @@ export class ModificaAnagraficaPage implements OnInit {
       else {       
        this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles).subscribe({
           next: (res) => {
-            this.msgService.success("Dati salvati con successo!"); 
+            this.msgService.success("Anagrafica è stata aggiornata con successo!"); 
             console.log(res);
           },
           error: (err) => {

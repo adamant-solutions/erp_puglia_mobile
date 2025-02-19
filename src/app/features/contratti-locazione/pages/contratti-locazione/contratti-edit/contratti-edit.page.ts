@@ -226,11 +226,11 @@ private createIntestatarioGroup(intestatario?: any): FormGroup {
 
   this.contrattiSrv.updateStato(this.contrattoData.id,sendData.statoContratto).subscribe({
     next: (res) => {
-      this.msgService.success("Aggiornato con successo!")
+      this.msgService.success('Lo stato è stato aggiornato con successo!')
       this.router.navigate(['/contratti-locazione/'+this.contrattoData.id+'/contratti-details']);
     },
     error: (err) => {
-      this.msgService.error(err.message)
+      this.msgService.error(err.error.message)
     }
   })
   }

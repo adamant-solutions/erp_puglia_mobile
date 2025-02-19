@@ -233,7 +233,7 @@ export class ModificaPatrimonioPage implements OnInit {
           this.msgService.error(res.data.message);
         }
         else{
-          this.msgService.success("Dati salvati con successo!"); 
+          this.msgService.success("Unità immobiliare è stata aggiornata con successo!"); 
           console.log("SUCCESS :" ,res);
           setTimeout(()=>{
             this.router.navigate([`/patrimonio/${this.patrimonioData.id}/patrimonio-details`])

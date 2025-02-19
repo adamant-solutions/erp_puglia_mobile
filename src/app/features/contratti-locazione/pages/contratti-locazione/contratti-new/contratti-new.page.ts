@@ -254,7 +254,7 @@ export class ContrattiNewPage implements OnInit {
           this.contrattiSvc.addContratti(sendData).subscribe({ //sendData
             next: (response) => {
               /*   console.log("Response: ", response) */
-              this.msgService.success('Dati salvati con successo!');
+              this.msgService.success('Contratti è stato salvato con successo!');
 
               setTimeout(()=>{
                 this.router.navigate([`/contratti-locazione`])
@@ -262,10 +262,7 @@ export class ContrattiNewPage implements OnInit {
 
             },
             error: (err) => {
-              if (err.status === 500) {
-                this.errorMsg = "Errore interno del server!"
-              }
-              else if (err.status === 400) {
+              if (err.status === 400) {
                 this.errorMsg = 'Compila tutti i campi obbligatori';
               }
               else if (err.status === 422) {
@@ -275,7 +272,7 @@ export class ContrattiNewPage implements OnInit {
                 this.errorMsg = "Tipo di media non supportato. Controlla il formato del file o della richiesta.";
               }
               else {
-                this.errorMsg = "Error!" + err.message;
+                this.errorMsg = "Error!" + err.error.message;
               }
               this.msgService.error(this.errorMsg);
             },
