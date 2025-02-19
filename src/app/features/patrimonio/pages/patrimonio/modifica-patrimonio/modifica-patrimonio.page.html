@@ -66,27 +66,26 @@
             Stato disponibilità è obbligatorio
           </ion-note>
         </div>
-
         <div>
           <ion-item>
-            <ion-select [(ngModel)]="patrimonioData.comune" name="comune" label="Comune*" labelPlacement="floating" required #comune="ngModel">
-              <ion-select-option *ngFor="let comune of comuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-note class="ion-padding-start" *ngIf="submitted || !comune" color="danger">
-            Comune è obbligatoria
-          </ion-note>
-        </div>
-
-        <div>
-          <ion-item>
-            <ion-select [(ngModel)]="patrimonioData.provincia" name="provincia" label="Provincia*" labelPlacement="floating">
+            <ion-select [(ngModel)]="patrimonioData.provincia" name="provincia" label="Provincia*" labelPlacement="floating"  (ionChange)="selectProvincia($event)">
               <ion-select-option *ngFor="let p of provincia" [value]="p.sigla">{{ p.nome }}</ion-select-option>
             </ion-select>
 
           </ion-item>
           <ion-note class="ion-padding-start" *ngIf="submitted || !provincia" color="danger">
             Provincia è obbligatoria
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="patrimonioData.comune" name="comune" label="Comune*" labelPlacement="floating" required #comune="ngModel">
+              <ion-select-option *ngFor="let comune of filteredComuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note class="ion-padding-start" *ngIf="submitted || !comune" color="danger">
+            Comune è obbligatoria
           </ion-note>
         </div>
 

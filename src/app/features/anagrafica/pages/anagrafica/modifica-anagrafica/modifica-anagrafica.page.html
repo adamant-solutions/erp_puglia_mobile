@@ -227,25 +227,15 @@
                     </div>
 
                     <div> <ion-item>
-                        <ion-input label="Comune Residenza*" labelPlacement="floating"
-                          [(ngModel)]="formData.cittadino.residenza.comuneResidenza" name="comuneResidenza"
-                          id="comuneResidenza" placeholder="Indirizzo" #comuneResidenza="ngModel" required></ion-input>
-                      </ion-item>
-                      <ion-note class="ion-padding-start" color="danger"
-                        *ngIf="comuneResidenza.dirty || comuneResidenza.touched">
-
-                        <ion-text *ngIf="comuneResidenza.errors?.['required']">
-                          Comune Residenza è obbligatorio
-                        </ion-text>
-
-                      </ion-note>
-                    </div>
-
-                    <div> <ion-item>
-                        <ion-input label="Provinica Residenza*" labelPlacement="floating"
+                        <ion-select label="Provinica Residenza*" labelPlacement="floating"
                           [(ngModel)]="formData.cittadino.residenza.provinciaResidenza"
-                          placeholder="Provinica Residenza" name="provinciaResidenza" id="provinciaResidenza"
-                          #provinciaResidenza="ngModel" required></ion-input>
+                          name="provinciaResidenza" id="provinciaResidenza"
+                          #provinciaResidenza="ngModel" required
+                          placeholder="Seleziona una provincia di residenza" (ionChange)="selectProvincia($event)">
+                          <ion-select-option  *ngFor="let provincia of provinces"
+                          [value]="provincia.sigla">
+                            {{provincia.nome}}</ion-select-option>
+                        </ion-select>
                       </ion-item>
                       <ion-note class="ion-padding-start" color="danger"
                         *ngIf="provinciaResidenza.dirty || provinciaResidenza.touched">
@@ -255,6 +245,26 @@
                         </ion-text>
                       </ion-note>
                     </div>
+
+                    
+                    <div> <ion-item>
+                      <ion-select label="Comune Residenza*" labelPlacement="floating"
+                        [(ngModel)]="formData.cittadino.residenza.comuneResidenza" name="comuneResidenza"
+                        id="comuneResidenza" placeholder="Indirizzo" #comuneResidenza="ngModel" required  placeholder="Seleziona un comune di residenza">
+                        <ion-select-option  *ngFor="let comune of filteredComuni"
+                        [value]="comune.nome">
+                          {{comune.nome}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-note class="ion-padding-start" color="danger"
+                      *ngIf="comuneResidenza.dirty || comuneResidenza.touched">
+
+                      <ion-text *ngIf="comuneResidenza.errors?.['required']">
+                        Comune Residenza è obbligatorio
+                      </ion-text>
+
+                    </ion-note>
+                  </div>
 
                     <div> <ion-item>
                         <ion-input label="Stato Residenza*" labelPlacement="floating"
@@ -270,6 +280,8 @@
                         </ion-text>
                       </ion-note>
                     </div>
+
+                    
                   </ion-item-group>
                 </ion-list>
               </ng-container>

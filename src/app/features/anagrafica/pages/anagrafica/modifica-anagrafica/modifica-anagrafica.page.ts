@@ -6,6 +6,8 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { Comune, comuneList } from 'src/app/features/patrimonio/data/comune';
+import { Provincia, provinciaList } from 'src/app/features/patrimonio/data/provincia';
 
 
 @Component({
@@ -40,6 +42,9 @@ export class ModificaAnagraficaPage implements OnInit {
   ];
 
   today: string = new Date().toISOString();
+  comuni: Comune[] = comuneList;
+  provinces: Provincia[] = provinciaList;
+  filteredComuni: any[] = [];
 
   constructor(
     private datePipe: DatePipe,
@@ -56,6 +61,11 @@ export class ModificaAnagraficaPage implements OnInit {
         this.userData = data['anagraficaByIdResolver'].data
         this.initializeForm();
           console.log(this.userData)
+          if (this.userData.cittadino.residenza?.provinciaResidenza) {
+            this.filteredComuni = this.comuni.filter(
+              c => c.provincia === this.userData.cittadino.residenza?.provinciaResidenza
+            );
+          }
       },
       error: (err) => {
         console.log(err)
@@ -68,6 +78,11 @@ export class ModificaAnagraficaPage implements OnInit {
       next: (data) => {
         this.userData = data['anagraficaByIdResolver']
         this.initializeForm();
+        if (this.userData.cittadino.residenza?.provinciaResidenza) {
+          this.filteredComuni = this.comuni.filter(
+            c => c.provincia === this.userData.cittadino.residenza?.provinciaResidenza
+          );
+        }
         /*   console.log(this.userData) */
       },
       error: (err) => {
@@ -317,6 +332,16 @@ export class ModificaAnagraficaPage implements OnInit {
       return newDate.toISOString().split('T')[0];
     }
 
+
+    selectProvincia(event: any){
+      const province = event.target.value;
+      if (province) {
+        this.filteredComuni = this.comuni.filter(
+          c => c.provincia === province
+        );
+      }
+    }
+
     onFileSelected(event: any, index: number) {
      
       const file = event.target.files[0];
@@ -357,7 +382,7 @@ export class ModificaAnagraficaPage implements OnInit {
               this.handleError(res);
              /*  console.log("is error: " ,res); */
             } else {
-              this.msgService.success("Dati salvati con successo!");
+              this.msgService.success("Anagrafica è stata aggiornata con successo!");
               console.log(res);
             }
           },

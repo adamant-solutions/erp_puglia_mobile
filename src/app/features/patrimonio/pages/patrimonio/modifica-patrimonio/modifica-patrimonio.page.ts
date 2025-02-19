@@ -49,6 +49,7 @@ export class ModificaPatrimonioPage implements OnInit {
   };
   comuni: Comune[] = comuneList;
   provincia: Provincia[] = provinciaList;
+  filteredComuni: any[] = [];
   tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETTO" , "ATTO_PROVENIENZA" , "ALTRO"];
   tipoAmministraziones: TipoAmministrazione[] = ["DIRETTA", "INDIRETTA" , "MISTA"];
   statoDisponibilitas: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
@@ -83,6 +84,13 @@ export class ModificaPatrimonioPage implements OnInit {
       //    this.patrimonioData.documenti = this.patrimonioData.documenti || [];
           }
           this.formData = JSON.parse(JSON.stringify(this.patrimonioData)); 
+
+
+          if (this.patrimonioData.provincia) {
+            this.filteredComuni = this.comuni.filter(
+              c => c.provincia === this.patrimonioData.provincia
+            );
+          }
         /*   console.log(this.formData) */
           
         },
@@ -93,6 +101,16 @@ export class ModificaPatrimonioPage implements OnInit {
 
   }
 
+
+  
+  selectProvincia(event: any){
+    const province = event.target.value;
+    if (province) {
+      this.filteredComuni = this.comuni.filter(
+        c => c.provincia === province
+      );
+    }
+  }
   addDocumento(){
     this.patrimonioData.documenti.push({
       tipoDocumento: 'CATASTALE',

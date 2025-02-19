@@ -129,6 +129,8 @@
                 </span>
               </ion-note>
             </div>
+
+
             <div>
               <ion-item>
                 <ion-input label="Provincia*" labelPlacement="floating" formControlName="provincia"></ion-input>
@@ -139,7 +141,7 @@
                   Provincia è obbligatoria
                 </span>
               </ion-note>
-            </div>
+            </div> 
             <div>
               <ion-item>
                 <ion-input label="Stato*" labelPlacement="floating" formControlName="stato"></ion-input>
@@ -197,10 +199,33 @@
                 </span>
               </ion-note>
             </div>
+            
             <div>
               <ion-item>
-                <ion-input label="Comune Residenza*" labelPlacement="floating"
-                  formControlName="comuneResidenza"></ion-input>
+                <ion-select label="Provincia Residenza*" labelPlacement="floating"
+                formControlName="provinciaResidenza"
+                placeholder="Seleziona una provincia di residenza">
+                  <ion-select-option  *ngFor="let provincia of provinces"
+                  [value]="provincia.sigla">
+                    {{provincia.nome}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-note class="ion-padding-start"
+              *ngIf="(submitted || addForm.get('cittadino.residenza.provinciaResidenza')?.touched)  && addForm.get('cittadino.residenza.provinciaResidenza')?.invalid" color="danger">
+              <span *ngIf="addForm.get('cittadino.residenza.provinciaResidenza')?.errors?.['required']">
+                Provincia Residenza è obbligatoria
+              </span>
+            </ion-note> 
+            </div>
+
+            <div>
+              <ion-item>
+                <ion-select label="Comune Residenza*" labelPlacement="floating"
+                  formControlName="comuneResidenza" placeholder="Seleziona un comune di residenza">
+                  <ion-select-option  *ngFor="let comune of filteredComuni"
+                  [value]="comune.nome">
+                    {{comune.nome}}</ion-select-option>
+                </ion-select>
               </ion-item>
               <ion-note class="ion-padding-start"
                 *ngIf="(submitted || addForm.get('cittadino.residenza.comuneResidenza')?.touched) && addForm.get('cittadino.residenza.comuneResidenza')?.invalid" color="danger">
@@ -209,18 +234,7 @@
                 </span>
               </ion-note>
             </div>
-            <div>
-              <ion-item>
-                <ion-input label="Provincia Residenza*" labelPlacement="floating"
-                  formControlName="provinciaResidenza"></ion-input>
-              </ion-item>
-              <ion-note class="ion-padding-start"
-                *ngIf="(submitted || addForm.get('cittadino.residenza.provinciaResidenza')?.touched)  && addForm.get('cittadino.residenza.provinciaResidenza')?.invalid" color="danger">
-                <span *ngIf="addForm.get('cittadino.residenza.provinciaResidenza')?.errors?.['required']">
-                  Provincia Residenza è obbligatoria
-                </span>
-              </ion-note>
-            </div>
+
             <div>
               <ion-item>
                 <ion-input label="Stato Residenza*" labelPlacement="floating"
@@ -250,7 +264,7 @@
                   Telefono è obbligatorio
                 </span>
                 <span *ngIf="addForm.get('cittadino.contatti.telefono')?.errors?.['pattern']">
-                  Telefono non è valido
+                  Telefono non è valido(es. +00000)
                 </span>
               </ion-note>
             </div>

@@ -36,10 +36,22 @@ export class NuovoPatrimonioPage implements OnInit {
   statoDisponibilita: StatoDisponibilita[] = ["DISPONIBILE" , "OCCUPATO" , "IN_MANUTENZIONE" , "SFITTO" , "NON_DISPONIBILE"];
   tipoDocuments: TipoDocumento[] = ["CATASTALE", "CERTIFICAZIONE_ENERGETICA", "TAVOLA_PROGETTO" , "ATTO_PROVENIENZA" , "ALTRO"];
   documentiFiles: any[] =[];
-  fileName: string[] = []
+  fileName: string[] = [];
+  filteredComuni: any[] = [];
 
   ngOnInit() {
     this.initializeForm();
+    
+    this.addForm
+      .get('provincia')
+      ?.valueChanges.subscribe((selectedProvincia) => {
+        this.filteredComuni = this.comuni.filter(
+          (comune) => comune.provincia === selectedProvincia
+        );
+
+        this.addForm.get('comune')?.reset();
+      });
+
   }
 
 

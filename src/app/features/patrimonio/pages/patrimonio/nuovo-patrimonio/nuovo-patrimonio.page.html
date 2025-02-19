@@ -84,22 +84,6 @@
       </ion-note>
 </div>
       
-        <div>
-          <ion-item>
-            <ion-select label="Comune*" labelPlacement="floating" placeholder="Seleziona Comune"
-              formControlName="comune">
-              <ion-select-option *ngFor="let comune of comuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
-            </ion-select>
-
-          </ion-item>
-          <ion-note class="ion-padding-start"
-            *ngIf="(submitted || addForm.get('comune')?.touched) && addForm.get('comune')?.invalid" color="danger">
-            <span *ngIf="addForm.get('comune')?.errors?.['required']">
-              Comune è obbligatoria
-            </span>
-          </ion-note>
-        </div>
-
         <div><ion-item>
             <ion-select label="Provincia*" labelPlacement="floating" placeholder="Seleziona Provincia"
               formControlName="provincia">
@@ -111,6 +95,22 @@
             color="danger">
             <span *ngIf="addForm.get('provincia')?.errors?.['required']">
               Provincia è obbligatoria
+            </span>
+          </ion-note>
+        </div>
+
+        <div>
+          <ion-item>
+            <ion-select label="Comune*" labelPlacement="floating" placeholder="Seleziona Comune"
+              formControlName="comune">
+              <ion-select-option *ngFor="let comune of filteredComuni" [value]="comune.nome">{{comune.nome}}</ion-select-option>
+            </ion-select>
+
+          </ion-item>
+          <ion-note class="ion-padding-start"
+            *ngIf="(submitted || addForm.get('comune')?.touched) && addForm.get('comune')?.invalid" color="danger">
+            <span *ngIf="addForm.get('comune')?.errors?.['required']">
+              Comune è obbligatoria
             </span>
           </ion-note>
         </div>

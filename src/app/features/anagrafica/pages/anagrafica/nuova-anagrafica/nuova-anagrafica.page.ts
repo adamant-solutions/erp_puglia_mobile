@@ -7,6 +7,8 @@ import { TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { Comune, comuneList } from 'src/app/features/patrimonio/data/comune';
+import { Provincia, provinciaList } from 'src/app/features/patrimonio/data/provincia';
 
 @Component({
   selector: 'app-nuova-anagrafica',
@@ -22,6 +24,9 @@ export class NuovaAnagraficaPage implements OnInit {
   documentiFiles: any[] =[];
   fileName: string[] = [];
   today: string = new Date().toISOString();
+  comuni: Comune[] = comuneList;
+  provinces: Provincia[] = provinciaList;
+  filteredComuni: any[] = [];
 
   constructor(private fb: FormBuilder,
     private anagraficaSvc: AnagraficaService,
@@ -33,6 +38,15 @@ export class NuovaAnagraficaPage implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    this.addForm
+    .get('cittadino.residenza.provinciaResidenza')
+    ?.valueChanges.subscribe((selectedProvincia) => {
+      this.filteredComuni = this.comuni.filter(
+        (comune) => comune.provincia === selectedProvincia
+      );
+
+      this.addForm.get('cittadino.residenza.comuneResidenza')?.reset();
+    });
     /* console.log("Aggiungi init form: ", this.addForm.controls) */
   }
 
@@ -50,7 +64,7 @@ export class NuovaAnagraficaPage implements OnInit {
           provincia: ['', [Validators.required]],
           stato: ['', [Validators.required]],
         }),
-        genere: ['M', [Validators.required]],
+        genere: ['', [Validators.required]],
         cittadinanza: ['', [Validators.required]],
         residenza: this.fb.group({
           indirizzo: ['', [Validators.required]],
