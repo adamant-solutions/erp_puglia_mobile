@@ -89,31 +89,10 @@
 
     
               <div class="ion-padding" slot="content">
-
                 <ion-item>
                   <ion-label  class="documenti-icons">
-                    <h4><ion-icon name="document-outline"></ion-icon>Tipo documento</h4>
-                    <p> {{doc.tipoDocumento | capitalize}}</p>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item>
-                  <ion-label  class="documenti-icons">
-                    <h4><ion-icon name="calendar-outline"></ion-icon>Data del documento</h4>
-                    <p> {{doc.dataDocumento | date:'dd/MM/yyyy'}} </p>
-                  </ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-label  class="documenti-icons">
-                    <h4><ion-icon name="document-text-outline"></ion-icon>Descrizione</h4>
-                    <p>{{doc.descrizione || '-'}}  </p>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item>
-                  <ion-label  class="documenti-icons">
-                     <h4><ion-icon name="document-attach-outline"></ion-icon>File</h4>
-                    <p>{{doc.percorsoFile}}  </p>
+                     <span><ion-icon name="document-attach-outline"></ion-icon>
+                    {{doc.nomeFile}}  </span>
                   </ion-label>
                 </ion-item>
               </div>

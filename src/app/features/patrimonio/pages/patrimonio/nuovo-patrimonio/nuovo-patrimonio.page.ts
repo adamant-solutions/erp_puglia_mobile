@@ -18,7 +18,7 @@ import { StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/
 })
 export class NuovoPatrimonioPage implements OnInit {
 
-  pageTitle: string = "Nuovo patrimonio";
+  pageTitle: string = "Nuova Unità Immobiliare";
   constructor(
     private patrimonioSvc: PatrimonioService,
     private datePipe: DatePipe,

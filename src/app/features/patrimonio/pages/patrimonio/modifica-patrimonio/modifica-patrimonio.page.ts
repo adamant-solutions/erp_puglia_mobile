@@ -17,7 +17,7 @@ import { FilePicker } from '@capawesome/capacitor-file-picker';
 })
 export class ModificaPatrimonioPage implements OnInit {
 
-  pageTitle: string = "Modifica Patrimonio"
+  pageTitle: string = "Modifica Unità Immobiliare"
   patrimonioData!: Patrimonio;
   submitted: boolean = false;
   errorMsg = '';
