@@ -20,7 +20,8 @@ export class NuovaAnagraficaPage implements OnInit {
   errorMsg: string = '';
   tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
   documentiFiles: any[] =[];
-  fileName: string[] = []
+  fileName: string[] = [];
+  today: string = new Date().toISOString();
 
   constructor(private fb: FormBuilder,
     private anagraficaSvc: AnagraficaService,

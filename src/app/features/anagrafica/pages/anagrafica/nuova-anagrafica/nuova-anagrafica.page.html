@@ -75,7 +75,7 @@
 
                   <ion-datetime locale="it-IT" [showDefaultButtons]="true" doneText="Conferma" cancelText="Annulla"
                     #dataNascita presentation="date" size="cover"
-                    (ionChange)="onDataDiNascitaChange(dataNascita.value)">
+                    (ionChange)="onDataDiNascitaChange(dataNascita.value)" [max]="today">
                     <span slot="title">Seleziona Data di Nascita</span></ion-datetime>
 
                 </ng-template>

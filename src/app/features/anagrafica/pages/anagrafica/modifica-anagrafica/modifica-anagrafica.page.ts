@@ -39,6 +39,8 @@ export class ModificaAnagraficaPage implements OnInit {
     'documenti_identita'
   ];
 
+  today: string = new Date().toISOString();
+
   constructor(
     private datePipe: DatePipe,
     private anagraficaSrv: AnagraficaService,
