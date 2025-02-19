@@ -32,15 +32,15 @@ export class AlertService {
       },
       buttons: [
         {
+          text: 'Conferma',
+          cssClass: 'alert-button-confirm',
+          handler: () => true
+        },
+        {
           text: 'Annulla',
           role: 'cancel',
           cssClass: 'alert-button-cancel',
           handler: () => false
-        },
-        {
-          text: 'Conferma',
-          cssClass: 'alert-button-confirm',
-          handler: () => true
         }
       ],
       backdropDismiss : false,

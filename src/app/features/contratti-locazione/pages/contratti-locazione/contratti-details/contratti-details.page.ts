@@ -4,8 +4,8 @@ import { AlertController, Platform } from '@ionic/angular';
 import { from, map } from 'rxjs';
 import { Contratti } from 'src/app/core/models/contratti.model';
 import { ModelLight } from 'src/app/core/models/model-light.model';
-import { AlertService } from 'src/app/core/services/alert.service';
 import { ContrattiService } from 'src/app/core/services/contratti.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
   selector: 'app-contratti-details',
@@ -20,7 +20,7 @@ export class ContrattiDetailsPage implements OnInit {
   contrattiData!: Contratti;
   patrimonio: ModelLight[] = [];
   
-  constructor(private contrattiService: ContrattiService,private alertController: AlertController) { }
+  constructor(private contrattiService: ContrattiService,private alertController: AlertController, private msgService: MessagesService) { }
   ngOnInit() {
     if (this.platform.is('hybrid')) {
       this.getContrattiInHybrid()
@@ -71,7 +71,8 @@ export class ContrattiDetailsPage implements OnInit {
    async openAlert() {
     const alert = await this.alertController.create({
       header: 'Conferma Terminazione',
-      message: 'Sei sicuro di voler terminare questo contratto? Questa azione non può essere annullata.',
+      message: `Sei sicuro di voler terminare questo contratto?
+       Questa azione non può essere annullata.`,
       inputs: [
         {
           type: 'textarea',
@@ -111,9 +112,11 @@ export class ContrattiDetailsPage implements OnInit {
       if (motivoFine) {
         this.contrattiService.terminaContratto(this.contrattiData.id, motivoFine).subscribe({
           next: () => {
+            this.msgService.success("Il contratto è stato terminato con successo!")
             this.router.navigate(['/contratti-locazione']);
           },
           error: (error: any) => {  
+            this.msgService.error(error.error.message,5000)
             console.error('Errore nella terminazione del contratto:', error);
           }
         });

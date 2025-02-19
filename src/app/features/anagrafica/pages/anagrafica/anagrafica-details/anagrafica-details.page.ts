@@ -62,10 +62,10 @@ export class AnagraficaDetailsPage implements OnInit {
         const filePath = await firstValueFrom(
           this.anagraficaSrvc.downloadDocument(this.userData.id, selectedDocument.id)
         );
-        this.msgService.success("File scaricato con successo!")
+        this.msgService.success("Il file è stato scaricato con successo!")
         console.log('File downloaded successfully:', filePath);
       } catch (error: any) {
-        this.msgService.error(error.message)
+        this.msgService.error("Download del file non riuscito!",5000)
         console.error('Error downloading file:', error );
       }
     }
@@ -73,7 +73,8 @@ export class AnagraficaDetailsPage implements OnInit {
   onDeleteClick() {
     this.alertService.showConfirmation(
       'Conferma Eliminazione', 
-      'Sei sicuro di voler eliminare questa anagrafica? Questa azione non può essere annullata.'
+      `Sei sicuro di voler eliminare questa anagrafica?
+       Questa azione non può essere annullata.`
     ).subscribe(confirmed => {
       if (confirmed) {
         this.elimina();
@@ -88,7 +89,7 @@ export class AnagraficaDetailsPage implements OnInit {
         this.router.navigate(['/anagrafica']);
       },
       error: (err) => {
-        this.msgService.error(err.message)
+        this.msgService.error(err.error.message,5000)
       }
     })
  

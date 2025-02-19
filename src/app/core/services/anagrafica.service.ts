@@ -217,8 +217,7 @@ export class AnagraficaService {
           return new Blob([response.body as BlobPart], { type: contentType });
         }),
         catchError(error => {
-          console.error('Download error:', error);
-          return throwError(() => new Error('Failed to download document'));
+          return throwError(() => error);
         })
       );
     }

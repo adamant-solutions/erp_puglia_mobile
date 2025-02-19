@@ -191,13 +191,13 @@ export class PatrimonioService {
 
           return filePath.uri;
         } catch (error) {
-          console.error('Error saving file:', error);
+         
           throw new Error(`Failed to save document: ${error}`);
         }
       }),
       catchError(error => {
-        console.error('Download error:', error);
-        return throwError(() => new Error(`Failed to download document: ${error.message}`));
+       /*  console.error('Download error:', error); */
+        return throwError(() => error);
       })
     );
 }

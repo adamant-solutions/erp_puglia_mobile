@@ -84,11 +84,11 @@ export class PatrimonioDetailsPage implements OnInit {
   elimina(){
     this.patrimonioSrvc.eliminaPatrimonio(this.patrimonioData.id).subscribe({
       next: (res) => {
-        this.msgService.success("Eliminato con successo!")
+        this.msgService.success("Unità Immobiliare eliminata con successo!")
         this.router.navigate(['/patrimonio']);
       },
       error: (err) => {
-        this.msgService.error(err.message)
+        this.msgService.error(err.error.message)
       }
     })
   }
@@ -99,10 +99,10 @@ export class PatrimonioDetailsPage implements OnInit {
       const filePath = await firstValueFrom(
         this.patrimonioSrvc.downloadDocument(this.patrimonioData.id, selectedDocument.id)
       );
-      this.msgService.success("File scaricato con successo!")
+      this.msgService.success("Il file è stato scaricato con successo!")
       console.log('File downloaded successfully:', filePath);
     } catch (error : any) {
-      this.msgService.error(error.message)
+      this.msgService.error("Download del file non riuscito!",5000)
       console.error('Error downloading file:', error );
     }
   }

@@ -200,13 +200,10 @@ export class NuovaAnagraficaPage implements OnInit {
         this.anagraficaSvc.addAnagrafica(anagraficaData,this.documentiFiles).subscribe({
           next: (response) => {
           /*   console.log("Response: ", response) */
-            this.msgService.success('Dati salvati con successo!');
+            this.msgService.success('Anagrafica è stata salvata con successo!');
           },
           error: (err) => {
-            if (err.status === 500) {
-              this.errorMsg = "Errore interno del server!"
-            }
-            else if (err.status === 400){
+            if (err.status === 400){
               this.errorMsg = 'Compila tutti i campi obbligatori'; 
             }
             else if(err.status === 422){
@@ -216,9 +213,9 @@ export class NuovaAnagraficaPage implements OnInit {
               this.errorMsg = "Tipo di media non supportato. Controlla il formato del file o della richiesta.";
             }
             else{
-              this.errorMsg = "Error!" + err.message;
+              this.errorMsg = err.error.message;
             }
-            this.msgService.error(this.errorMsg);         
+            this.msgService.error(this.errorMsg,5000);         
           },
           complete: ()=> {
             this.router.navigate(['/anagrafica'])

@@ -18,7 +18,7 @@ export class AuthorizationService {
       ? 'Basic d3JpdGVyOnNlY3JldC13cml0ZXI='
       : 'Basic cmVhZGVyOnNlY3JldC1yZWFkZXI=';
     const body = `grant_type=client_credentials&scope=${isWriteAccess ? 'erp:write' : 'erp:read'}`;
-    console.log("Auth service: ", `${isWriteAccess}` , body)
+    /* console.log("Auth service: ", `${isWriteAccess}` , body) */
 
     const headers = new HttpHeaders({
       'Authorization': authHeader,
