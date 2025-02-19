@@ -14,14 +14,16 @@ import { environment } from 'src/environments/environment';
 import { PatrimonioService } from './core/services/patrimonio.service';
 import { AnagraficaService } from './core/services/anagrafica.service';
 import { ContrattiService } from './core/services/contratti.service';
+import { loaderInterceptor } from './core/interceptors/loader.interceptor';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({  
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,SharedModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DatePipe,
-    provideHttpClient(withInterceptors([httpsInterceptor])),
+    provideHttpClient(withInterceptors([httpsInterceptor,loaderInterceptor])),
     AuthorizationService,
     PatrimonioService,
     AnagraficaService,

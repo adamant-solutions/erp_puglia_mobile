@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import { LoaderComponent } from './loader/loader.component';
+import { IonicModule } from '@ionic/angular';
 
 /*
 └── shared/                       # Shared modules/components/pipes (used across modules)
@@ -10,9 +12,12 @@ import {CommonModule} from '@angular/common';
     └── shared.module.ts          # Import all shared resources */
 
 @NgModule({
-  declarations: [],
+  declarations: [LoaderComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    IonicModule
+  ],exports:[
+    LoaderComponent
   ]
 })
 export class SharedModule {
