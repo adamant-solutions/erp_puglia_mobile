@@ -15,7 +15,7 @@ export interface Contratti {
   intestatari: Intestatari[]
   intestatariAttuali: IntestatariAttuali[]
   intestatariStorici: any[]
-  documenti: any[] //documenti contratti
+  documenti?: DocumentoContratto[] //documenti contratti
 }
 
 
@@ -53,4 +53,11 @@ export interface Cittadino {
   contatti?: Contatti
   luogo_nascita?: LuogoNascita
   documenti_identita?: DocumentoIdentita[]
+}
+
+export interface DocumentoContratto {
+  id?: number;
+  nomeFile: string;
+  contenuto?: any;
+  contentType?: string;
 }

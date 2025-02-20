@@ -94,6 +94,7 @@
                      <span><ion-icon name="document-attach-outline"></ion-icon>
                     {{doc.nomeFile}}  </span>
                   </ion-label>
+                  <ion-icon name="download-outline" style="color: var(--ion-color-secondary);" (click)="downloadDocument(doc)"></ion-icon>
                 </ion-item>
               </div>
             </ion-accordion>
@@ -116,12 +117,12 @@
                   <ion-icon name="person-outline" slot="start"></ion-icon>
                   <ion-label>Cittadino</ion-label>
                 </div>
-                <ion-item>
+     <!--            <ion-item>
                   <ion-label>
                     <h4>Id</h4>
                     <p>{{doc.cittadino.id}} </p>
                   </ion-label>
-                </ion-item>
+                </ion-item> -->
                 <ion-item>
                   <ion-label>
                     <h4>Nome</h4>

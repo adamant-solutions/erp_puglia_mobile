@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
-import { from, map } from 'rxjs';
+import { firstValueFrom, from, map } from 'rxjs';
 import { Contratti } from 'src/app/core/models/contratti.model';
 import { ModelLight } from 'src/app/core/models/model-light.model';
 import { ContrattiService } from 'src/app/core/services/contratti.service';
@@ -122,6 +122,20 @@ export class ContrattiDetailsPage implements OnInit {
         });
       }
     }
+
+    async downloadDocument(selectedDocument: any) {
+      try {
+        const filePath = await firstValueFrom(
+          this.contrattiService.downloadDocument(this.contrattiData.id, selectedDocument.id)
+        );
+        this.msgService.success("Il file è stato scaricato con successo!")
+        console.log('File downloaded successfully:', filePath);
+      } catch (error: any) {
+        this.msgService.error("Download del file non riuscito!",5000)
+        console.error('Error downloading file:', error );
+      }
+    }
+
 }
 
 

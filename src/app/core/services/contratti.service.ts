@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { Observable, from, catchError } from 'rxjs';
+import { Observable, from, catchError, map, throwError } from 'rxjs';
 import { Contratti, StatoContratto } from '../models/contratti.model';
 
 import { HttpWrapperService } from './http-wrapper.service';
@@ -105,21 +105,21 @@ export class ContrattiService {
     }
   }
 
-  addContratti(contrattiData: any){
+  addContratti(contrattiData: Contratti,documentiFiles: any[]){
     const formData = new FormData();
     const contrattoCopy = { ...contrattiData };
   
     if (!contrattoCopy.documenti) {
       contrattoCopy.documenti = [];
     }
-/* 
+
     contrattoCopy.documenti.forEach((documento, index) => {
       const file = documentiFiles[index];
       if (file) {
         documento.nomeFile = file.name;
         documento.contentType = file.type;
       }
-    }); */
+    }); 
 
     const contrattoBlob = new Blob([JSON.stringify(contrattoCopy)], {
       type: 'application/json'
@@ -127,9 +127,9 @@ export class ContrattiService {
     
     formData.append('contratto', contrattoBlob, 'contratto.json');
 
-  /*   documentiFiles.forEach(file => {
+   documentiFiles.forEach(file => {
       formData.append('documenti', file);
-    }); */
+  }); 
 
     if (this.platform.is('hybrid')) {
       const options = {
@@ -150,54 +150,6 @@ export class ContrattiService {
       );
     }
   }
-
-
-  editContratti(contrattiData: any){
-    const formData = new FormData();
-    const contrattoCopy = { ...contrattiData };
-  
-    if (!contrattoCopy.documenti) {
-      contrattoCopy.documenti = [];
-    }
-/* 
-    contrattoCopy.documenti.forEach((documento, index) => {
-      const file = documentiFiles[index];
-      if (file) {
-        documento.nomeFile = file.name;
-        documento.contentType = file.type;
-      }
-    }); */
-
-    const contrattoBlob = new Blob([JSON.stringify(contrattoCopy)], {
-      type: 'application/json'
-    });
-    
-    formData.append('contratto', contrattoBlob, 'contratto.json');
-
-  /*   documentiFiles.forEach(file => {
-      formData.append('documenti', file);
-    }); */
-
-    if (this.platform.is('hybrid')) {
-      const options = {
-        url: `${this.contrattiUrl}`,
-        method: 'PUT',
-        data: formData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': "application/json"
-        }
-      };
-
-      return from(this.httpWrapper.capacitorHttpRequest(options,true));
-    }
-    else {
-      return this.http.put(`${this.contrattiUrl}`, formData).pipe(
-        catchError(e => { throw (e) })
-      );
-    }
-  }
-
 
   update(id: number, contratto: Contratti): Observable<Contratti> {
     return this.http.put<Contratti>(`${this.contrattiUrl}/${id}`, contratto);
@@ -223,6 +175,46 @@ export class ContrattiService {
       { headers: headers });
   }
 
+
+  
+  
+  downloadDocument(  
+    contrattoId: number,
+    documentoId: number): Observable<Blob> {
+
+    if (this.platform.is('hybrid')) {
+
+      const options = {
+        url: `${this.contrattiUrl}/${contrattoId}/documenti/${documentoId}/download`,
+        headers: {
+          responseType: 'blob',
+          observe: 'response'
+        },
+        method: 'GET'
+      };
+
+      return from(this.httpWrapper.capacitorHttpRequest(options,false));
+
+    }
+    else {
+      return this.http.get(
+        `${this.contrattiUrl}/${contrattoId}/documenti/${documentoId}/download`,
+        {
+          responseType: 'blob',
+          observe: 'response'
+        }
+      ).pipe(
+        map(response => {
+          const contentType = response.headers.get('content-type') || 'application/octet-stream';
+          return new Blob([response.body as BlobPart], { type: contentType });
+        }),
+        catchError(error => {
+          return throwError(() => error);
+        })
+      );
+    }
+  
+  }
 
   private convertParams(params: HttpParams): Record<string, string> {
     return params.keys().reduce((acc, key) => {

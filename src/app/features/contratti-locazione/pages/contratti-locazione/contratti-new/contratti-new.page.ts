@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonModal, ModalController, Platform } from '@ionic/angular';
@@ -26,11 +26,14 @@ export class ContrattiNewPage implements OnInit {
   anagraficaList: ModelLight[] = [];
   filteredIntestatariList: ModelLight[] = [];
   intestatariList: ModelLight[] = [];
+  documentiFiles: any[] =[];
+  fileName: string[] = [];
   searchText: string = '';
   @ViewChild('modal') modal!: IonModal;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   selectedItem: string = '';
+  @ViewChild('fileInput') fileInput!: ElementRef; // Reference to the hidden input
 
   constructor(
     private contrattiSvc: ContrattiService,
@@ -102,6 +105,31 @@ export class ContrattiNewPage implements OnInit {
 
   removeIntestatario(index: number): void {
     this.intestatari.removeAt(index);
+  }
+
+  get documenti() {
+    return (this.addForm.get('documenti') as FormArray);
+  }
+  
+triggerFileInput() {
+  this.fileInput.nativeElement.click();
+}
+
+addDocument(event: any) {
+  const file = event.target.files[0]; 
+  if (file) {
+    const documentGroup = new FormGroup({
+      nomeFile: new FormControl(file.name, Validators.required)
+    });
+
+    this.documenti.push(documentGroup);
+    this.documentiFiles.push(file);
+  }
+}
+
+  removeDocument(index: number) {
+    this.documentiFiles.splice(index, 1);
+    this.documenti.removeAt(index);
   }
 
   dismissModal() {
@@ -239,7 +267,8 @@ export class ContrattiNewPage implements OnInit {
       dataInizio: this.datePipe.transform(sendContratto.dataInizio, 'yyyy-MM-dd'),
       dataFine: this.datePipe.transform(sendContratto.dataFine!, 'yyyy-MM-dd'),
       unitaImmobiliare: { id: unitaImmobiliareID },
-      intestatari: sendIntestatari
+      intestatari: sendIntestatari,
+      documenti: this.documentiFiles
     };
 
 /*     console.log(sendData) */
@@ -251,7 +280,7 @@ export class ContrattiNewPage implements OnInit {
         'Sei sicuro di voler aggiungere questo contratto? Questa azione non può essere annullata.'
       ).subscribe(confirmed => {
         if (confirmed) {
-          this.contrattiSvc.addContratti(sendData).subscribe({ //sendData
+          this.contrattiSvc.addContratti(sendData,this.documentiFiles).subscribe({ //sendData
             next: (response) => {
               /*   console.log("Response: ", response) */
               this.msgService.success('Contratti è stato salvato con successo!');
@@ -272,7 +301,7 @@ export class ContrattiNewPage implements OnInit {
                 this.errorMsg = "Tipo di media non supportato. Controlla il formato del file o della richiesta.";
               }
               else {
-                this.errorMsg = "Error!" + err.error.message;
+                this.errorMsg = err.error.message;
               }
               this.msgService.error(this.errorMsg);
             },
