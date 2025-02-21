@@ -28,7 +28,7 @@
         <ion-item>
           <ion-label>
             <h4>Data Inizio</h4>
-            <p>{{ contrattiData.dataInizio || '-'}}</p>
+            <p>{{ (contrattiData.dataInizio | date: 'dd/MM/yyyy') || '-'}}</p>
           </ion-label>
         </ion-item>
         <ion-item>

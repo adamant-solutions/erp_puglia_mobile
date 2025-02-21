@@ -201,7 +201,7 @@ export class NuovoPatrimonioPage implements OnInit {
 
       this.alertService.showConfirmation(
         'Conferma i dati personali',
-        'Sei sicuro di voler aggiungere questo patrimonio? Questa azione non può essere annullata.'
+        'Sei sicuro di voler aggiungere questa unità immobiliare? Questa azione non può essere annullata.'
       ).subscribe(confirmed => {
         if (confirmed) {
           this.patrimonioSvc.addPatrimonio(sendData, this.documentiFiles).then( (e) => {
