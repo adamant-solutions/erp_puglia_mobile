@@ -421,7 +421,12 @@ export class ModificaAnagraficaPage implements OnInit {
         this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles).then( (e) => {
          e.subscribe((res: any) => { console.log(res)
          if(res.status !== 200){
-           console.log("ERROR: " ,res)
+           console.log("ERROR: " ,res , res.status
+
+           )
+           if(res.status === 422){
+            this.msgService.error('Anagrafica già esistente.')
+          } else
            this.msgService.error(res.data.message);
          }
          else {

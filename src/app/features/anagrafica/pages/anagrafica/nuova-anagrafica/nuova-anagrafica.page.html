@@ -411,7 +411,7 @@
                 </ion-item>
                 <ion-note class="ion-padding-start" *ngIf="(submitted || doc.get('ente_emittente')?.touched) && doc.get('ente_emittente')?.invalid" color="danger">
                   <span *ngIf="doc.get('ente_emittente')?.errors?.['required']">
-                    Ente emittente è obbligatoria
+                    Ente emittente è obbligatorio
                   </span>
                 </ion-note>
               </div>
@@ -453,7 +453,7 @@
                 <ion-note class="ion-padding-start"
                   *ngIf="(submitted || doc.get('nomeFile')?.touched) && doc.get('nomeFile')?.invalid" color="danger">
                   <span *ngIf="doc.get('nomeFile')?.errors?.['required']">
-                    Nome del file è obbligatorio
+                    File è obbligatorio
                   </span>
                 </ion-note>
               

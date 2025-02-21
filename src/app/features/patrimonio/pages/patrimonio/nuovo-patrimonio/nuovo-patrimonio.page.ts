@@ -9,6 +9,7 @@ import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { Comune, comuneList } from '../../../data/comune';
 import { Provincia, provinciaList } from '../../../data/provincia';
 import { StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/core/models/patrimonio.model';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
 
 
 @Component({
@@ -168,22 +169,53 @@ export class NuovoPatrimonioPage implements OnInit {
 
 
   
-  onFileSelected(event: any, index: number) {
-    const file = event.target.files[0];
-    if (file) {
-      this.fileName[index] = file.name
-      //console.log("Filename:" ,this.fileName)
-      this.documentiFiles[index] = file;
+  async onFileSelected(event: any, index: number) {
+
+    try {
+      const result = await this.pickFiles();
+
+      if (result && result.files && result.files.length > 0) {
+        const file = result.files[0];
+
+
+        if (file && file.name && file.data) {
+          console.log("Selected file:", file);
+          this.documenti.at(index).get('percorsoFile')?.setValue(file.name);
+
+          this.fileName[index] = file.name;
+
+          if (this.documentiFiles[index]) {
+            this.documentiFiles[index].nomeFile = file.name;
+          }
+
+          this.documentiFiles[index] = {
+            name: file.name,
+            data: file.data,
+            type: file.mimeType || 'application/pdf'
+          };
+        } else {
+          console.error('Invalid file structure:', file);
+        }
+      }
+    } catch (error) {
+      console.error('Error picking files:', error);
     }
+
   }
 
+  async pickFiles() {
+    return FilePicker.pickFiles({
+      readData: true,
+      types: ['application/pdf']
+    });
+  }
   
   onSubmit() {
     this.submitted = true;
     const patrimonioData = this.addForm.value;
-     /* 
-       console.log("Send: ", patrimonioData)
-    console.log(this.addForm.value) */ 
+      
+     /*  console.log("Send: ", patrimonioData)*/ 
+    console.log(this.addForm.controls) 
     if (!this.addForm.valid) {
       // console.log('Form is invalid');
       return;
@@ -208,6 +240,10 @@ export class NuovoPatrimonioPage implements OnInit {
             e.subscribe((res: any) => { console.log(res)
             if(res.status !== 200){
               console.log("ERROR: " ,res)
+              if(res.status === 422){
+                this.msgService.error('Dati non validi o unità immobiliare già esistente.')
+              }
+              else
               this.msgService.error(res.data.message);
             }
             else{

@@ -124,8 +124,11 @@ export class PatrimonioService {
     body += JSON.stringify(patrimonioData) + '\r\n';
   
     if (this.platform.is('hybrid') && updatedDocumentiFiles?.length) {
-      for (const file of updatedDocumentiFiles) {
-        try {
+    
+    const validFiles = updatedDocumentiFiles.filter(file => file && file.data && file.name);
+    
+    for (const file of validFiles) {
+      try {
 
           const byteString = atob(file.data);
           const arrayBuffer = new ArrayBuffer(byteString.length);

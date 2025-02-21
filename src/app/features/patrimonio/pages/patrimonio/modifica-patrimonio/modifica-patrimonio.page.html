@@ -312,9 +312,13 @@
                 <span>{{document.percorsoFile}}</span> <!--document.percorsoFile  -->
               </ion-label>
 
-              <input #fileInput type="file" name="percorsoFile{{i}}" (change)="onFileSelected($event,i)" accept=".pdf"
+       <!--        <input #fileInput type="file" name="percorsoFile{{i}}" (change)="onFileSelected($event,i)" accept=".pdf"
                 style="display: none;" />
-              <ion-icon name="document-attach-outline" (click)="onFileSelected(null, i)" slot="end"></ion-icon> <!--  -->
+              <ion-icon name="document-attach-outline" (click)="onFileSelected(null, i)" slot="end"></ion-icon> -->
+              <ion-button *ngIf="(!document.percorsoFile || !document.id)" (click)="onFileSelected($event, i)" fill="outline" class="documenti-attach">
+                <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
+               Carica
+              </ion-button>
             </ion-item>
           
             <ion-note class="ion-padding-start" *ngIf="submitted && !fileName[i]" color="danger">

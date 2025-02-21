@@ -361,7 +361,7 @@
                         </ion-text>
 
                         <ion-text *ngIf="pec.value && pec.errors?.['pattern']">
-                          PEC non è valido
+                          PEC non è valido(es. 00000)
                         </ion-text>
 
                       </ion-note>
@@ -522,6 +522,13 @@
                       </ion-item>
                     
                     </div>
+
+
+                    <ion-note class="ion-padding-start" color="danger" *ngIf="!doc.nomeFile">
+                      <ion-text *ngIf="doc.nomeFile.errors?.['required']">
+                       File è obbligatorio
+                      </ion-text>
+                    </ion-note>
                     </div>
                     </div>
                       <!--  </ion-card> -->

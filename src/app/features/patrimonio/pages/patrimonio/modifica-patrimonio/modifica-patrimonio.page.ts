@@ -168,71 +168,62 @@ export class ModificaPatrimonioPage implements OnInit {
   
     await alert.present();
   }
-
+  
   async onFileSelected(event: any, index: number) {
-    if (this.platform.is('hybrid')) {
-      try {
-        const result = await this.pickFiles();
-        if (result && result.length > 0) {
-          const file = result[0]; // Get first file since picker can return multiple
+
+    try {
+      const result = await this.pickFiles();
+
+      if (result && result.files && result.files.length > 0) {
+        const file = result.files[0];
+
+
+        if (file && file.name && file.data) {
+          console.log("Selected file:", file);
+
           this.fileName[index] = file.name;
+
           if (this.patrimonioData.documenti[index]) {
             this.patrimonioData.documenti[index].percorsoFile = file.name;
           }
-          this.documentiFiles[index] = file;
-         // console.log("in ts: " ,file ,this.fileName,this.patrimonioData.documenti)
-        }
-      } catch (error) {
-        console.error('Error picking file:', error);
-        this.msgService.error("Errore durante la selezione del file");
-      }
-    } else {
-      const file = event.target.files[0];
-      if (file) {
-        this.fileName[index] = file.name;
-        if (this.patrimonioData.documenti[index]) {
-          this.patrimonioData.documenti[index].percorsoFile = file.name;
-        }
-        // Convert file to format as mobile files
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64Data = reader.result as string;
+
           this.documentiFiles[index] = {
             name: file.name,
-            data: base64Data.split(',')[1], // Remove data:application/pdf;base64,
-            type: file.type || 'application/pdf'
+            data: file.data,
+            type: file.mimeType || 'application/pdf'
           };
-        };
-        reader.readAsDataURL(file);
+        } else {
+          console.error('Invalid file structure:', file);
+        }
       }
-    }
-  }
-  
-  async pickFiles() {
-    try {
-      const result = await FilePicker.pickFiles({
-        readData: true,
-        types: ['application/pdf'],
-      });
-      
-      if (result && result.files && result.files.length > 0) {
-        return result.files.map(file => ({
-          name: file.name,
-          data: file.data, // base64 data
-          type: file.mimeType || 'application/pdf',
-        }));
-      }
-      return [];
     } catch (error) {
       console.error('Error picking files:', error);
-      throw error;
     }
+
   }
- 
+
+  async pickFiles() {
+    return FilePicker.pickFiles({
+      readData: true,
+      types: ['application/pdf']
+    });
+  }
+
+  private validateDocuments(): boolean {
+    return this.patrimonioData.documenti.some(doc => 
+        !doc.tipoDocumento.trim() || 
+        !doc.dataDocumento.trim() || 
+        !doc.percorsoFile.trim()
+    );
+}
+
 
   onSubmit() {  
     
-    /* console.log(this.patrimonioForm.value) */
+    if (this.validateDocuments()) {
+      return; 
+  }
+
     if (this.patrimonioForm.valid) {
     
      const sendData = { 
@@ -248,6 +239,10 @@ export class ModificaPatrimonioPage implements OnInit {
         e.subscribe((res: any) => { console.log(res)
         if(res.status !== 200){
           console.log("ERROR: " ,res)
+          if(res.status === 422){
+            this.msgService.error('Dati non validi o unità immobiliare già esistente.')
+          }
+          else
           this.msgService.error(res.data.message);
         }
         else{
