@@ -7,6 +7,7 @@ import { Contratti, StatoContratto } from '../models/contratti.model';
 import { HttpWrapperService } from './http-wrapper.service';
 import { ContrattiSearchParams } from '../resolvers/contratti.resolver';
 import { ModelLight } from '../models/model-light.model';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Injectable({
   providedIn: 'root'
@@ -180,22 +181,56 @@ export class ContrattiService {
   
   downloadDocument(  
     contrattoId: number,
-    documentoId: number): Observable<Blob> {
+    documentoId: number): any {
+      if (this.platform.is('hybrid')) {
 
-    if (this.platform.is('hybrid')) {
-
-      const options = {
-        url: `${this.contrattiUrl}/${contrattoId}/documenti/${documentoId}/download`,
-        headers: {
-          responseType: 'blob',
-          observe: 'response'
-        },
-        method: 'GET'
-      };
-
-      return from(this.httpWrapper.capacitorHttpRequest(options,false));
-
-    }
+        const options = {
+          url:  `${this.contrattiUrl}/${contrattoId}/documenti/${documentoId}/download`,
+          headers: {
+            responseType: 'blob',
+            observe: 'response'
+          },
+          method: 'GET'
+        };
+  
+        return from(this.httpWrapper.capacitorHttpRequest(options, false)).pipe(
+          map(async (response: any) => {
+            const base64Data = response.data;
+            console.log(response)
+            
+            const fileName = this.getFileNameFromResponse(response);
+            
+            try {
+         
+              const savedFile = await Filesystem.writeFile({
+                path: `Download/${fileName}`, 
+                data: base64Data,
+                directory: Directory.Documents,
+                recursive: true // Create directories if they don't exist
+              });
+    
+              console.log('File saved:', savedFile);
+    
+              const filePath = await Filesystem.getUri({
+                directory: Directory.Documents,
+                path: `Download/${fileName}`
+              });
+    
+              console.log('File path:', filePath.uri);
+    
+              return filePath.uri;
+            } catch (error) {
+             
+              throw new Error(`Failed to save document: ${error}`);
+            }
+          }),
+          catchError(error => {
+           /*  console.error('Download error:', error); */
+            return throwError(() => error);
+          })
+        );
+  
+      }
     else {
       return this.http.get(
         `${this.contrattiUrl}/${contrattoId}/documenti/${documentoId}/download`,
@@ -222,5 +257,21 @@ export class ContrattiService {
       return acc;
     }, {} as Record<string, string>);
   }
+
+  private getFileNameFromResponse(response: any): string {
+    try {
+        const contentDisposition = response.headers['Content-Disposition'];
+        if (contentDisposition) {
+            const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
+            if (matches != null && matches[1]) {
+                return matches[1].replace(/['"]/g, '');
+            }
+        }
+        return `document_${new Date().getTime()}.pdf`;
+    } catch (error) {
+        return `document_${new Date().getTime()}.pdf`;
+    }
+  }
+    
 
 }

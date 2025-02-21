@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { AlertController } from '@ionic/angular';
 import { TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -187,16 +188,55 @@ export class NuovaAnagraficaPage implements OnInit {
       return `${day}-${month}-${year}`;
     }
 
-    onFileSelected(event: any, index: number) {
+  /*   onFileSelected(event: any, index: number) {
      
       const file = event.target.files[0];
       if (file) {
         this.fileName[index] = file.name
         this.documentiFiles[index] = file;
       }
+    } */
+
+  async onFileSelected(event: any, index: number) {
+
+    try {
+      const result = await this.pickFiles();
+
+      if (result && result.files && result.files.length > 0) {
+        const file = result.files[0];
+
+
+        if (file && file.name && file.data) {
+          console.log("Selected file:", file);
+
+          this.fileName[index] = file.name;
+
+          if (this.documentiFiles[index]) {
+            this.documentiFiles[index].nomeFile = file.name;
+          }
+
+          this.documentiFiles[index] = {
+            name: file.name,
+            data: file.data,
+            type: file.mimeType || 'application/pdf'
+          };
+        } else {
+          console.error('Invalid file structure:', file);
+        }
+      }
+    } catch (error) {
+      console.error('Error picking files:', error);
     }
 
-    
+  }
+
+  async pickFiles() {
+    return FilePicker.pickFiles({
+      readData: true,
+      types: ['application/pdf']
+    });
+  }
+
   onSubmit(){
     this.submitted = true;
     const anagraficaData = this.addForm.value;

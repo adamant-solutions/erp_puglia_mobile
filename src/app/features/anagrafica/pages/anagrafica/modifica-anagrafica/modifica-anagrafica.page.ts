@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { AlertController, Platform } from '@ionic/angular';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
@@ -342,17 +343,58 @@ export class ModificaAnagraficaPage implements OnInit {
       }
     }
 
-    onFileSelected(event: any, index: number) {
+    /* onFileSelected(event: any, index: number) {
      
       const file = event.target.files[0];
       if (file) {
         this.fileName[index] = file.name
         this.documentiFiles[index] = file;
       }
-    }
+    } */
+      
+      async onFileSelected(event: any, index: number) {
+        if (this.platform.is('hybrid')) {
+          try {
+            const result = await this.pickFiles();
+           
+            if (result && result.files && result.files.length > 0) {
+              const file = result.files[0]; 
+              
+           
+              if (file && file.name && file.data) {
+                console.log("Selected file:", file);
+                
+                this.fileName[index] = file.name;
+                
+                if (this.documenti[index]) {
+                  this.documenti[index].nomeFile = file.name;
+                }
 
+                this.documentiFiles[index] = {
+                  name: file.name,
+                  data: file.data,
+                  type: file.mimeType || 'application/pdf'
+                };
+              } else {
+                console.error('Invalid file structure:', file);
+              }
+            }
+          } catch (error) {
+            console.error('Error picking files:', error);
+          }
+        }
+      }
+
+      async pickFiles() {
+        return FilePicker.pickFiles({
+          readData: true,
+          //multiple: true,
+          types: ['application/pdf']
+        });
+      }
 
   onSubmit() {  
+    console.log("Forma ne fillim: ", this.formData) 
     if (this.anagraficaForm.valid) {
    /* 
      console.log("Forma ne fillim: ", this.formData) */
@@ -374,40 +416,30 @@ export class ModificaAnagraficaPage implements OnInit {
       };
       console.log("SEND ",sendAnagraficaData)
 
-       if(this.platform.is('hybrid')){
-      
-        this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles)?.subscribe({
-          next: (res: any) => {
-            if (res.error) {
-              this.handleError(res);
-             /*  console.log("is error: " ,res); */
-            } else {
-              this.msgService.success("Anagrafica è stata aggiornata con successo!");
-              console.log(res);
-            }
-          },
-        complete: ()=> {
-          this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+      if(this.platform.is('hybrid')){
+      /**atob error */
+        this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles).then( (e) => {
+         e.subscribe((res: any) => { console.log(res)
+         if(res.status !== 200){
+           console.log("ERROR: " ,res)
+           this.msgService.error(res.data.message);
+         }
+         else {
+          this.msgService.success("Anagrafica è stata aggiornata con successo!");
+          console.log(res);
+           setTimeout(()=>{
+            this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
+           },2000)
+         }
+       }
+       
+       )
         }
-        }) 
-      }
-      else {       
-       this.anagraficaSrv.editAnagrafica(sendAnagraficaData,this.documentiFiles).subscribe({
-          next: (res) => {
-            this.msgService.success("Anagrafica è stata aggiornata con successo!"); 
-            console.log(res);
-          },
-          error: (err) => {
-            this.handleError(err);
-          },
-        complete: ()=> {
-          this.router.navigate(['/anagrafica/anagrafica-details/',this.formData.id])
-        }
-        });
-      }
-    } else {
-      this.markFormTouched();
-    }
+       );
+       }
+     } else {
+       return;
+     }
   }
 
   private handleError(err: any) {

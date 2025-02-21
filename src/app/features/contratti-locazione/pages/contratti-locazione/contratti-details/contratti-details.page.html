@@ -81,14 +81,14 @@
         </ion-item-divider> -->
       
           <ion-accordion-group>
-            <ion-accordion  *ngFor="let doc of contrattiData?.documenti;let i = index; trackBy: trackByDoc">
+            <ion-accordion>
             
               <ion-item slot="header" color="light">
                 <ion-label>Documenti</ion-label>
               </ion-item>
 
     
-              <div class="ion-padding" slot="content">
+              <div class="ion-padding" slot="content"  *ngFor="let doc of contrattiData?.documenti;let i = index; trackBy: trackByDoc">
                 <ion-item>
                   <ion-label  class="documenti-icons">
                      <span><ion-icon name="document-attach-outline"></ion-icon>

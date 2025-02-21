@@ -112,19 +112,19 @@
                           <ion-select-option value="N">Nonbinario</ion-select-option>
                         </ion-select>
                       </ion-item></div>
-                    <div>
+            <!--         <div>
                       <ion-item>
                         <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
                           name="dataCreato" [(ngModel)]="formData.cittadino.createDate" disabled></ion-input>
                       </ion-item>
-                    </div>
+                    </div> -->
 
-                    <div>
+       <!--              <div>
                       <ion-item>
                         <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
                           name="ultimamodifica" [(ngModel)]="formData.cittadino.lastUpdateDate" disabled></ion-input>
                       </ion-item>
-                    </div>
+                    </div> -->
 
                     <div>
                       <ion-item-divider>
@@ -505,7 +505,8 @@
                         <ion-input [readonly]="true" label="File" labelPlacement="floating" [value]="doc.nomeFile"></ion-input>
                       </ion-item>
                     </div>
-                    <div>
+                <!--     {{doc | json}} {{!doc.nomeFile && !doc.id  | json}} -->
+                    <div *ngIf="(!doc.nomeFile || !doc.id)">
                       <ion-item lines="none" class="documenti-attach">
                       <!--   <div style="display: flex;">
                           <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>

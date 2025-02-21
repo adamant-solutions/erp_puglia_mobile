@@ -439,9 +439,15 @@
                     <span>{{fileName[i]}}</span>
                   </ion-label>
 
-                  <input #fileInput type="file" formControlName="nomeFile" (change)="onFileSelected($event,i)" accept=".pdf"
+                  <!-- <input #fileInput type="file" formControlName="nomeFile" (change)="onFileSelected($event,i)" accept=".pdf"
                     style="display: none;" />
-                  <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon>
+                  <ion-icon name="document-attach-outline" (click)="fileInput.click()" slot="end"></ion-icon> -->
+
+                  
+                  <ion-button (click)="onFileSelected($event, i)" fill="outline" class="documenti-attach" formControlName="nomeFile">
+                    <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
+                   Carica
+                  </ion-button>
                 </ion-item>
               
                 <ion-note class="ion-padding-start"

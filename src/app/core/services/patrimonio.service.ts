@@ -168,8 +168,9 @@ export class PatrimonioService {
     return from(this.httpWrapper.capacitorHttpRequest(options, false)).pipe(
       map(async (response: any) => {
         const base64Data = response.data;
+      //  console.log(response)
         
-        const fileName = this.getFileNameFromResponse(response) || `document_${new Date().getTime()}.pdf`;
+        const fileName = this.getFileNameFromResponse(response);
         
         try {
      
@@ -205,7 +206,7 @@ export class PatrimonioService {
 
 private getFileNameFromResponse(response: any): string {
   try {
-      const contentDisposition = response.headers['content-disposition'];
+      const contentDisposition = response.headers['Content-Disposition'];
       if (contentDisposition) {
           const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
           if (matches != null && matches[1]) {

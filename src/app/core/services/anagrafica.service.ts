@@ -5,6 +5,7 @@ import { catchError, from, map, Observable, throwError } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { AnagraficaSearchParams } from '../resolvers/anagrafica.resolver';
 import { HttpWrapperService } from './http-wrapper.service';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Injectable({
   providedIn: 'root'
@@ -188,7 +189,7 @@ export class AnagraficaService {
     }
   }
 
-  downloadDocument(anagraficaId: number, documentoId: number): Observable<Blob> {
+  downloadDocument(anagraficaId: number, documentoId: number):any {
 
     if (this.platform.is('hybrid')) {
 
@@ -201,7 +202,42 @@ export class AnagraficaService {
         method: 'GET'
       };
 
-    return from(this.httpWrapper.capacitorHttpRequest(options,false));
+      return from(this.httpWrapper.capacitorHttpRequest(options, false)).pipe(
+        map(async (response: any) => {
+          const base64Data = response.data;
+          console.log(response)
+          
+          const fileName = this.getFileNameFromResponse(response);
+          
+          try {
+       
+            const savedFile = await Filesystem.writeFile({
+              path: `Download/${fileName}`, 
+              data: base64Data,
+              directory: Directory.Documents,
+              recursive: true // Create directories if they don't exist
+            });
+  
+            console.log('File saved:', savedFile);
+  
+            const filePath = await Filesystem.getUri({
+              directory: Directory.Documents,
+              path: `Download/${fileName}`
+            });
+  
+            console.log('File path:', filePath.uri);
+  
+            return filePath.uri;
+          } catch (error) {
+           
+            throw new Error(`Failed to save document: ${error}`);
+          }
+        }),
+        catchError(error => {
+         /*  console.error('Download error:', error); */
+          return throwError(() => error);
+        })
+      );
 
     }
     else {
@@ -223,4 +259,20 @@ export class AnagraficaService {
     }
 
   }
+
+  private getFileNameFromResponse(response: any): string {
+    try {
+        const contentDisposition = response.headers['Content-Disposition'];
+        if (contentDisposition) {
+            const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
+            if (matches != null && matches[1]) {
+                return matches[1].replace(/['"]/g, '');
+            }
+        }
+        return `document_${new Date().getTime()}.pdf`;
+    } catch (error) {
+        return `document_${new Date().getTime()}.pdf`;
+    }
+  }
+    
 }
