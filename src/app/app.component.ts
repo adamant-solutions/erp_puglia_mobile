@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
+import { RefreshService } from './core/services/refresh.service';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,19 @@ export class AppComponent {
   ];
 
   constructor(public menuController: MenuController,
-              private router: Router) {
+              private router: Router,
+              private refreshService: RefreshService) {
   }
+
+  handleRefresh(event: any) {
+    this.refreshService.refreshApp();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
+
+
 
   goProfile() {
     this.router.navigate(['/profilo']);

@@ -266,4 +266,10 @@ private createIntestatarioGroup(intestatario?: any): FormGroup {
     }
   }
 
+  
+  handleRefresh(event: any) {
+   this.contrattoForm.controls['statoContratto'].setValue(this.contrattoData.statoContratto)
+     event.detail.complete(); 
+
+}
 }

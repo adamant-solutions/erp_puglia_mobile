@@ -51,6 +51,9 @@
     <!-- Main Content Section -->
     <ion-content id="main-content" class="content-area" fullscreen>
       <div class="main-content">
+        <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
         <app-loader></app-loader>
         <ion-router-outlet></ion-router-outlet>
       </div>

@@ -56,6 +56,10 @@ export class ModificaAnagraficaPage implements OnInit {
 
 
   ngOnInit() {
+   this.getData();
+  }
+
+  getData(){
     if(this.platform.is('hybrid')){
       this.route.data.subscribe({
       next: (data) => {
@@ -106,6 +110,16 @@ export class ModificaAnagraficaPage implements OnInit {
 
   }
 
+
+    handleRefresh(event: any) {
+         this.resetCurrentSlideData();
+          event.detail.complete(); 
+  
+    }
+
+  ngOnDestroy() {
+  
+  }
 
   initializeForm() {
     this.formData = {

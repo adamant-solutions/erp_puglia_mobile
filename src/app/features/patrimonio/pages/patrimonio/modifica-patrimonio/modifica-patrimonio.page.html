@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div id="container" class="ion-padding">
     <form #patrimonioForm="ngForm" (ngSubmit)="onSubmit()">
       <ion-item-group>
@@ -218,21 +221,21 @@
           </ion-item>
         </div>
 
-        <div>
+   <!--      <div>
           <ion-item>
             <ion-input label="Data Creato" labelPlacement="floating" placeholder="Data Creato"
               name="dataCreato" [(ngModel)]="patrimonioData.createDate" disabled></ion-input>
           </ion-item>
-        </div>
+        </div> -->
 
-
+<!-- 
         <div>
           <ion-item>
             <ion-input label="Ultima modifica" labelPlacement="floating" placeholder="Ultima modifica"
               name="ultimamodifica" [(ngModel)]="patrimonioData.lastUpdateDate" disabled></ion-input>
           </ion-item>
         </div>
-
+ -->
 
       </ion-item-group>
 

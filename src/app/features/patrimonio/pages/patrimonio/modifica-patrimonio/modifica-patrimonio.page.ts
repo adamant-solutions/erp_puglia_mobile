@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { Patrimonio, StatoDisponibilita, TipoAmministrazione, TipoDocumento } from 'src/app/core/models/patrimonio.model';
@@ -284,4 +284,11 @@ export class ModificaPatrimonioPage implements OnInit {
     return this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.SSS')!;
   }
  
+
+  
+  handleRefresh(event: any) {
+    this.patrimonioData = JSON.parse(JSON.stringify(this.formData));
+     event.detail.complete(); 
+
+}
 }

@@ -90,6 +90,12 @@ export class NuovaAnagraficaPage implements OnInit {
     })
   }
 
+  handleRefresh(event: any) {
+    this.addForm.reset();
+     event.detail.complete(); 
+
+}
+
   get documentiIdentitaForms() {
     return (this.addForm.get('cittadino.documenti_identita') as FormArray).controls;
   }

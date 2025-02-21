@@ -262,4 +262,10 @@ export class NuovoPatrimonioPage implements OnInit {
       });
     }
   }
+
+  handleRefresh(event: any) {
+    this.addForm.reset();
+     event.detail.complete(); 
+
+}
 }

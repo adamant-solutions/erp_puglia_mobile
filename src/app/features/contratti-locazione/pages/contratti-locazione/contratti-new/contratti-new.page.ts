@@ -321,6 +321,12 @@ addDocument(event: any) {
     this.addForm.reset();
   }
 
+   
+  handleRefresh(event: any) {
+    this.resetForm();
+     event.detail.complete(); 
+
+}
 
   async cancelInputs() {
     const alert = await this.alertController.create({
