@@ -378,7 +378,14 @@
                 <ion-item-group>
                   <ion-item-divider>
                     <ion-label>Documenti Identita</ion-label>
-                    <ion-button (click)="addDocumentoIdentita()">Aggiungi Documento</ion-button>
+               
+                    <ion-button (click)="addDocumentoIdentita()" color="secondary">
+                      <ion-icon slot="start" name="add-circle-outline" style="color: var(--ion-color-light); 
+                       margin-inline-end: 0; 
+          "></ion-icon>
+                      Aggiungi
+                    </ion-button>
+
                   </ion-item-divider>
 
                    <div *ngFor="let doc of documenti; let i = index">
@@ -500,12 +507,17 @@
                     </div>
                     <div>
                       <ion-item lines="none" class="documenti-attach">
-                        <div style="display: flex;">
+                      <!--   <div style="display: flex;">
                           <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
                           <span>Carica&nbsp;</span>
                           {{fileName[i]}}
                           <input type="file" (change)="onFileSelected($event, i)" accept=".pdf" />
-                        </div>
+                        </div> -->
+
+                        <ion-button (click)="onFileSelected($event, i)" fill="outline">
+                          <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
+                         Carica
+                        </ion-button>
                       </ion-item>
                     
                     </div>

@@ -143,7 +143,7 @@
         </ion-item-divider>
         <div class="ion-padding">
           <ion-button (click)="addIntestatario()" size="small" fill="outline">
-            <ion-icon name="add-circle-outline"></ion-icon>
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             Aggiungi Intestatario</ion-button>
         </div>
 
@@ -254,11 +254,13 @@
           <ion-label> Documenti </ion-label>
         </ion-item-divider>
         <div>
-          <ion-item>
+          <ion-item class="documenti-attach">
             <!--    <ion-button (click)="addDocument($event)" fill="outline">
               Carica</ion-button>
          <input type="file" (change)="addDocument($event)" /> -->
-         <ion-button  fill="outline" (click)="triggerFileInput()">Carica</ion-button>
+         <ion-button  fill="outline" (click)="triggerFileInput()">
+          <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
+          Carica</ion-button>
          <input type="file" #fileInput hidden (change)="addDocument($event)" />
           </ion-item>
           <ion-list>

@@ -265,8 +265,8 @@
           </ion-item-divider>
 
           <div class="ion-padding">
-            <ion-button (click)="addDocument()" size="small">
-              <ion-icon name="add-circle-outline"></ion-icon>
+            <ion-button (click)="addDocument()" size="small" color="secondary">
+              <ion-icon slot="start" name="add-circle-outline"></ion-icon>
               Aggiungi Documenti</ion-button>
           </div>
           <ion-card *ngFor="let doc of documenti.controls; let i = index" [formGroupName]="i">

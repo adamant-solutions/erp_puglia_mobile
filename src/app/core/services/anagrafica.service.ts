@@ -120,54 +120,54 @@ export class AnagraficaService {
 
   }
 
-  editAnagrafica(anagraficaData: Anagrafica, documentiFiles: File[]){
+  async editAnagrafica(anagraficaData: Anagrafica, documentiFiles: any[]){
 
-    const formData = new FormData();
-    const anagraficaCopy = { ...anagraficaData };
+    const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+    let body = '';
   
-    if (!anagraficaCopy.cittadino.documenti_identita) {
-      anagraficaCopy.cittadino.documenti_identita = [];
-    }
-
-    anagraficaCopy.cittadino.documenti_identita.forEach((documento, index) => {
-      const file = documentiFiles[index];
-      if (file) {
-        documento.nomeFile = file.name;
-        documento.contentType = file.type;
-      }
-    });
-
-    const anagraficaBlob = new Blob([JSON.stringify(anagraficaCopy)], {
-      type: 'application/json'
-    });
+    // Anagrafica 
+    body += `--${boundary}\r\n`;
+    body += 'Content-Disposition: form-data; name="anagrafica"; filename="anagrafica.json"\r\n';
+    body += 'Content-Type: application/json\r\n\r\n';
+    body += JSON.stringify(anagraficaData) + '\r\n';
+ //   console.log("service DOCS: " , documentiFiles)
+  
+  if (this.platform.is('hybrid') && documentiFiles?.length) {
+    // Filter out empty slots and undefined entries
+    const validFiles = documentiFiles.filter(file => file && file.data && file.name);
     
-    formData.append('anagrafica', anagraficaBlob, 'anagrafica.json');
-
-    documentiFiles.forEach(file => {
-      formData.append('documenti', file);
-    });
-
-
-    if (this.platform.is('hybrid')) {
-      
-      const options = {
-        url: `${this.anagraficaUrl}`,
-        method: 'PUT',
-        data: formData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type' : "application/json"
+    for (const file of validFiles) {
+      try {
+        const byteString = atob(file.data);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+        
+        for (let i = 0; i < byteString.length; i++) {
+          uint8Array[i] = byteString.charCodeAt(i);
         }
-      };
-      
-      return from(this.httpWrapper.capacitorHttpRequest(options,true));
-    }
-    else {
-      return this.httpClient.put<Anagrafica>(`${this.anagraficaUrl}`, formData).pipe(
-        catchError(e => { throw (e) })
-      );
-    }
 
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="documenti"; filename="${file.name}"\r\n`;
+        body += `Content-Type: ${file.type || 'application/pdf'}\r\n\r\n`;
+        body += uint8Array + '\r\n';
+      } catch (error) {
+        console.error(`Error processing file ${file.name}:`, error);
+        throw new Error(`Failed to process file ${file.name}: ${error}`);
+      }
+    }
+  }
+
+    body += `--${boundary}--\r\n`;
+  
+    const options = {
+      url: `${this.anagraficaUrl}`,
+      method: 'PUT',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${boundary}`,
+      },
+      data: body
+    };
+    return from(this.httpWrapper.capacitorHttpRequest(options, true));
   }
 
   
