@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InfiniteScrollCustomEvent, ModalController, Platform } from '@ionic/angular';
 import { Patrimonio } from 'src/app/core/models/patrimonio.model';
 import { SearchAdvancedComponent } from '../../components/search-advanced/search-advanced.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-patrimonio',
@@ -25,7 +26,7 @@ export class PatrimonioPage implements OnInit {
     { name: 'searchIndirizzoParam', value: this.searchIndirizzoParam },
     { name: 'searchStatoDisponibilitaParam', value: this.searchStatoDisponibilitaParam}
   ]
-
+  private subscriptions: Subscription[] = []; //track
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -36,7 +37,7 @@ export class PatrimonioPage implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    const paramsSub = this.route.params.subscribe(params => {
       this.currentPage = +params['pagina'] || 0;
       this.searchComuneParam = params['comune'] || '';
       this.searchIndirizzoParam = params['indirizzo'] || '';
@@ -55,11 +56,11 @@ export class PatrimonioPage implements OnInit {
       }
      
     });
- 
+    this.subscriptions.push(paramsSub);
   }
 
   getList(){
-    this.route.data.subscribe({
+    const dataSub = this.route.data.subscribe({
       next: (data) => {
         const responseData = data['patrimonioResolver']
         this.patrimonioList = responseData.body
@@ -70,11 +71,12 @@ export class PatrimonioPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
 
   getListInNative() { 
-    this.route.data.subscribe({
+    const dataSub = this.route.data.subscribe({
       next: (data) => {
 
         const responseData = data['patrimonioResolver']
@@ -100,8 +102,18 @@ export class PatrimonioPage implements OnInit {
         console.log("Error: ",err)
       }
     });
+
+    this.subscriptions.push(dataSub);
   }
 
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
+  }
  
   handleInput(event: any) {
     //const searchItem = event.detail.value;

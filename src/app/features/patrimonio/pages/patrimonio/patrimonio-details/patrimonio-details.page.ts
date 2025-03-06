@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import {Patrimonio} from 'src/app/core/models/patrimonio.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -19,6 +19,7 @@ export class PatrimonioDetailsPage implements OnInit {
   private router = inject(Router);
   private activeRoute = inject(ActivatedRoute)
   private platform = inject(Platform);
+  private subscriptions: Subscription[] = [];
 
   constructor(private msgService: MessagesService,
               private alertService: AlertService,
@@ -36,7 +37,7 @@ export class PatrimonioDetailsPage implements OnInit {
   }
 
   getPatrimonio() {
-    this.activeRoute.data.subscribe({
+   const dataSub = this.activeRoute.data.subscribe({
       next: (data) => {
         this.patrimonioData = data['patrimonioByIdResolver']
         /*  console.log(this.patrimonioData) */
@@ -45,10 +46,11 @@ export class PatrimonioDetailsPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   getPatrimonioInHybrid() {
-    this.activeRoute.data.subscribe({
+    const dataSub =  this.activeRoute.data.subscribe({
       next: (data) => {
         
          console.log("Details:" , data) 
@@ -58,6 +60,7 @@ export class PatrimonioDetailsPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   trackByDoc(index: number, doc: any): any {
@@ -107,4 +110,12 @@ export class PatrimonioDetailsPage implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
+  }
+ 
 }

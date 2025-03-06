@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
-import { firstValueFrom, from, map } from 'rxjs';
+import { firstValueFrom, from, map, Subscription } from 'rxjs';
 import { Contratti } from 'src/app/core/models/contratti.model';
 import { ModelLight } from 'src/app/core/models/model-light.model';
 import { ContrattiService } from 'src/app/core/services/contratti.service';
@@ -19,6 +19,7 @@ export class ContrattiDetailsPage implements OnInit {
   private platform = inject(Platform);
   contrattiData!: Contratti;
   patrimonio: ModelLight[] = [];
+  private subscriptions: Subscription[] = [];
   
   constructor(private contrattiService: ContrattiService,private alertController: AlertController, private msgService: MessagesService) { }
   ngOnInit() {
@@ -31,7 +32,7 @@ export class ContrattiDetailsPage implements OnInit {
   }
 
   getContratti() {
-    this.activeRoute.data.subscribe({
+   const dataSub =  this.activeRoute.data.subscribe({
       next: (data) => {
         this.contrattiData = data['contrattiByIdResolver']
         this.patrimonio = data['unitaImmobiliareResolver'].body;
@@ -41,10 +42,11 @@ export class ContrattiDetailsPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   getContrattiInHybrid() {
-    this.activeRoute.data.subscribe({
+    const dataSub = this.activeRoute.data.subscribe({
       next: (data) => {
         
          console.log("Details:" , data) 
@@ -56,6 +58,7 @@ export class ContrattiDetailsPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   
@@ -135,7 +138,13 @@ export class ContrattiDetailsPage implements OnInit {
         console.error('Error downloading file:', error );
       }
     }
-
+    ngOnDestroy() {
+      this.subscriptions.forEach(subscription => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      });
+    }
 }
 
 

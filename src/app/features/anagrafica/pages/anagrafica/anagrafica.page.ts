@@ -4,6 +4,7 @@ import { ModalController, Platform} from '@ionic/angular';
 import {Anagrafica} from 'src/app/core/models/anagrafica.model';
 import { AnagraficaSearchParams } from 'src/app/core/resolvers/anagrafica.resolver';
 import { SearchModalComponent } from '../../components/search-modal/search-modal.component';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class AnagraficaPage implements OnInit {
     { name: 'searchCFParam', value: this.searchCFParam },
     { name: 'searchNomeParam', value: this.searchNomeParam },
     { name: 'searchCognomeParam', value: this.searchCognomeParam }
-  ]
+  ];
+  private subscriptions: Subscription[] = [];
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -35,7 +37,7 @@ export class AnagraficaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    const sub = this.route.params.subscribe(params => {
       this.currentPage = +params['pagina'] || 0;
       this.searchCFParam = params['codiceFiscale'] || '';
       this.searchNomeParam = params['nome'] || '';
@@ -54,10 +56,11 @@ export class AnagraficaPage implements OnInit {
       }
      
     });
+    this.subscriptions.push(sub);
   }
 
   getList(){
-    this.route.data.subscribe({
+    const dataSub =  this.route.data.subscribe({
       next: (data) => {
         const responseData = data['anagraficaResolver']
         this.anagraficaList = responseData.body
@@ -68,10 +71,11 @@ export class AnagraficaPage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   getListInNative() { 
-    this.route.data.subscribe({
+    const dataSub = this.route.data.subscribe({
       next: (data) => {
         if(data['anagraficaResolver'] === ""){
           this.anagraficaList = []
@@ -88,6 +92,7 @@ export class AnagraficaPage implements OnInit {
         console.log("Error:" ,err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
    handleInput(event: any) {
@@ -171,5 +176,13 @@ export class AnagraficaPage implements OnInit {
       ...currentParams,
       pagina: page
     }]);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
   }
 }

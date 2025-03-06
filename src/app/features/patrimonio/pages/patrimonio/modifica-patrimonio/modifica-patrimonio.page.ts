@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { PatrimonioService } from 'src/app/core/services/patrimonio.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modifica-patrimonio',
@@ -58,7 +59,8 @@ export class ModificaPatrimonioPage implements OnInit {
   private platform = inject(Platform);
   @ViewChild('patrimonioForm') patrimonioForm!: NgForm;
   documentiFiles: any[] =[];
-  fileName: string[] = []
+  fileName: string[] = [];
+  private subscriptions: Subscription[] = [];
   
   
   constructor(private alertController: AlertController,
@@ -68,7 +70,7 @@ export class ModificaPatrimonioPage implements OnInit {
 
   ngOnInit() {
     
-      this.route.data.subscribe({
+    const subscription =  this.route.data.subscribe({
         next: (data) => {
           if(this.platform.is('hybrid')){
             this.patrimonioData = data['patrimonioByIdResolver'].data;
@@ -98,7 +100,7 @@ export class ModificaPatrimonioPage implements OnInit {
           console.log(err)
         }
       });
-
+      this.subscriptions.push(subscription);
   }
 
 
@@ -290,5 +292,13 @@ export class ModificaPatrimonioPage implements OnInit {
     this.patrimonioData = JSON.parse(JSON.stringify(this.formData));
      event.detail.complete(); 
 
+}
+
+ngOnDestroy() {
+  this.subscriptions.forEach(subscription => {
+    if (subscription) {
+      subscription.unsubscribe();
+    }
+  });
 }
 }

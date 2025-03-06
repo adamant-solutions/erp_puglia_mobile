@@ -3,6 +3,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, IonModal, ModalController, Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Contratti, StatoContratto } from 'src/app/core/models/contratti.model';
 import { ModelLight } from 'src/app/core/models/model-light.model';
 import { ContrattiService } from 'src/app/core/services/contratti.service';
@@ -46,7 +47,8 @@ export class ContrattiEditPage implements OnInit {
     intestatariStorici: [],
     documenti: []
   }
-
+  private subscriptions: Subscription[] = [];
+  
   constructor(private datePipe: DatePipe,
     private contrattiSrv: ContrattiService,
     private msgService: MessagesService,
@@ -66,7 +68,7 @@ export class ContrattiEditPage implements OnInit {
 
 getList(){
 
-  this.route.data.subscribe({
+ const subscription = this.route.data.subscribe({
     next: (data) => {
       if(this.platform.is('hybrid')){
         this.contrattoData = data['contrattiByIdResolver'].data;
@@ -90,6 +92,8 @@ getList(){
       console.log(err)
     }
   });
+
+  this.subscriptions.push(subscription);
   
 }
 
@@ -271,5 +275,13 @@ private createIntestatarioGroup(intestatario?: any): FormGroup {
    this.contrattoForm.controls['statoContratto'].setValue(this.contrattoData.statoContratto)
      event.detail.complete(); 
 
+}
+
+ngOnDestroy() {
+  this.subscriptions.forEach(subscription => {
+    if (subscription) {
+      subscription.unsubscribe();
+    }
+  });
 }
 }

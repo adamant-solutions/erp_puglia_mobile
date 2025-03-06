@@ -4,6 +4,7 @@ import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { AlertController, Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
@@ -46,6 +47,7 @@ export class ModificaAnagraficaPage implements OnInit {
   comuni: Comune[] = comuneList;
   provinces: Provincia[] = provinciaList;
   filteredComuni: any[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private datePipe: DatePipe,
@@ -61,7 +63,7 @@ export class ModificaAnagraficaPage implements OnInit {
 
   getData(){
     if(this.platform.is('hybrid')){
-      this.route.data.subscribe({
+      const subscription = this.route.data.subscribe({
       next: (data) => {
         this.userData = data['anagraficaByIdResolver'].data
         this.initializeForm();
@@ -76,6 +78,7 @@ export class ModificaAnagraficaPage implements OnInit {
         console.log(err)
       }
       });
+      this.subscriptions.push(subscription);
     }
     else {
        
@@ -118,7 +121,11 @@ export class ModificaAnagraficaPage implements OnInit {
     }
 
   ngOnDestroy() {
-  
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   initializeForm() {

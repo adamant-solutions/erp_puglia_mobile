@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { Contratti } from 'src/app/core/models/contratti.model';
 import { SearchContrattiComponent } from '../../components/search-contratti/search-contratti.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contratti-locazione',
@@ -32,6 +33,7 @@ export class ContrattiLocazionePage implements OnInit {
   ]
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private subscriptions: Subscription[] = [];
 
 
   constructor(private modalController: ModalController,
@@ -40,7 +42,7 @@ export class ContrattiLocazionePage implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    const paramsSub = this.route.params.subscribe(params => {
       this.currentPage = +params['pagina'] || 0;
         this.searchIndirizzoParam = params['indirizzo'] || '';
         this.searchCanoneMensileMinParam = params['canoneMensileMin'] || '';
@@ -65,13 +67,13 @@ export class ContrattiLocazionePage implements OnInit {
         this.getList();
       }
      
-      console.log(this.contrattiList)
+     // console.log(this.contrattiList)
     });
- 
+    this.subscriptions.push(paramsSub);
   }
 
   getList(){
-    this.route.data.subscribe({
+    const dataSub = this.route.data.subscribe({
       next: (data) => {
         const responseData = data['contrattiResolver']
         this.contrattiList = responseData.body
@@ -82,11 +84,12 @@ export class ContrattiLocazionePage implements OnInit {
         console.log(err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
 
   getListInNative() { 
-    this.route.data.subscribe({
+    const dataSub = this.route.data.subscribe({
       next: (data) => {
         const responseData = data['contrattiResolver']
         if(this.platform.is('hybrid')){
@@ -102,6 +105,7 @@ export class ContrattiLocazionePage implements OnInit {
         console.log("Error: ",err)
       }
     });
+    this.subscriptions.push(dataSub);
   }
 
   handleInput(event: any){
@@ -206,5 +210,13 @@ export class ContrattiLocazionePage implements OnInit {
       ...currentParams,
       pagina: page
     }]);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
   }
 }

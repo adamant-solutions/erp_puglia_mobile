@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Anagrafica, TipoDocumento } from 'src/app/core/models/anagrafica.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AnagraficaService } from 'src/app/core/services/anagrafica.service';
@@ -21,6 +21,7 @@ export class AnagraficaDetailsPage implements OnInit {
   userForm!: FormGroup;
 /*   tipoDocuments = Object(TipoDocumento); */
    tipoDocuments: TipoDocumento[] = ["Carta d'Identità", "Passaporto", "Patente"];
+   private subscriptions: Subscription[] = [];
 
 
   constructor(private route: ActivatedRoute,
@@ -33,7 +34,7 @@ export class AnagraficaDetailsPage implements OnInit {
 
   ngOnInit() {
     if(this.platform.is('hybrid')){
-      this.route.data.subscribe({
+      const sub = this.route.data.subscribe({
         next: (data) => {
         /*   console.log("Details:" , data) */
           this.userData = data['anagraficaByIdResolver'].data
@@ -42,9 +43,10 @@ export class AnagraficaDetailsPage implements OnInit {
           console.log(err)
         }
       });
+      this.subscriptions.push(sub);
     }
     else {
-      this.route.data.subscribe({
+      const sub = this.route.data.subscribe({
         next: (data) => {
           this.userData = data['anagraficaByIdResolver']
         },
@@ -52,6 +54,7 @@ export class AnagraficaDetailsPage implements OnInit {
           console.log(err)
         }
       });
+      this.subscriptions.push(sub);
       /* console.log(this.userData); */
     }
   }
@@ -93,5 +96,13 @@ export class AnagraficaDetailsPage implements OnInit {
       }
     })
  
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
   }
 }
