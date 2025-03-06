@@ -14,11 +14,11 @@ export class AppComponent {
     { title: 'Anagrafica', url: 'anagrafica' },  //Personal data / Registry
     { title: 'Unità immobiliare', url: 'patrimonio' }, //Heritage/Assets
     { title: 'Contratti locazione', url: 'contratti-locazione' }, //Rental contracts
-    { title: 'Manutenzione', url: 'manutenzione' }, //Maintenance
+   /*  { title: 'Manutenzione', url: 'manutenzione' }, //Maintenance
     { title: 'Ripartizione spese', url: 'ripartizione-spese' }, //Cost distribution
     { title: 'Morosità', url: 'morosità' },  //Default
     { title: 'Contabilità', url: 'contabilita' }, //Accounting
-    { title: 'Ciclo passivo', url: 'ciclo-passivo' } // Passive cycle
+    { title: 'Ciclo passivo', url: 'ciclo-passivo' } // Passive cycle */
   ];
 
   constructor(public menuController: MenuController,
